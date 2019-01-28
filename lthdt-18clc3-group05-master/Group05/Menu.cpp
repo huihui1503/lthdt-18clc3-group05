@@ -502,8 +502,9 @@ void Menu::Show_Result_Filter(int array[])
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
 		}
-		if (int(key) == int('R'))
+		if (int(key) == 82)
 		{
+			// reset bag deo mua nua
 			main_data.Reset_Bags();
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 		}

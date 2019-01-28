@@ -351,7 +351,7 @@ bool Store::Sell_Bags(Customer&temp)
 		{
 			Output_Bill(temp.Get_ID(), double(stof(money)));
 			Input_Storage();
-			Reset_Bags();
+			Bags.clear();
 			break;
 		}
 	}
