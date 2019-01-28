@@ -232,6 +232,8 @@ void Report::Draw_Chart_forA_Year(int year)
 		return;
 	vector<double> Months = Calc_Profit_Follow_Year_DrawChart(year);
 	Table_Draw_Chart(Months, year,1);
+	string year1 = "Profit_"+std::to_string(year)+".txt";
+	Save_report(Months, year1);
 }
 
 void Report::Draw_Chart_forA_Year_Stocklevel(int year)
@@ -242,5 +244,25 @@ void Report::Draw_Chart_forA_Year_Stocklevel(int year)
 	Table_Draw_Chart(Months, year,0);
 	gotoxy(10, 3);
 	cout << "(Stocks)" << endl;
+	string year1 = "Stock_"+std::to_string(year)+".txt";
+	Save_report(Months,year1);
+}
 
+void Report::Save_report(vector<double> months, string year)
+{
+	ofstream fout(year);
+	vector<string> Months = { "January","February","March", "April","May","June","July","August","September","October","November", "December" };
+	double total = 0;
+	char tmp[100];
+	for (int i = 0; i < 12; i++){
+		total += months[i];
+		_itoa_s(months[i], tmp, 10);
+		fout << Months[i] << ": " << tmp << endl;
+	}
+	_itoa_s(total, tmp, 10);
+	if (total < 1000)
+		fout << "Total Stock: " << tmp << endl;
+	else fout << "Total Profit: " << tmp << endl;
+	fout.close();
+	return;
 }

@@ -1,0 +1,13 @@
+January: 39
+February: 19
+March: 31
+April: 26
+May: 19
+June: 16
+July: 127
+August: 105
+September: 49
+October: 50
+November: 47
+December: 63
+Total Stock: 591

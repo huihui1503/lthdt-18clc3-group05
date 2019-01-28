@@ -22,6 +22,7 @@ public:
 	vector<double> Calc_Stock_Follow_Year_DrawChart(int year);
 	void Draw_Chart_forA_Year(int year);
 	void Draw_Chart_forA_Year_Stocklevel(int year);
+	void Save_report(vector<double> months, string year);
 };
 #endif
 
