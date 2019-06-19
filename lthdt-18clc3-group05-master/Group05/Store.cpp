@@ -1,7 +1,5 @@
 #include "Store.h"
 
-
-
 Store::Store(const Store& p)
 {
 	num = p.num;
@@ -29,6 +27,34 @@ Smartphone & Store::operator[](int index)
 {
 	if (index > this->num || index < this->num) throw "invalid index";
 	return this->arrSmartphones[index];
+}
+
+void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
+{
+	ofstream fout("a");
+	Date today;
+	string fileName = today.ToString() + ".txt";
+	fout.open(fileName);
+	if(!fout.is_open())
+	{
+		return;
+	}
+	else
+	{
+		fout << today.ToString() << "," << smp.ToString();
+	}
+}
+
+void Store::Output_Bill()
+{
+	int total = 0;
+	cout << "Bill of you: " << endl;
+	for(int i = 0; i < Bags.size(); i++)
+	{
+		cout << Bags[i] << endl;
+		total += Bags[i].PriceBuy();
+	}
+	cout << "Total cost you have to pay: " << total;
 }
 
 int Store::findSmartphone(string ID)
@@ -120,7 +146,6 @@ bool Store::Load_Data_from_file(string Filename)
 
 bool Store::Sell_Bags()
 {
-	vector<Smartphone> Bags;
 	string ID = " ";
 	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
 	while (!ID.compare("0")) {
@@ -142,9 +167,11 @@ bool Store::Sell_Bags()
 	if (c == 'y' || 'Y') {
 		for (size_t i = 0; i < Bags.size(); i++) {
 			this->arrSmartphones[i].Sell_Smartphone();
+
 		}
 	}
 	cout << endl;
+	return true;
 }
 
 istream& operator>>(istream& is, Store& p)

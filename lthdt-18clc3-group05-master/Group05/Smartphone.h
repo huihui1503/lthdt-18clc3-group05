@@ -16,6 +16,8 @@ private:
 	int StockLevel;// so luong san pham
 	static int InstanceCount;
 public:
+	double PriceBuy() {return Price_b;}
+public:
 	string ToString();
 	bool compare_with_name(string name1);
 	bool compare_with_id(string id);

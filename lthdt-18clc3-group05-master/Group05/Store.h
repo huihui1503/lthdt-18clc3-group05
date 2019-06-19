@@ -1,17 +1,22 @@
 #pragma once
 #include<vector>
+#include "Date.h"
 #include"Smartphone.h"
 class Store
 {
 private:
 	int num;
 	vector<Smartphone> arrSmartphones;
+	vector<Smartphone> Bags;
 public:
 	void output(int i);
 	friend istream& operator>>(istream& is, Store& p);
 	friend ostream& operator<<(ostream& os, const Store& p);
 	Smartphone & operator[](int index);
-public:
+public: // Xuat hoa don
+	void Input_Storage(Smartphone smp);
+	void Output_Bill();
+public: // Xu li nghiep vu
 	int  findSmartphone(string ID);
 	bool AddNewSmartphone_FromFile(string filename);
 	void AddNewSmartphone_From_keyboard();

@@ -3,7 +3,9 @@ int Smartphone::InstanceCount = 0;
 
 string Smartphone::ToString()
 {
-	return string();
+	stringstream writer;
+	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin << "," << Specification;
+	return writer.str();
 }
 
 
