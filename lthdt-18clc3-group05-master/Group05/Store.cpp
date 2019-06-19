@@ -145,6 +145,7 @@ bool Store::Sell_Bags()
 		}
 	}
 	cout << endl;
+	return true;
 }
 
 istream& operator>>(istream& is, Store& p)
