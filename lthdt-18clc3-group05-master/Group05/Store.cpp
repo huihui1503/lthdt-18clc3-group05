@@ -1,5 +1,9 @@
 #include "Store.h"
 
+// File Save
+string Store ::Smartphones_Data="S_Data.txt";
+
+
 Store::Store(const Store& p)
 {
 	num = p.num;
@@ -47,7 +51,7 @@ void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
 
 void Store::Output_Bill()
 {
-	int total = 0;
+	double total = 0;
 	cout << "Bill of you: " << endl;
 	for(int i = 0; i < Bags.size(); i++)
 	{
@@ -70,6 +74,14 @@ bool Store::AddNewSmartphone_FromFile(string filename)
 	Smartphone tmp;
 	if (tmp.inputFromfile(filename))
 	{
+		for (int i = 0; i < num; i++)
+		{
+			if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
+			{
+				return true;
+			}
+		}
+		
 		arrSmartphones.push_back(tmp);
 		return true;
 	}
@@ -80,13 +92,28 @@ void Store::AddNewSmartphone_From_keyboard()
 {
 	Smartphone tmp;
 	cin >> tmp;
+	for (int i = 0; i < num; i++)
+	{
+		if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
+		{
+			return;
+		}
+	}
+
 	arrSmartphones.push_back(tmp);
 }
 
-void Store::AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string spec, string sl)
+void Store::AddNewSmartphone_withAttributes(string id, string n,string b, string pb, string ps, string ori, string sl)
 {
 	Smartphone tmp;
-	tmp.addNewSmartphone(id, n, pb, ps, ori, spec, sl);
+	tmp.addNewSmartphone(id, n,b, pb, ps, ori, sl);
+	for (int i = 0; i < num; i++)
+	{
+		if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
+		{
+			return;
+		}
+	}
 	arrSmartphones.push_back(tmp);
 }
 
@@ -100,7 +127,13 @@ bool Store::Sell_A_Smartphone(string ID)
 
 bool Store::Save_Data()
 {
-	return false;
+	ifstream fin(Smartphones_Data);
+	if (!fin.is_open())
+		return false;
+	for (int i = 0; i < num; i++)
+		cout << arrSmartphones[i].ToString() << endl;
+	fin.close();
+	return true;
 }
 
 bool Store::Load_Data_from_file(string Filename)
@@ -125,21 +158,23 @@ bool Store::Load_Data_from_file(string Filename)
 	string ps;
 	string pb;
 	string ori;
-	string spec;
+	string brand;
 	string sl;
+
 	Smartphone a;
 	ifstream fin(Filename);
 	for (int i = 0; i < num; i++) {
 		fin.getline(tmp1, 1000, ',');            id = string(tmp1);
 		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
+		fin.getline(tmp1, 1000, ',');            brand = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
 		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
 		fin.getline(tmp1, 1000, ',');			 sl = string(tmp1);
-		fin.getline(tmp1, 1000, '.');			 spec = string(tmp1);
 		fin.ignore();
-		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, spec, sl);
+		AddNewSmartphone_withAttributes(id, name,brand, pb, ps, ori,sl);
 	}
+	fin.close();
 	return true;
 
 }
@@ -195,16 +230,24 @@ ostream& operator<<(ostream& os, const Store& p)
 }
 
 
-bool Store::changeDataSmartPhone(string ID) {
+bool Store::changeAllDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
 	try {
 		this->arrSmartphones[this->findSmartphone(ID)] = tmp;
 	}
 	catch (const char fail){
-		cout << fail;
 		return false;
 	}
 	return true;
+}
+
+void Store::changeAnAttrinbute(string ID, int k)
+{
+	int a = findSmartphone(ID);
+	char c[1000];
+	gets_s(c, 1000);
+	string tmp = string(c);
+	arrSmartphones[a].changeAnAttrinbute(tmp, k);
 }
 

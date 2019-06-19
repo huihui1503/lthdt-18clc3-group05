@@ -8,6 +8,7 @@ private:
 	int num;
 	vector<Smartphone> arrSmartphones;
 	vector<Smartphone> Bags;
+	static string Smartphones_Data;
 public:
 	void output(int i);
 	friend istream& operator>>(istream& is, Store& p);
@@ -20,8 +21,9 @@ public: // Xu li nghiep vu
 	int  findSmartphone(string ID);
 	bool AddNewSmartphone_FromFile(string filename);
 	void AddNewSmartphone_From_keyboard();
-	void AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string spec, string sl);
-	bool changeDataSmartPhone(string ID);
+	void AddNewSmartphone_withAttributes(string id, string n,string b, string pb, string ps, string ori,string sl);
+	bool changeAllDataSmartPhone(string ID);
+	void changeAnAttrinbute(string ID, int k);
 	bool Sell_A_Smartphone(string ID);
 	bool Save_Data();
 	bool Load_Data_from_file(string Filename);

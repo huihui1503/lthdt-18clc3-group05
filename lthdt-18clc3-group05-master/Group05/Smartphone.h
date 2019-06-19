@@ -10,9 +10,9 @@ private:
 	double Price_b;//buy
 	double Price_s;//sell
 	string Name;
+	string Brand;
 	string ID;
 	string Origin;
-	string Specification; // thong so ky thuat (file name)
 	int StockLevel;// so luong san pham
 	static int InstanceCount;
 public:
@@ -21,7 +21,9 @@ public:
 	string ToString();
 	bool compare_with_name(string name1);
 	bool compare_with_id(string id);
-	void addNewSmartphone(string id, string n, string pb, string ps, string ori, string spec, string sl);
+	bool compare_id_to_plus_stocklevel( Smartphone& p);
+	void changeAnAttrinbute(string str, int k);
+	void addNewSmartphone(string id, string n,string b, string pb, string ps, string ori, string sl);
 	//static Smartphone* Parse(string line, string operator);
 	bool Sell_Smartphone();
 	Smartphone& operator = (const Smartphone& p);

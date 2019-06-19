@@ -4,7 +4,7 @@ int Smartphone::InstanceCount = 0;
 string Smartphone::ToString()
 {
 	stringstream writer;
-	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin << "," << Specification;
+	writer << ID << "," << Name << ", "<<Brand<<","<<Price_b<<","<<Price_s<< Origin <<","<<StockLevel<<".";
 	return writer.str();
 }
 
@@ -18,14 +18,58 @@ bool Smartphone::compare_with_id(string id)
 	return ID == id;
 }
 
-void Smartphone::addNewSmartphone(string id, string n, string pb, string ps, string ori, string spec, string sl)
+bool Smartphone::compare_id_to_plus_stocklevel( Smartphone& p)
+{
+	if (ID == p.ID)
+	{
+		p.StockLevel++;
+		return true;
+	}
+	return false;
+}
+
+void Smartphone::changeAnAttrinbute(string str, int k)
+{
+	switch ( k )
+	{
+	case 0: {
+		ID = str;
+		break;
+	}	
+	case 1: {
+		Name = str;
+		break;
+	}
+	case 2: {
+		Brand = str;
+		break;
+	}
+	case 3: {
+		 Price_b= stoi(str);
+		break;
+	}
+	case 4: {
+		Price_s = stoi(str);
+		break;
+	}
+	case 5: {
+		Origin = str;
+		break;
+	}
+
+	default:
+		break;
+	}
+}
+
+void Smartphone::addNewSmartphone(string id, string n,string b, string pb, string ps, string ori, string sl)
 {
 	ID = id;
 	Name = n;
+	Brand = b;
 	Price_b = stoi(pb);
 	Price_s = stoi(ps);
 	Origin = ori;
-	Specification = spec;
 	StockLevel = stoi(sl);
 }
 
@@ -43,7 +87,7 @@ Smartphone& Smartphone::operator=(const Smartphone& p)
 	Price_s = p.Price_s;
 	Name = p.Name;
 	ID = p.ID;
-	Specification = p.Specification;
+	Brand = p.Brand;
 	StockLevel = p.StockLevel;
 	Origin = p.Origin;
 	return *this;
@@ -57,15 +101,20 @@ bool Smartphone::inputFromfile(string fileName)
 		return false;
 	string no;
 	getline(fin, no, ',');
+	ID = no;
+	getline(fin, no, ',');
 	Name = no;
 	getline(fin, no, ',');
-	ID = no;
+	Brand = no;
 	getline(fin, no, ',');
 	Price_b = stoi(no);
 	getline(fin, no, ',');
 	Price_s = stoi(no);
 	getline(fin, no, ',');
 	Origin=no;
+	getline(fin, no, ',');
+	StockLevel = stoi(no);
+	fin.close();
 	return true;
 }
 
@@ -76,7 +125,7 @@ Smartphone::Smartphone()
 	ID = "0000001";
 	StockLevel = 100;
 	Name = "SamSung S8 Plus";
-	Specification = "SamSung_S8Plus.txt";
+	Brand = "SamSung";
 	Origin = "Korean";
 	InstanceCount++;
 }
@@ -86,8 +135,8 @@ Smartphone::Smartphone(const Smartphone& other)
 	Price_b = other.Price_b;
 	Name = other.Name;
 	ID = other.ID;
+	Brand = other.Brand;
 	Price_s = other.Price_s;
-	Specification = other.Specification;
 	StockLevel = other.StockLevel;
 	Origin = other.Origin;
 	InstanceCount++;
@@ -101,8 +150,9 @@ Smartphone::~Smartphone()
 ostream& operator<<(ostream& os, const Smartphone& p)
 {
 	cout << "     product " << p.ID << endl;
-	cout << "Name: " << p.Name << endl;
 	cout << "ID: " << p.ID << endl;
+	cout << "Name: " << p.Name << endl;
+	cout << "Brand: " << p.Brand << endl;
 	cout << "Price : " << p.Price_b << endl;
 	cout << "Origin: " << p.Origin << endl;
 	cout << " ------------------------- -------------------------------------" << endl;
@@ -121,6 +171,10 @@ istream& operator>>(istream& is, Smartphone& p)
 	cout << "ID: ";
 	gets_s(tmp);
 	p.ID = string(tmp);
+
+	cout << "Brand: ";
+	gets_s(tmp);
+	p.Brand = string(tmp);
 
 	cout << "Price buy: ";
 	cin >> p.Price_b;
