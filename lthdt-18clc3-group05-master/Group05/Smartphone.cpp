@@ -8,7 +8,6 @@ string Smartphone::ToString()
 	return writer.str();
 }
 
-
 bool Smartphone::compare_with_name(string Name1)
 {
 	return Name1 == Name;
