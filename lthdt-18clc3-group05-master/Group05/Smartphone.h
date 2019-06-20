@@ -1,10 +1,12 @@
 #pragma once
 #include<iostream>
-using namespace std;
 #include<sstream>
 #include<fstream>
 #include<conio.h>
 #include<string>
+#include<vector>
+#include"Tokenizer.h"
+using namespace std;
 class Smartphone{
 private:
 	double Price_b;//buy
@@ -12,16 +14,16 @@ private:
 	string Name;
 	string ID;
 	string Origin;
-	string Specification; // thong so ky thuat (file name)
 	int StockLevel;// so luong san pham
 	static int InstanceCount;
 public:
 	double PriceBuy() {return Price_b;}
+	string brand;
 public:
 	string ToString();
 	bool compare_with_name(string name1);
 	bool compare_with_id(string id);
-	void addNewSmartphone(string id, string n, string pb, string ps, string ori, string spec, string sl);
+	void addNewSmartphone(string id, string n, string pb, string ps, string ori, string sl);
 	//static Smartphone* Parse(string line, string operator);
 	bool Sell_Smartphone();
 	Smartphone& operator = (const Smartphone& p);

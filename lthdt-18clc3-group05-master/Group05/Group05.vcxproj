@@ -128,6 +128,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Smartphone.h" />
     <ClInclude Include="Store.h" />
+    <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Date.cpp" />

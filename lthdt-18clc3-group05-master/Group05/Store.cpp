@@ -12,8 +12,6 @@ Store::Store()
 	num = 0;
 }
 
-
-
 Store::~Store()
 {
 }
@@ -83,11 +81,20 @@ void Store::AddNewSmartphone_From_keyboard()
 	arrSmartphones.push_back(tmp);
 }
 
-void Store::AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string spec, string sl)
+void Store::AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string sl)
 {
 	Smartphone tmp;
-	tmp.addNewSmartphone(id, n, pb, ps, ori, spec, sl);
+	tmp.addNewSmartphone(id, n, pb, ps, ori, sl);
 	arrSmartphones.push_back(tmp);
+	if (Count_Brand.size() == 0) Count_Brand.push_back(tmp.brand);
+	else
+	{
+		for (int i = 0; i < Count_Brand.size(); i++)
+		{
+			if (tmp.brand == Count_Brand[i]) break;
+			if (i == Count_Brand.size() - 1) Count_Brand.push_back(tmp.brand);
+		}
+	}
 }
 
 bool Store::Sell_A_Smartphone(string ID)
@@ -125,7 +132,6 @@ bool Store::Load_Data_from_file(string Filename)
 	string ps;
 	string pb;
 	string ori;
-	string spec;
 	string sl;
 	Smartphone a;
 	ifstream fin(Filename);
@@ -134,11 +140,10 @@ bool Store::Load_Data_from_file(string Filename)
 		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
-		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
-		fin.getline(tmp1, 1000, ',');			 sl = string(tmp1);
-		fin.getline(tmp1, 1000, '.');			 spec = string(tmp1);
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
+		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
 		fin.ignore();
-		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, spec, sl);
+		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, sl);
 	}
 	return true;
 
@@ -208,3 +213,25 @@ bool Store::changeDataSmartPhone(string ID) {
 	return true;
 }
 
+// Seller Function of Hui
+int Store::Draw_Brand_For_Choice()
+{
+	int x = 8;
+	int y = 5;
+	for (int i = 1; i <= Count_Brand.size(); i++)
+	{
+		Draw_Box(x, y, 5, 15, White);
+		textcolor(DarkCyan);
+		gotoxy(x + 4, y + 3); cout << Count_Brand[i-1];
+		if (i % 3 == 0)
+		{
+			x = 8;
+			y += 10;
+		}
+		else
+		{
+			x += 25;
+		}
+	}
+	return Count_Brand.size();
+}

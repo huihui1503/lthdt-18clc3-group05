@@ -50,5 +50,8 @@
     <ClInclude Include="Date.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tokenizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
