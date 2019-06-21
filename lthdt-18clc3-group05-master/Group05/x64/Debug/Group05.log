@@ -1,0 +1,6 @@
+﻿  Menu.cpp
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(19): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(477): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+  Group05.vcxproj -> C:\Users\LENOVO\Desktop\projectgit\lthdt-18clc3-group05-master\x64\Debug\Group05.exe

@@ -15,6 +15,10 @@ private:
 	string ID;
 	string Origin;
 	int StockLevel;// so luong san pham
+	string ram;
+	string rom;
+	string battery;
+	string screen;
 	static int InstanceCount;
 public:
 	double PriceBuy() {return Price_b;}

@@ -300,7 +300,7 @@ Done:
 			case 0:
 				system("cls");
 				check = Login();
-				if (check == 1) cout << "Master";
+				if (check == 1) Master_Move();
 				else if (check == 2) Seller_Move();
 				goto Done;
 				break;
@@ -399,10 +399,117 @@ void Menu::Exit()
 Menu::Menu()
 {
 	main_data.Load_Data_from_file("data.txt");
+	main_data.Load_Info_From_file("INFO.txt");
 }
 
 
 Menu::~Menu()
 {
 
+}
+
+bool checkIfUnique(vector<string> unique, string input) {
+	if (unique.size() == 0) return true;
+	for (size_t i = 0; i < unique.size(); i++) {
+		if (input.compare(unique[i]) == 0) return false;
+	}
+	return true;
+} // this will check the logo if it existed or not 
+
+void Menu::Master_Move() { // call when login returned 1
+	vector<string> uniqueName; // argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
+	for (int i = 0; i < main_data.getNum(); i++) {
+		if (checkIfUnique(uniqueName, main_data[i].brand))
+			uniqueName.push_back(main_data[i].brand);
+	}
+	//end of unique
+	system("cls");
+	//go for interface
+	int x = 10, y = 5;
+	int count = 1; // if count = 5 endline and draw another box
+	for (size_t i = 0; i < uniqueName.size(); i++) {
+		Draw_Box(x, y, 3, 12, Yellow);
+		gotoxy(x + 2, y + 2);
+		cout << uniqueName[i];
+		if (count == 3) {
+			y += 8;
+			x = 10;
+			count = 0;
+		}
+		else {
+			x += 20;
+			y = 5;
+		}
+		count++;
+	}
+	y += 8;
+	Draw_Box(x, y, 3, 12, Yellow);
+	gotoxy(x + 2, y + 2);
+	cout << "  New"; // the new box
+	x = 70;
+	y = 5;
+	for (size_t i = 0; i <= uniqueName.size() / 3; i++) {
+		for (int j = 0; j < 8; j++) {
+			gotoxy(x, y + j);
+			cout << "|";
+		}
+	} // drawn line prase between help and menu 
+	//menu list
+
+	x = 75;
+	y = 6;
+
+	textcolor(Red);
+	gotoxy(x, y);
+	cout << "use keyboard to move, to exit press esc";
+
+	x = 10;
+	y = 5;
+	Draw_Box(x, y, 3, 12, Cyan);
+
+	int choice = 0; // choice implement another interface
+
+	while (1) {
+		char c = _getch();
+		if (int(c) == 72) { // up
+			int xa = x, ya = y;
+			if (y <= 5)
+				y += (uniqueName.size() / 3) * 8;
+			else y -= 8;
+			Draw_Box(x, y, 3, 12, Cyan);
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			gotoxy(x, y);
+		}
+		if (int(c) == 77) { // right
+			int xa = x, ya = y;
+			if (x >= 50)
+				x = 10;
+			else x += 20;
+			Draw_Box(x, y, 3, 12, Cyan);
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			gotoxy(x, y);
+		}
+		if (int(c) == 80) { // down
+			int xa = x, ya = y;
+			if (y >= 5 + ((uniqueName.size() / 3) * 8))
+				y = 5;
+			else y += 8;
+			Draw_Box(x, y, 3, 12, Cyan);
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			gotoxy(x, y);
+		}
+		if (int(c) == 75) { // left
+			int xa = x, ya = y;
+			if (x == 10)
+				x += 2 * 20;
+			else x -= 20;
+			Draw_Box(x, y, 3, 12, Cyan);
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			gotoxy(x, y);
+		}
+		if (int(c) == 27) { // esc
+			choice = 0;
+			break;
+		}
+	}
 }

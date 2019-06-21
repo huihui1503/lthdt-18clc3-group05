@@ -5,7 +5,7 @@ int Smartphone::InstanceCount = 0;
 string Smartphone::ToString()
 {
 	stringstream writer;
-	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin;
+	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin << "" << ram << "," << rom << "," << battery << "," << screen;
 	return writer.str();
 }
 
@@ -81,6 +81,10 @@ Smartphone::Smartphone()
 	Origin = "Korean";
 	brand = "Samsung";
 	InstanceCount++;
+	ram = "0";
+	rom = "0";
+	battery = "0mAh";
+	screen = "0x0 pixels";
 }
 
 Smartphone::Smartphone(const Smartphone& other)
@@ -93,6 +97,10 @@ Smartphone::Smartphone(const Smartphone& other)
 	Origin = other.Origin;
 	brand = other.brand;
 	InstanceCount++;
+	ram = other.ram;
+	rom = other.rom;
+	battery = other.battery;
+	screen = other.screen;
 }
 
 Smartphone::~Smartphone()

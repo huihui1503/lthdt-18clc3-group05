@@ -23,7 +23,7 @@ void Store::output(int i)
 
 Smartphone & Store::operator[](int index)
 {
-	if (index > this->num || index < this->num) throw "invalid index";
+	if (index >= this->num || index < 0) throw "invalid index";
 	return this->arrSmartphones[index];
 }
 
@@ -105,17 +105,20 @@ bool Store::Sell_A_Smartphone(string ID)
 	return arrSmartphones[k].Sell_Smartphone();
 }
 
-bool Store::Save_Data()
+bool Store::Save_Data_Info()
 {
 	return false;
 }
 
-bool Store::Load_Data_from_file(string Filename)
+
+bool Store::Load_Data_from_file(string Filename) // num didn't change after load this function
 {
 	ifstream fin1(Filename);
-	if (!fin1.is_open())
+	if (!fin1.is_open()) {
 		return false;
+	}
 	string tmp;
+
 	int count = 0;
 	
 	while (!fin1.eof())
@@ -125,7 +128,9 @@ bool Store::Load_Data_from_file(string Filename)
 			count++;
 	}
 	fin1.close();
+
 	num = count;
+
 	char tmp1[1000];
 	string name;
 	string id;
@@ -145,8 +150,29 @@ bool Store::Load_Data_from_file(string Filename)
 		fin.ignore();
 		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, sl);
 	}
+	fin.close();
 	return true;
+}
 
+bool Store::Load_Info_From_file(string Filename)
+{
+	ifstream siz(Filename);
+	if (!siz.is_open()) return false;
+	string tmp;
+
+	ifstream fin(Filename);
+	string id, name, ram, rom, battery, screen;
+	char tmp1[1000];
+	for (int i = 0; i < num; i++) {
+		fin.getline(tmp1, 1000, ',');	id = string(tmp1);
+		fin.getline(tmp1, 1000, ',');	name = string(tmp1);
+		fin.getline(tmp1, 1000, ',');	ram = string(tmp1);
+		fin.getline(tmp1, 1000, ',');	rom = string(tmp1);
+		fin.getline(tmp1, 1000, ',');	battery = string(tmp1);
+		fin.getline(tmp1, 1000, '.');	screen = string(tmp1);
+		fin.ignore();
+		// add info to smartphone
+	}
 }
 
 bool Store::Sell_Bags()

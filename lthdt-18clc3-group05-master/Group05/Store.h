@@ -18,6 +18,7 @@ public:
 	friend istream& operator>>(istream& is, Store& p);
 	friend ostream& operator<<(ostream& os, const Store& p);
 	Smartphone & operator[](int index);
+	int getNum() { return num; }
 public: // Xuat hoa don
 	void Input_Storage(Smartphone smp);
 	void Output_Bill();
@@ -28,8 +29,9 @@ public: // Xu li nghiep vu
 	void AddNewSmartphone_withAttributes(string id, string n, string pb, string ps,string ori, string sl);
 	bool changeDataSmartPhone(string ID);
 	bool Sell_A_Smartphone(string ID);
-	bool Save_Data();
+	bool Save_Data_Info();
 	bool Load_Data_from_file(string Filename);
+	bool Load_Info_From_file(string Filename);
 	bool Sell_Bags(); // tham so gio hang se duoc khai bao trong methods
 	//Seller Function of Hui
 	int Draw_Brand_For_Choice();
