@@ -1,11 +1,13 @@
 #include "Smartphone.h"
 int Smartphone::InstanceCount = 0;
 
+
 string Smartphone::ToString()
 {
-	return string();
+	stringstream writer;
+	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin;
+	return writer.str();
 }
-
 
 bool Smartphone::compare_with_name(string Name1)
 {
@@ -17,15 +19,16 @@ bool Smartphone::compare_with_id(string id)
 	return ID == id;
 }
 
-void Smartphone::addNewSmartphone(string id, string n, string pb, string ps, string ori, string spec, string sl)
+void Smartphone::addNewSmartphone(string id, string n, string pb, string ps, string ori,  string sl)
 {
 	ID = id;
 	Name = n;
 	Price_b = stoi(pb);
 	Price_s = stoi(ps);
 	Origin = ori;
-	Specification = spec;
 	StockLevel = stoi(sl);
+	vector<string> array = Tokenizer::Parse(Name, " ");
+	brand = array[0];
 }
 
 bool Smartphone::Sell_Smartphone()
@@ -42,8 +45,8 @@ Smartphone& Smartphone::operator=(const Smartphone& p)
 	Price_s = p.Price_s;
 	Name = p.Name;
 	ID = p.ID;
-	Specification = p.Specification;
 	StockLevel = p.StockLevel;
+	brand = p.brand;
 	Origin = p.Origin;
 	return *this;
 }
@@ -75,8 +78,8 @@ Smartphone::Smartphone()
 	ID = "0000001";
 	StockLevel = 100;
 	Name = "SamSung S8 Plus";
-	Specification = "SamSung_S8Plus.txt";
 	Origin = "Korean";
+	brand = "Samsung";
 	InstanceCount++;
 }
 
@@ -86,9 +89,9 @@ Smartphone::Smartphone(const Smartphone& other)
 	Name = other.Name;
 	ID = other.ID;
 	Price_s = other.Price_s;
-	Specification = other.Specification;
 	StockLevel = other.StockLevel;
 	Origin = other.Origin;
+	brand = other.brand;
 	InstanceCount++;
 }
 

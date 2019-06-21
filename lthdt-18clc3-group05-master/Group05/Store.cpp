@@ -1,7 +1,5 @@
 #include "Store.h"
 
-
-
 Store::Store(const Store& p)
 {
 	num = p.num;
@@ -13,8 +11,6 @@ Store::Store()
 {
 	num = 0;
 }
-
-
 
 Store::~Store()
 {
@@ -29,6 +25,34 @@ Smartphone & Store::operator[](int index)
 {
 	if (index > this->num || index < this->num) throw "invalid index";
 	return this->arrSmartphones[index];
+}
+
+void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
+{
+	ofstream fout("a");
+	Date today;
+	string fileName = today.ToString() + ".txt";
+	fout.open(fileName);
+	if(!fout.is_open())
+	{
+		return;
+	}
+	else
+	{
+		fout << today.ToString() << "," << smp.ToString();
+	}
+}
+
+void Store::Output_Bill()
+{
+	int total = 0;
+	cout << "Bill of you: " << endl;
+	for(int i = 0; i < Bags.size(); i++)
+	{
+		cout << Bags[i] << endl;
+		total += Bags[i].PriceBuy();
+	}
+	cout << "Total cost you have to pay: " << total;
 }
 
 int Store::findSmartphone(string ID)
@@ -57,11 +81,20 @@ void Store::AddNewSmartphone_From_keyboard()
 	arrSmartphones.push_back(tmp);
 }
 
-void Store::AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string spec, string sl)
+void Store::AddNewSmartphone_withAttributes(string id, string n, string pb, string ps, string ori, string sl)
 {
 	Smartphone tmp;
-	tmp.addNewSmartphone(id, n, pb, ps, ori, spec, sl);
+	tmp.addNewSmartphone(id, n, pb, ps, ori, sl);
 	arrSmartphones.push_back(tmp);
+	if (Count_Brand.size() == 0) Count_Brand.push_back(tmp.brand);
+	else
+	{
+		for (int i = 0; i < Count_Brand.size(); i++)
+		{
+			if (tmp.brand == Count_Brand[i]) break;
+			if (i == Count_Brand.size() - 1) Count_Brand.push_back(tmp.brand);
+		}
+	}
 }
 
 bool Store::Sell_A_Smartphone(string ID)
@@ -99,7 +132,6 @@ bool Store::Load_Data_from_file(string Filename)
 	string ps;
 	string pb;
 	string ori;
-	string spec;
 	string sl;
 	Smartphone a;
 	ifstream fin(Filename);
@@ -108,11 +140,10 @@ bool Store::Load_Data_from_file(string Filename)
 		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
-		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
-		fin.getline(tmp1, 1000, ',');			 sl = string(tmp1);
-		fin.getline(tmp1, 1000, '.');			 spec = string(tmp1);
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
+		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
 		fin.ignore();
-		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, spec, sl);
+		AddNewSmartphone_withAttributes(id, name, pb, ps, ori, sl);
 	}
 	return true;
 
@@ -120,7 +151,6 @@ bool Store::Load_Data_from_file(string Filename)
 
 bool Store::Sell_Bags()
 {
-	vector<Smartphone> Bags;
 	string ID = " ";
 	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
 	while (!ID.compare("0")) {
@@ -142,6 +172,7 @@ bool Store::Sell_Bags()
 	if (c == 'y' || 'Y') {
 		for (size_t i = 0; i < Bags.size(); i++) {
 			this->arrSmartphones[i].Sell_Smartphone();
+
 		}
 	}
 	cout << endl;
@@ -182,3 +213,25 @@ bool Store::changeDataSmartPhone(string ID) {
 	return true;
 }
 
+// Seller Function of Hui
+int Store::Draw_Brand_For_Choice()
+{
+	int x = 8;
+	int y = 5;
+	for (int i = 1; i <= Count_Brand.size(); i++)
+	{
+		Draw_Box(x, y, 5, 15, White);
+		textcolor(DarkCyan);
+		gotoxy(x + 4, y + 3); cout << Count_Brand[i-1];
+		if (i % 3 == 0)
+		{
+			x = 8;
+			y += 10;
+		}
+		else
+		{
+			x += 25;
+		}
+	}
+	return Count_Brand.size();
+}

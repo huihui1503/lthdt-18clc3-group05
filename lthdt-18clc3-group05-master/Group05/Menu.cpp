@@ -1,6 +1,7 @@
 ﻿#include "Menu.h"
 #define POSX 35
 #define POSY 3
+// LOGIN Function
 string Menu::Enter(int x, int y)
 {
 	char place[40];// for old password
@@ -252,6 +253,8 @@ Done:
 	}
 }
 
+// MOVE Function
+
 void Menu::Print_FlashScreen()
 {
 Done:
@@ -298,7 +301,7 @@ Done:
 				system("cls");
 				check = Login();
 				if (check == 1) cout << "Master";
-				else if (check == 2) cout << "Costumer";
+				else if (check == 2) Seller_Move();
 				goto Done;
 				break;
 			case 1:
@@ -313,6 +316,26 @@ Done:
 		}
 	}
 }
+
+// Seller Function
+ 
+void Menu::Seller_Move()
+{
+	system("cls");
+	textcolor(White);
+	for (int i = 0; i <= 40; i++)
+	{
+		gotoxy(80, 1 + i);
+		cout << "|$|";
+	}
+	main_data.Draw_Brand_For_Choice();
+	textcolor(Red);
+	gotoxy(35, 2); cout << "All PRODUCTS";
+	gotoxy(97, 2); cout << "Your bag";
+	system("pause>nul");
+}
+
+// Other function
 
 void Menu::Start_System()
 {
@@ -375,9 +398,11 @@ void Menu::Exit()
 
 Menu::Menu()
 {
+	main_data.Load_Data_from_file("data.txt");
 }
 
 
 Menu::~Menu()
 {
+
 }
