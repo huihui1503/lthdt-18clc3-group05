@@ -328,11 +328,73 @@ void Menu::Seller_Move()
 		gotoxy(80, 1 + i);
 		cout << "|$|";
 	}
-	main_data.Draw_Brand_For_Choice();
+	int move=main_data.Draw_Brand_For_Choice();
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
-	system("pause>nul");
+	char key='.';
+	int max_col = move % 3;
+	int max_row = move / 3;
+	if (max_col != 0) max_row += 1;
+	else max_col = 3;
+	int x = 1;
+	int y = 1;
+	while (key != char(KEY_ESC))
+	{
+		Draw_Box(x * 25 -17,y * 10 -5, 5, 15, Cyan);
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_LEFT:
+			Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, White);
+			x -= 1;
+			if (y != max_row)
+			{
+				if (x <= 0) x = 3;
+			}
+			else
+			{
+				if (x <= 0) x = max_col;
+			}
+			break;
+		case KEY_RIGHT:
+			Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, White);
+			x += 1;
+			if (y != max_row)
+			{
+				if (x > 3) x = 1;
+			}
+			else
+			{
+				if (x > max_col) x = 1;
+			}
+			break;
+		case KEY_UP:
+			Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, White);
+			y -= 1;
+			if (y <= 0)
+			{
+				y = max_row;
+				if (x > max_row) x = max_row;
+			}
+			break;
+		case KEY_DOWN:
+			Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, White);
+			y += 1;
+			if (y > max_row) y = 1;
+			if (y == max_row)
+			{
+				if (x > max_col) x = max_col;
+			}
+			break;
+		case KEY_ENTER:
+			int current = (y - 1) * 3 + x;
+			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
+			//Move to other screen
+			system("pause>nul");
+			break;
+		}
+	}
 }
 
 // Other function
