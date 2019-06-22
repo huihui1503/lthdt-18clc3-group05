@@ -1,37 +1,45 @@
 #pragma once
 #include<iostream>
-using namespace std;
 #include<sstream>
 #include<fstream>
 #include<conio.h>
 #include<string>
+#include<vector>
+#include"Tokenizer.h"
+using namespace std;
 class Smartphone{
 private:
-	double Price_b;//buy
-	double Price_s;//sell
+	//ATTRIBUTES
+	string ID;
 	string Name;
 	string Brand;
-	string ID;
 	string Origin;
 	int StockLevel;// so luong san pham
+	double Price_b;//buy
+	double Price_s;//sell
+	string Ram;
+	string Rom;
+	string Battery;
+	string Screen;
 	static int InstanceCount;
 public:
 	double PriceBuy() {return Price_b;}
 public:
-	string ToString();
-	bool compare_with_name(string name1);
-	bool compare_with_id(string id);
-	bool compare_id_to_plus_stocklevel( Smartphone& p);
-	void changeAnAttrinbute(string str, int k);
-	void addNewSmartphone(string id, string n,string b, string pb, string ps, string ori, string sl);
-	//static Smartphone* Parse(string line, string operator);
-	bool Sell_Smartphone();
+	//OPERATOR 
 	Smartphone& operator = (const Smartphone& p);
-	
-public:
-	bool inputFromfile(string filename);
 	friend ostream& operator<<(ostream& os, const Smartphone& p);
 	friend istream& operator>>(istream& is, Smartphone& p);
+	void output_Basic();
+public:	
+	// METHOD
+	string ToString();
+	string ToStringFile();
+	string ToStringFile_Expand();
+	bool compare_with_name(string name1);
+	bool compare_with_id(string id);
+	bool Sell_Smartphone();
+	void Add_Basic_Attributes(string id, string name, string brand, string pb, string ps, string ori, string sl);
+	void Add_Advanced_Attributes(string rom, string ram, string battery, string screen);
 public:
 	Smartphone();
 	Smartphone(const Smartphone& other);

@@ -1,4 +1,5 @@
 ﻿#include"Dohoa.h"
+
 // Hàm thay đổi kích cỡ của khung cmd với tham số truyền vào là chiều cao, chiều rộng.
 void resizeConsole(int width, int height)
 {
@@ -46,4 +47,29 @@ void ToMau(int x, int y, char *a, int color) // x, y là tọa độ con trỏ c
 	textcolor(color);
 	cout << a;
 	textcolor(7);
+}
+
+void Draw_Box(int x, int y, int size_l, int size_w, int color)
+{
+	textcolor(color);
+	gotoxy(x, y);
+	for (int i = 1; i <= size_w; i++)
+	{
+		if (i == 1) cout << char(218);
+		else if (i == size_w) cout << char(191);
+		else cout << char(196);
+	}
+	for (int i = 1; i <= size_l; i++)
+	{
+		gotoxy(x, y + i); cout << char(179);
+		gotoxy(x + size_w - 1, y + i); cout << char(179);
+	}
+	gotoxy(x, y + size_l + 1);
+	for (int i = 1; i <= size_w; i++)
+	{
+		if (i == 1) cout << char(192);
+		else if (i == size_w) cout << char(217);
+		else cout << char(196);
+	}
+
 }

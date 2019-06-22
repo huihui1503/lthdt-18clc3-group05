@@ -1,15 +1,16 @@
 #include<iostream>
 #include"Store.h"
 #include<vector>
-#include"Dohoa.h"
 #include"Menu.h"
 using namespace std;
+int Store::num = 0;
 int main(void)
 {
-	Store a;
 	//Menu screen;
 	//screen.Start_System();
 	//screen.Print_FlashScreen();
-	a.Load_Data_from_file("data.txt");
+	Store a;
+	a.Load_Data_from_file("Data.txt", "INFO.txt");
+	a.Save_All_Data();
 	return 0;
 }

@@ -1,6 +1,7 @@
 ﻿#include "Menu.h"
 #define POSX 35
 #define POSY 3
+// LOGIN Function
 string Menu::Enter(int x, int y)
 {
 	char place[40];// for old password
@@ -252,6 +253,8 @@ Done:
 	}
 }
 
+// MOVE Function
+
 void Menu::Print_FlashScreen()
 {
 Done:
@@ -297,8 +300,8 @@ Done:
 			case 0:
 				system("cls");
 				check = Login();
-				if (check == 1) cout << "Master";
-				else if (check == 2) cout << "Costumer";
+				if (check == 1) Master_Move();
+				else if (check == 2) Seller_Move();
 				goto Done;
 				break;
 			case 1:
@@ -313,6 +316,26 @@ Done:
 		}
 	}
 }
+
+// Seller Function
+ 
+void Menu::Seller_Move()
+{
+	system("cls");
+	textcolor(White);
+	for (int i = 0; i <= 40; i++)
+	{
+		gotoxy(80, 1 + i);
+		cout << "|$|";
+	}
+	main_data.Draw_Brand_For_Choice();
+	textcolor(Red);
+	gotoxy(35, 2); cout << "All PRODUCTS";
+	gotoxy(97, 2); cout << "Your bag";
+	system("pause>nul");
+}
+
+// Other function
 
 void Menu::Start_System()
 {
@@ -375,9 +398,168 @@ void Menu::Exit()
 
 Menu::Menu()
 {
+	//main_data.Load_Data_from_file("data.txt");
+
 }
 
 
 Menu::~Menu()
 {
+
+}
+
+bool checkIfUnique(vector<string> unique, string input) {
+	if (unique.size() == 0) return true;
+	for (size_t i = 0; i < unique.size(); i++) {
+		if (input.compare(unique[i]) == 0) return false;
+	}
+	return true;
+} // this will check the logo if it existed or not 
+
+void Menu::Master_Move() { // call when login returned 1
+	vector<string> uniqueName; // argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
+	for (int i = 0; i < main_data.getNum(); i++) {
+	//	if (checkIfUnique(uniqueName, main_data[i].Brand))
+		//	uniqueName.push_back(main_data[i].Brand);
+	}
+	//end of unique
+	system("cls");
+	//go for interface
+	int x = 10, y = 5;
+	int count = 1; // if count = 5 endline and draw another box
+	for (size_t i = 0; i < uniqueName.size(); i++) {
+		Draw_Box(x, y, 3, 12, Yellow);
+		gotoxy(x + 2, y + 2);
+		cout << uniqueName[i];
+		if (count == 3) {
+			y += 8;
+			x = 10;
+			count = 0;
+		}
+		else {
+			x += 20;
+			y = 5;
+		}
+		count++;
+	}
+	y += 8;
+	Draw_Box(x, y, 3, 12, Yellow);
+	gotoxy(x + 2, y + 2);
+	cout << "  New"; // the new box
+	x = 70;
+	y = 5;
+	for (size_t i = 0; i <= uniqueName.size() / 3; i++) {
+		for (int j = 0; j < 8; j++) {
+			gotoxy(x, y + j);
+			cout << "|";
+		}
+	} // drawn line prase between help and menu 
+	//menu list
+
+	x = 75;
+	y = 6;
+
+	textcolor(Gray);
+	gotoxy(x, y);
+	cout << "#use keyboard to move ";
+	gotoxy(x, y + 1);
+	cout << "#Press ESC to exit ";
+
+	x = 10;
+	y = 5;
+	Draw_Box(x, y, 3, 12, Cyan);
+	
+	gotoxy(x, y);
+
+	int choice = 0; // choice implement another interface
+
+	int Xmax = 10 + (uniqueName.size() % 3) * 20;
+	int Ymax = 5 + (uniqueName.size() / 3) * 8;
+	while (1) {
+		char c = _getch();
+		if (int(c) == 72) { // up
+			int xa = x, ya = y;
+			if (y <= 5) {
+				y += (uniqueName.size() / 3) * 8;
+				choice += 3 * (uniqueName.size() / 3);
+			}
+			else {
+				y -= 8;
+				choice -= 3;
+			}
+			if (x > Xmax && y == Ymax) {
+				y -= 8;
+				choice -= 3;
+			}
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			Draw_Box(x, y, 3, 12, Cyan);
+			gotoxy(x, y);
+		}
+		if (int(c) == 77) { // right
+			int xa = x, ya = y;
+			if (x >= 50) {
+				x = 10;
+				choice-= 2;
+			}
+			else {
+				x += 20;
+				choice += 1;
+			}
+			if (x > Xmax && y == Ymax) {
+				x = 10;
+				choice -= (uniqueName.size() % 3 + 1);
+			}
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			Draw_Box(x, y, 3, 12, Cyan);
+			gotoxy(x, y);
+		}
+		if (int(c) == 80) { // down
+			int xa = x, ya = y;
+			if (y >= 5 + ((uniqueName.size() / 3) * 8)) {
+				y = 5;
+				choice -= 3 * (uniqueName.size() / 3);
+			}
+			else {
+				y += 8;
+				choice += 3;
+			}
+			if (x > Xmax && y == Ymax) {
+				y = 5;
+				choice -= 3 * (uniqueName.size() / 3);
+			}
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			Draw_Box(x, y, 3, 12, Cyan);
+			gotoxy(x, y);
+		}
+		if (int(c) == 75) { // left
+			int xa = x, ya = y;
+			if (x == 10) {
+				x += 2 * 20;
+				choice += 2;
+			}
+			else {
+				x -= 20;
+				choice -= 1;
+			}
+			if (x > Xmax && y == Ymax) {
+				x = Xmax;
+				choice = uniqueName.size();
+			}
+			Draw_Box(xa, ya, 3, 12, Yellow);
+			Draw_Box(x, y, 3, 12, Cyan);
+			gotoxy(x, y);
+		}
+		if (int(c) == 27) { // esc
+			choice = -1;
+			break;
+		}
+		if (int(c) == 13) { // enter 
+			cout << choice << endl; // try choice 
+		}
+	}
+}
+
+void Menu::add_Edit(string Brand)
+{
+
 }

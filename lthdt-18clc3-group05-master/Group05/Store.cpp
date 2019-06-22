@@ -1,38 +1,99 @@
 #include "Store.h"
+//******************************************************* DON'T TOUCH *********************************************************************************************************************************
+//____________________________________________________________________________________________________________________________________________________________________________________________________
 
-// File Save
-string Store ::Smartphones_Data="S_Data.txt";
+/*++*/string Store::File_Save_Expand = "Super_Data.txt";
 
-
-Store::Store(const Store& p)
+/*++*/Store::Store(const Store& p)
 {
 	num = p.num;
-	for (int i = 0; i < num; i++)
+	for (int i = 0; i < num; i++) {
 		arrSmartphones[i] = p.arrSmartphones[i];
+		Bags[i] = p.Bags[i];
+		Count_Brand[i] = p.Count_Brand[i];
+	}
 }
 
-Store::Store()
+/*++*/Store::Store()
 {
 	num = 0;
 }
 
+/*++*/void Store::output_Advanced(int i)
+{
+	cout << arrSmartphones[i];
+}
+
+/*++*/void Store::Display_All_Advanced()
+{
+	for (int i = 0; i < num; i++) {
+		cout << arrSmartphones[i] << endl;
+	}
+}
+
+/*++*/ostream& operator<<(ostream& os, const Store& p)
+{
+	vector<Smartphone> arr = p.arrSmartphones;
+	for (int i = 0; i < p.num; i++)
+		arr[i].output_Basic();
+	return os;
+}
+
+/*++*/void Store::output_Basic(int i)
+{
+	arrSmartphones[i].output_Basic();
+}
+
+/*++*/int Store::findSmartphone(string ID)
+{
+	for (int i = 0; i < num; i++)
+		if (arrSmartphones[i].compare_with_id(ID))
+			return i;
+	return -1;
+}
+
+/*++*/bool Store::Sell_A_Smartphone(string ID)
+{
+	int k = findSmartphone(ID);
+	if (k < 0)
+		return false;
+	return arrSmartphones[k].Sell_Smartphone();
+}
+
+/*++*/void Store::AddNewSmartphone_From_keyboard()
+{
+	Smartphone tmp;
+	cin >> tmp;
+	arrSmartphones.push_back(tmp);
+}
+
+/*++*/istream& operator>>(istream& is, Store& p)
+{
+	int num;
+	cout << "How many Smartphones? " << endl;
+	cin >> num;
+	for (int i = 0; i < num; i++) {
+		p.AddNewSmartphone_From_keyboard();
+		cout << endl;
+	}
+	return is;
+}
+
+//_________________________________________________________________________________________________________________________________________________________________________________________________________
+//**********************************************************************************************************************************************************************************************************
 
 
 Store::~Store()
 {
 }
 
-void Store::output(int i)
-{
-	cout << arrSmartphones[i];
-}
-
 Smartphone & Store::operator[](int index)
 {
-	if (index > this->num || index < this->num) throw "invalid index";
+	if (index >= this->num || index < 0) throw "invalid index";
 	return this->arrSmartphones[index];
 }
 
+//**********************************************************************TRANSACTION**********************************************************************************************************
 void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
 {
 	ofstream fout("a");
@@ -51,7 +112,7 @@ void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
 
 void Store::Output_Bill()
 {
-	double total = 0;
+	int total = 0;
 	cout << "Bill of you: " << endl;
 	for(int i = 0; i < Bags.size(); i++)
 	{
@@ -61,123 +122,6 @@ void Store::Output_Bill()
 	cout << "Total cost you have to pay: " << total;
 }
 
-int Store::findSmartphone(string ID)
-{
-	for (int i = 0; i < num; i++)
-		if (arrSmartphones[i].compare_with_id(ID))
-			return i;
-	return -1;
-}
-
-bool Store::AddNewSmartphone_FromFile(string filename)
-{
-	Smartphone tmp;
-	if (tmp.inputFromfile(filename))
-	{
-		for (int i = 0; i < num; i++)
-		{
-			if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
-			{
-				return true;
-			}
-		}
-		
-		arrSmartphones.push_back(tmp);
-		return true;
-	}
-	return false;
-}
-
-void Store::AddNewSmartphone_From_keyboard()
-{
-	Smartphone tmp;
-	cin >> tmp;
-	for (int i = 0; i < num; i++)
-	{
-		if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
-		{
-			return;
-		}
-	}
-
-	arrSmartphones.push_back(tmp);
-}
-
-void Store::AddNewSmartphone_withAttributes(string id, string n,string b, string pb, string ps, string ori, string sl)
-{
-	Smartphone tmp;
-	tmp.addNewSmartphone(id, n,b, pb, ps, ori, sl);
-	for (int i = 0; i < num; i++)
-	{
-		if (tmp.compare_id_to_plus_stocklevel(arrSmartphones[i]))
-		{
-			return;
-		}
-	}
-	arrSmartphones.push_back(tmp);
-}
-
-bool Store::Sell_A_Smartphone(string ID)
-{
-	int k = findSmartphone(ID);
-	if (k<0)
-		return false;
-	return arrSmartphones[k].Sell_Smartphone();
-}
-
-bool Store::Save_Data()
-{
-	ifstream fin(Smartphones_Data);
-	if (!fin.is_open())
-		return false;
-	for (int i = 0; i < num; i++)
-		cout << arrSmartphones[i].ToString() << endl;
-	fin.close();
-	return true;
-}
-
-bool Store::Load_Data_from_file(string Filename)
-{
-	ifstream fin1(Filename);
-	if (!fin1.is_open())
-		return false;
-	string tmp;
-	int count = 0;
-	
-	while (!fin1.eof())
-	{
-		tmp = fin1.get();
-		if (tmp == ".")
-			count++;
-	}
-	fin1.close();
-	num = count;
-	char tmp1[1000];
-	string name;
-	string id;
-	string ps;
-	string pb;
-	string ori;
-	string brand;
-	string sl;
-
-	Smartphone a;
-	ifstream fin(Filename);
-	for (int i = 0; i < num; i++) {
-		fin.getline(tmp1, 1000, ',');            id = string(tmp1);
-		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
-		fin.getline(tmp1, 1000, ',');            brand = string(tmp1);
-		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
-		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
-		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
-		fin.getline(tmp1, 1000, ',');			 sl = string(tmp1);
-		fin.ignore();
-		AddNewSmartphone_withAttributes(id, name,brand, pb, ps, ori,sl);
-	}
-	fin.close();
-	return true;
-
-}
 
 bool Store::Sell_Bags()
 {
@@ -209,45 +153,165 @@ bool Store::Sell_Bags()
 	return true;
 }
 
-istream& operator>>(istream& is, Store& p)
+
+bool Store::Input_New_Data_from_file(string Filename, string info) 
 {
-	int num;
-	cout << "How many Smartphones? " << endl;
-	cin >> num;
-	for (int i = 0; i < num; i++) {
-		p.AddNewSmartphone_From_keyboard();
-		cout << endl;
+	ifstream fin1(Filename);
+	if (!fin1.is_open()) {
+		return false;
 	}
-	return is;
+	string tmp;
+
+	int count = 0;
+	
+	while (!fin1.eof())
+	{
+		tmp = fin1.get();
+		if (tmp == ".")
+			count++;
+	}
+	fin1.close();
+	int k = num;
+	num += count;
+	char tmp1[1000];
+	string name;
+	string id;
+	string ps;
+	string pb;
+	string ori;
+	string sl;
+	Smartphone a;
+	ifstream fin(Filename);
+	for (int i = k; i < num; i++) {
+		fin.getline(tmp1, 1000, ',');            id = string(tmp1);
+		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
+		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
+		fin.ignore();
+		vector<string> v = Tokenizer::Parse(name, " ");
+		a.Add_Basic_Attributes(id, name, v[0], pb, ps, ori, sl);
+		arrSmartphones.push_back(a);
+	}
+	fin.close();
+	ifstream fin2(info);
+	if (!fin2.is_open())
+	{
+		throw "load info fail";
+		return false;
+	}
+	string rom;
+	string ram;
+	string battery;
+	string screen;
+	for (int i = k; i < num; i++)
+	{
+ 		fin2.getline(tmp1, 1000, ',');           name = string(tmp1);
+ 		fin2.getline(tmp1, 1000, ',');           id = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');            ram = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');            rom = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
+		fin2.getline(tmp1, 1000, '.');       	 screen= string(tmp1);
+		fin2.ignore();
+		arrSmartphones[i].Add_Advanced_Attributes(ram, rom, battery, screen);
+	}
+	fin2.close();
+	return true;
 }
-
-ostream& operator<<(ostream& os, const Store& p)
-{
-	cout << "this is a list products: " << endl;
-	for (int i = 0; i < p.num; i++)
-	//	p.output(i);
-	return os;
-}
-
-
-bool Store::changeAllDataSmartPhone(string ID) {
+bool Store::changeDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
 	try {
 		this->arrSmartphones[this->findSmartphone(ID)] = tmp;
 	}
 	catch (const char fail){
+		cout << fail;
 		return false;
 	}
 	return true;
 }
-
-void Store::changeAnAttrinbute(string ID, int k)
+bool Store::Save_All_Data()
 {
-	int a = findSmartphone(ID);
-	char c[1000];
-	gets_s(c, 1000);
-	string tmp = string(c);
-	arrSmartphones[a].changeAnAttrinbute(tmp, k);
+	ofstream fout(File_Save_Expand);
+	for (int i = 0; i< num; i++)
+	fout<<arrSmartphones[i].ToStringFile_Expand() << endl;
+	fout.close();
+	return true;
+	
 }
 
+bool Store::Load_Data_from_file()
+{
+	ifstream fin(File_Save_Expand);
+	if (!fin.is_open())
+		return false;
+	string tmp;
+	int count = 0;
+	while (!fin.eof())
+	{
+		tmp = fin.get();
+		if (tmp == ".")
+			count++;
+	}
+	int k = num;
+	num += count;
+	fin.beg();
+	string name;
+	string id;
+	string ps;
+	string pb;
+	string brand;
+	string ori;
+	string sl;
+	string rom;
+	string ram;
+	string battery;
+	string screen;
+	Smartphone a;
+	char tmp1[1000];
+	for (int i = k; i < num; i++)
+	{
+		fin.getline(tmp1, 1000, ',');            id = string(tmp1);
+		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 brand = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
+		fin.getline(tmp1, 1000, ',');			 sl = string(tmp1);
+		fin.getline(tmp1, 1000, ',');            ram = string(tmp1);
+		fin.getline(tmp1, 1000, ',');            rom = string(tmp1);
+		fin.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
+		fin.getline(tmp1, 1000, '.');       	 screen = string(tmp1);
+		fin.ignore();
+		a.Add_Basic_Attributes(id, name, brand, pb, ps, ori, sl);
+		a.Add_Advanced_Attributes(ram, rom, battery, screen);
+		arrSmartphones.push_back(a);
+	}
+
+	return true;
+}
+
+
+// Seller Function of Hui
+int Store::Draw_Brand_For_Choice()
+{
+	int x = 8;
+	int y = 5;
+	for (int i = 1; i <= Count_Brand.size(); i++)
+	{
+		Draw_Box(x, y, 5, 15, White);
+		textcolor(DarkCyan);
+		gotoxy(x + 4, y + 3); cout << Count_Brand[i-1];
+		if (i % 3 == 0)
+		{
+			x = 8;
+			y += 10;
+		}
+		else
+		{
+			x += 25;
+		}
+	}
+	return Count_Brand.size();
+}
