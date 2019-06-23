@@ -14,6 +14,7 @@ private:
 public:
 	void Seller_Move();
 	void Master_Move();
+	void add_Edit(string Brand);
 	void About_Us();
 	void Exit();
 	string Enter(int x, int y);// dung de cin o mot toa do nao do

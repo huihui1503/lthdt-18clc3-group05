@@ -73,3 +73,15 @@ void Draw_Box(int x, int y, int size_l, int size_w, int color)
 	}
 
 }
+void Delete_On_Console(int start_x, int start_y, int end_x, int end_y)
+{
+	int height = end_y - start_y;
+	int weight = end_x - start_x;
+	string temp = "";
+	for (int i = 1; i <= weight; i++) temp += " ";
+	for (int i = 0; i <= height; i++)
+	{
+		gotoxy(start_x, start_y + i);
+		cout << temp;
+	}
+}
