@@ -23,7 +23,7 @@ public: // Ham lien quan toi tinh toan
 	void Sell_Bags();
 	int findSmartphone(string ID);
 	bool Sell_A_Smartphone(string ID);
-	void Add_To_Bags(const Smartphone& smp);
+	bool Add_To_Bags(Smartphone smp);
 public:
 	//MASTER
 	void output_Basic(int i);

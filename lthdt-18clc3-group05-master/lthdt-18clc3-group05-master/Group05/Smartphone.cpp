@@ -19,6 +19,11 @@ int Smartphone::InstanceCount = 0;
 
 }
 
+bool Smartphone::check_stock()
+{
+	return StockLevel > 0;
+}
+
 /*++*/bool Smartphone::compare_with_name(string Name1)
 {
 	return Name1 == Name;

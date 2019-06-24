@@ -128,9 +128,18 @@ bool Store::Output_Bill(double money)
 	return true;
 }
 
-void Store::Add_To_Bags(const Smartphone& smp)
+bool Store::Add_To_Bags(Smartphone smp)
 {
-	Bags.push_back(smp);
+	if (smp.check_stock())
+	{
+		Bags.push_back(smp);
+		return true;
+	}
+	else
+	{
+		cout << "This goods is out of stock, please try another";
+	}
+	return false;
 }
 
 

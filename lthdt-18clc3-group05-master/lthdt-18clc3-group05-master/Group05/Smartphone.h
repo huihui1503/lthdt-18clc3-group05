@@ -34,6 +34,7 @@ public:
 	string ToString();
 	string ToStringFile();
 	string ToStringFile_Expand();
+	bool check_stock();
 	bool compare_with_name(string name1);
 	bool compare_with_id(string id);
 	bool Sell_Smartphone();
