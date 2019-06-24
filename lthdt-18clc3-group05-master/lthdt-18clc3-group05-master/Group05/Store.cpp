@@ -219,6 +219,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	fin2.close();
 	return true;
 }
+
 bool Store::changeDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
@@ -231,6 +232,7 @@ bool Store::changeDataSmartPhone(string ID) {
 	}
 	return true;
 }
+
 bool Store::Save_All_Data()
 {
 	ofstream fout(File_Save_Expand);

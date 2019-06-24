@@ -10,7 +10,7 @@ int main(void)
 	//screen.Start_System();
 	//screen.Print_FlashScreen();
 	Store a;
-	a.Load_Data_from_file("Data.txt", "INFO.txt");
+	a.Load_Data_from_file();
 	a.Save_All_Data();
 	return 0;
 }

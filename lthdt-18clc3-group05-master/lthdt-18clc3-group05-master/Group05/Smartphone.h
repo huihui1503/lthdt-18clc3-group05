@@ -28,6 +28,7 @@ public:
 	//OPERATOR 
 	Smartphone& operator = (const Smartphone& p);
 	friend ostream& operator<<(ostream& os, const Smartphone& p);
+	friend double Calc_Total_Cost(const vector<Smartphone>& p);
 	friend istream& operator>>(istream& is, Smartphone& p);
 	void output_Basic();
 public:	

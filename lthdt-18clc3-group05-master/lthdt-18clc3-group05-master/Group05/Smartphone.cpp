@@ -56,6 +56,15 @@ void Smartphone::Add_Advanced_Attributes(string rom, string ram, string battery,
 	Screen = screen;
 }
 
+double Calc_Total_Cost(const vector<Smartphone>& p)
+{
+	double total = 0;
+	for (int i = 0; i < p.size(); i++)
+		total += p[i].Price_s;
+	return total;
+}
+
+
 /*++*/Smartphone& Smartphone::operator=(const Smartphone& p)
 {
 	ID = p.ID;
