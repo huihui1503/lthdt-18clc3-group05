@@ -143,7 +143,8 @@ void Store::Sell_Bags()
 	cout << "Bill of you: " << endl;
 	for (int i = 0; i < Bags.size(); i++)
 	{
-		cout << Bags[i] << endl;
+		Bags[i].output_Basic();
+		cout << "------------------------------" << endl;
 	}
 	cout << "Total cost you have to pay: " << total << endl;
 
