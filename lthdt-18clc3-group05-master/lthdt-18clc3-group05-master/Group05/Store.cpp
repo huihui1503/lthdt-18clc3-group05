@@ -44,22 +44,6 @@
 	arrSmartphones[i].output_Basic();
 }
 
-/*++*/int Store::findSmartphone(string ID)
-{
-	for (int i = 0; i < num; i++)
-		if (arrSmartphones[i].compare_with_id(ID))
-			return i;
-	return -1;
-}
-
-/*++*/bool Store::Sell_A_Smartphone(string ID)
-{
-	int k = findSmartphone(ID);
-	if (k < 0)
-		return false;
-	return arrSmartphones[k].Sell_Smartphone();
-}
-
 /*++*/void Store::AddNewSmartphone_From_keyboard()
 {
 	Smartphone tmp;
@@ -87,74 +71,114 @@ Store::~Store()
 {
 }
 
-Smartphone & Store::operator[](int index)
+Smartphone& Store::operator[](int index)
 {
 	if (index >= this->num || index < 0) throw "invalid index";
 	return this->arrSmartphones[index];
 }
 
 //**********************************************************************TRANSACTION**********************************************************************************************************
-void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
+bool Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
 {
 	ofstream fout("a");
 	Date today;
 	string fileName = today.ToString() + ".txt";
 	fout.open(fileName);
-	if(!fout.is_open())
+	if (!fout.is_open())
 	{
-		return;
+		return false;
 	}
 	else
 	{
-		fout << today.ToString() << "," << smp.ToString();
+		fout << today.ToString() << "," << smp.ToStringFile() << endl;
 	}
-}
-
-void Store::Output_Bill()
-{
-	int total = 0;
-	cout << "Bill of you: " << endl;
-	for(int i = 0; i < Bags.size(); i++)
-	{
-		cout << Bags[i] << endl;
-		total += Bags[i].PriceBuy();
-	}
-	cout << "Total cost you have to pay: " << total;
-}
-
-
-bool Store::Sell_Bags()
-{
-	string ID = " ";
-	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
-	while (ID.compare("0") != 0) {
-		cin >> ID;
-		try {
-			Bags.push_back(this->arrSmartphones[this->findSmartphone(ID)]);
-		}
-		catch (const char tmp) {
-			cout << tmp;
-		}
-	}
-	cout << "Your bags include: " << endl;
-	for (size_t i = 0; i < Bags.size(); i++) {
-		cout << Bags[i] << endl;
-	}
-	cout << "Are you sure you want to pay: (Y: yes, N: no)";
-	cin.ignore();
-	char c = _getch();
-	if (c == 'y' || 'Y') {
-		for (size_t i = 0; i < Bags.size(); i++) {
-			this->arrSmartphones[i].Sell_Smartphone();
-
-		}
-	}
-	cout << endl;
+	fout.close();
 	return true;
 }
 
+bool Store::Output_Bill(double money)
+{
+	Date now;
+	double total = Calc_Total_Cost(Bags);
+	ofstream fout;
+	string name;
 
-bool Store::Input_New_Data_from_file(string Filename, string info) 
+	cout << "Input your name: ";
+	cin >> name;
+	string nameBill = name + "-" + now.ToString() + ".txt";
+	fout.open(nameBill);
+	if (!fout.is_open())
+	{
+		return false;
+	}
+	else
+	{
+		fout << "Name: " << name << endl;
+		fout << "Date: " << now.ToString() << endl;
+		for (size_t i = 0; i < Bags.size(); i++)
+		{
+			fout << Bags[i] << endl;
+		}
+		fout << "Total cost you have to pay: " << total << endl;
+		fout << "Shop receive from you: " << money << endl;
+		fout << "Shop give back you change: " << money - total << endl;
+		fout << "Thanks for buying from our shop, see you again";
+	}
+	fout.close();
+	return true;
+}
+
+void Store::Add_To_Bags(const Smartphone& smp)
+{
+	Bags.push_back(smp);
+}
+
+
+void Store::Sell_Bags()
+{
+	Date now;
+	double total = Calc_Total_Cost(Bags);
+	double moneyReceive;
+
+	cout << "Bill of you: " << endl;
+	for (int i = 0; i < Bags.size(); i++)
+	{
+		cout << Bags[i] << endl;
+	}
+	cout << "Total cost you have to pay: " << total << endl;
+
+	cout << "Are you sure you want to pay: (Y: yes, N: no)" << endl;
+	cin.ignore();
+	char c = _getch();
+	if (c == 'y' || 'Y') {
+		do
+		{
+			cout << "Money shop receive from you: ";
+			cin >> moneyReceive;
+			if (moneyReceive < total)
+			{
+				cout << "Sorry, you do not pay enough, please pay more: ";
+			}
+		} while (moneyReceive < total);
+		cout << "Shop give back you change: " << moneyReceive - total << endl;
+
+		cout << "Do you want to print bill?: (Y: Yes, N: No)";
+		cin.ignore();
+		char c = _getch();
+		if (c == 'y' || 'Y') {
+			if (Output_Bill(moneyReceive))
+			{
+				cout << "Print bill successful" << endl;
+			}
+			else cout << "Print bill fail" << endl;
+		}
+	}
+	else return;
+}
+
+
+
+bool Store::Input_New_Data_from_file(string Filename, string info)
 {
 	ifstream fin1(Filename);
 	if (!fin1.is_open()) {
@@ -163,7 +187,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	string tmp;
 
 	int count = 0;
-	
+
 	while (!fin1.eof())
 	{
 		tmp = fin1.get();
@@ -187,7 +211,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
-		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
 		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
 		fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
@@ -207,12 +231,12 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	string screen;
 	for (int i = k; i < num; i++)
 	{
- 		fin2.getline(tmp1, 1000, ',');           name = string(tmp1);
- 		fin2.getline(tmp1, 1000, ',');           id = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');           name = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');           id = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');            ram = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');            rom = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
-		fin2.getline(tmp1, 1000, '.');       	 screen= string(tmp1);
+		fin2.getline(tmp1, 1000, '.');       	 screen = string(tmp1);
 		fin2.ignore();
 		arrSmartphones[i].Add_Advanced_Attributes(ram, rom, battery, screen);
 	}
@@ -226,7 +250,7 @@ bool Store::changeDataSmartPhone(string ID) {
 	try {
 		this->arrSmartphones[this->findSmartphone(ID)] = tmp;
 	}
-	catch (const char fail){
+	catch (const char fail) {
 		cout << fail;
 		return false;
 	}
@@ -236,11 +260,11 @@ bool Store::changeDataSmartPhone(string ID) {
 bool Store::Save_All_Data()
 {
 	ofstream fout(File_Save_Expand);
-	for (int i = 0; i< num; i++)
-	fout<<arrSmartphones[i].ToStringFile_Expand() << endl;
+	for (int i = 0; i < num; i++)
+		fout << arrSmartphones[i].ToStringFile_Expand() << endl;
 	fout.close();
 	return true;
-	
+
 }
 
 bool Store::Load_Data_from_file()
@@ -304,7 +328,7 @@ int Store::Draw_Brand_For_Choice()
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
-		gotoxy(x + 4, y + 3); cout << Count_Brand[i-1];
+		gotoxy(x + 4, y + 3); cout << Count_Brand[i - 1];
 		if (i % 3 == 0)
 		{
 			x = 8;

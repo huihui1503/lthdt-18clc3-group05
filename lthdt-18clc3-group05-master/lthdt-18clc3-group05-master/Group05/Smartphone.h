@@ -23,8 +23,6 @@ private:
 	string Screen;
 	static int InstanceCount;
 public:
-	double PriceBuy() {return Price_b;}
-public:
 	//OPERATOR 
 	Smartphone& operator = (const Smartphone& p);
 	friend ostream& operator<<(ostream& os, const Smartphone& p);

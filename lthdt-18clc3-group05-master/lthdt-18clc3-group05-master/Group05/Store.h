@@ -17,9 +17,11 @@ private:
 public:
 	Smartphone & operator[](int index);
 	int getNum() { return num; }
-public: // Xuat hoa don
-	void Input_Storage(Smartphone smp);
-	void Output_Bill();
+public: // Ham lien quan toi tinh toan
+	bool Input_Storage(Smartphone smp);
+	bool Output_Bill(double money);
+	void Sell_Bags();
+	void Add_To_Bags(const Smartphone& smp);
 public:
 	//MASTER
 	void output_Basic(int i);
@@ -32,10 +34,7 @@ public:
 	bool Save_All_Data();
 	bool Load_Data_from_file();
 	bool Input_New_Data_from_file(string Filename, string info);
-public: // Xu li nghiep vu
-	int  findSmartphone(string ID);
-	bool Sell_A_Smartphone(string ID);
-	bool Sell_Bags(); // tham so gio hang se duoc khai bao trong methods
+public:
 	//Seller Function of Hui
 	int Draw_Brand_For_Choice();
 public:
