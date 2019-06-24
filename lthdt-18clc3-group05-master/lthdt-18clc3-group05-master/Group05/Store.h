@@ -21,6 +21,8 @@ public: // Ham lien quan toi tinh toan
 	bool Input_Storage(Smartphone smp);
 	bool Output_Bill(double money);
 	void Sell_Bags();
+	int findSmartphone(string ID);
+	bool Sell_A_Smartphone(string ID);
 	void Add_To_Bags(const Smartphone& smp);
 public:
 	//MASTER

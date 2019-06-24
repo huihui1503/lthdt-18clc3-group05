@@ -176,7 +176,21 @@ void Store::Sell_Bags()
 	else return;
 }
 
+/*++*/int Store::findSmartphone(string ID)
+{
+	for (int i = 0; i < num; i++)
+		if (arrSmartphones[i].compare_with_id(ID))
+			return i;
+	return -1;
+}
 
+/*++*/bool Store::Sell_A_Smartphone(string ID)
+{
+	int k = findSmartphone(ID);
+	if (k < 0)
+		return false;
+	return arrSmartphones[k].Sell_Smartphone();
+}
 
 bool Store::Input_New_Data_from_file(string Filename, string info)
 {
