@@ -1,4 +1,5 @@
 #include "Smartphone.h"
+#include"Dohoa.h"
 int Smartphone::InstanceCount = 0;
 //******************************************************* DON'T TOUCH *********************************************************************************************************************************
 //____________________________________________________________________________________________________________________________________________________________________________________________________
@@ -82,13 +83,114 @@ double Calc_Total_Cost(const vector<Smartphone>& p)
 	return *this;
 }
 
+vector<Smartphone>& Smartphone::operator-(vector<Smartphone>& p)
+{
+	for (int i = 0; i < p.size(); i++)
+	{
+		if (ID == p[i].ID) {
+			p[i].StockLevel--;
+		}
+	}
+	return p;
+}
+
 /*++*/void Smartphone::output_Basic()
 {
 	cout << "ID: " << ID << endl;
-	cout << "Name: " << Name << endl;
+	cout << "Name:  " << Name << endl;
 	cout << "Brand: " << Brand << endl;
 	cout << "Price : " << Price_b << endl;
 	cout << "Origin: " << Origin << endl;
+}
+
+void Smartphone::Display_Expand(int i)
+{
+	gotoxy(8, 6+i);
+	cout <<i/2 +1 ;
+
+	gotoxy(15, 6+i);
+	cout << ID;
+
+	gotoxy(35, 6+i);
+	cout << Brand;
+
+	gotoxy(50,6+i);
+	cout << Name;
+
+	gotoxy(90, 6+i);
+	cout << Price_s;
+
+	gotoxy(110, 6+i);
+	cout << Origin;
+
+	gotoxy(129, 6+i);
+	cout << Ram;
+
+	gotoxy(144, 6+i);
+	cout << Rom;
+
+	gotoxy(157, 6+i);
+	cout << Battery;
+
+	gotoxy(170, 6+i);
+	cout << Screen;
+
+}
+
+void Smartphone::Display_Basic(int i)
+{
+	gotoxy(8, 6 + i);
+	cout << i / 2 + 1;
+
+	gotoxy(15, 6 + i);
+	cout << ID;
+
+	gotoxy(35, 6 + i);
+	cout << Brand;
+
+	gotoxy(50, 6 + i);
+	cout << Name;
+
+	gotoxy(90, 6 + i);
+	cout << Price_s;
+
+	gotoxy(110, 6 + i);
+	cout << Origin;
+
+}
+
+void Smartphone::Display_Calc_Cost(int i)
+{
+	gotoxy(8, 6 + i);
+	cout << i / 2 + 1;
+
+	gotoxy(15, 6 + i);
+	cout << ID;
+
+	gotoxy(35, 6 + i);
+	cout << Brand;
+
+	gotoxy(50, 6 + i);
+	cout << Name;
+
+	gotoxy(90, 6 + i);
+	cout << Price_s;
+
+	gotoxy(110, 6 + i);
+	cout << Origin;
+
+	gotoxy(129, 6 + i);
+	cout << Ram;
+
+	gotoxy(144, 6 + i);
+	cout << Rom;
+
+	gotoxy(157, 6 + i);
+	cout << Battery;
+
+	gotoxy(170, 6 + i);
+	cout << Screen;
+
 }
 
 /*++*/Smartphone::Smartphone()
@@ -178,6 +280,7 @@ double Calc_Total_Cost(const vector<Smartphone>& p)
 
 /*++*/ostream& operator<<(ostream& os, const Smartphone& p)
 {
+
 	cout << "ID: " << p.ID << endl;
 	cout << "Name: " << p.Name << endl;
 	cout << "Price : " << p.Price_b << endl;

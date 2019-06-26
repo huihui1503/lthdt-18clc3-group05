@@ -26,8 +26,9 @@
 
 /*++*/void Store::Display_All_Advanced()
 {
-	for (int i = 0; i < num; i++) {
-		cout << arrSmartphones[i] << endl;
+	Table_Expand(num);
+	for (int i = 0; i < 2*num; i+=2) {
+		arrSmartphones[i/2].Display_Expand(i);
 	}
 }
 
@@ -94,7 +95,7 @@ Smartphone & Store::operator[](int index)
 }
 
 //**********************************************************************TRANSACTION**********************************************************************************************************
-void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
+void Store::Input_Storage(const Smartphone& smp) // Nhap vao lich su mua ban
 {
 	ofstream fout("a");
 	Date today;
@@ -106,7 +107,7 @@ void Store::Input_Storage(Smartphone smp) // Nhap vao lich su mua ban
 	}
 	else
 	{
-		fout << today.ToString() << "," << smp.ToString();
+	//	fout << today.ToString() << ","<< smp.ToStringFile;
 	}
 }
 
@@ -258,7 +259,7 @@ bool Store::Load_Data_from_file()
 	}
 	int k = num;
 	num += count;
-	fin.beg();
+//	fin.beg();
 	string name;
 	string id;
 	string ps;

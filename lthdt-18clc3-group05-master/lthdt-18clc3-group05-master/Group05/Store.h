@@ -18,7 +18,7 @@ public:
 	Smartphone & operator[](int index);
 	int getNum() { return num; }
 public: // Xuat hoa don
-	void Input_Storage(Smartphone smp);
+	void Input_Storage(const Smartphone& smp);
 	void Output_Bill();
 public:
 	//MASTER

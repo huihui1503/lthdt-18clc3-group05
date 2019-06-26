@@ -30,7 +30,12 @@ public:
 	friend ostream& operator<<(ostream& os, const Smartphone& p);
 	friend double Calc_Total_Cost(const vector<Smartphone>& p);
 	friend istream& operator>>(istream& is, Smartphone& p);
+	vector<Smartphone>& operator -(vector<Smartphone>& p);
 	void output_Basic();
+	//DISPLAY IN TABLE
+	void Display_Expand(int i);
+	void Display_Basic(int i);
+	void Display_Calc_Cost(int i);
 public:	
 	// METHOD
 	string ToString();
