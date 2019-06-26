@@ -30,6 +30,16 @@ Date::~Date()
 {
 }
 
+bool Date::Is_Date_in_Duaration(string date, string begin, string end)
+{
+	return false;
+}
+
+bool Date::Compare_Two_Date(string date1, string date2)
+{
+	return false;
+}
+
 bool Date::isLeapYear(int year)
 {
 	if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))

@@ -1,0 +1,12 @@
+15032000,Samsung Galaxy S10+,1.9e+07,2.4e+07,Korean,56,12GB,1TB,4100 mAh,1440 x 3040 pixels.
+20050400,Samsung Galaxy Fold,5.5e+07,6e+07,Korean,4,12GB,1TB,4380 mAh,2152 x 1536 pixels.
+18127100,Samsung Galaxy Note 9,1.5e+07,1.7e+07,Korean,99,6GB,128GB,4000 mAh,1440 x 2960 pixels.
+XRMN4X,Xiaomi Redmi Note 4X,3.4e+06,3.7e+06,China,100,3GB,32GB,4100 mAh,720 x 1440 pixels.
+XM8L001,Xiaomi Mi 8 Lite,3.1e+06,3.3e+06,China,100,6GB,128GB,3350 mAh,1080 x 2280 pixels.
+XM9SE664,Xiaomi Mi 9 SE,4.1e+06,4.3e+06,China,100,6GB,64GB,3070 mAh,1080 x 2340 pixels.
+18127247,Asus Zenfone Max Pro M2,4e+06,5.1e+06,Korean,46,4GB,64GB,5000 mAh,1080 x 2280 pixels.
+18127248,Asus Zenfone Max Pro M1,6e+06,7.1e+06,Korean,35,3GB,32GB,5000 mAh,1080 x 2160 pixels.
+18127249,Asus ZenFone 5Z ZS620KL,3.5e+06,4e+06,Korean,56,6GB,128GB,3300 mAh,1080 x 2246 pixels.
+111222333,iPhone 7 Plus 32GB,1.2e+07,1.4e+07,America,45,3GB,32GB,2900 mAh,1080 x 1920 pixels.
+13092000,iPhone Xs Max 64GB,2.9e+07,3.3e+07,America,44,4GB,64GB,2716 mAh,1242 x 2688 pixels.
+00021062,iPhone 8 plus 64GB,1.6e+07,1.9e+07,America,41,3GB,64GB,2691 mAh,1080 x 1920 pixels.

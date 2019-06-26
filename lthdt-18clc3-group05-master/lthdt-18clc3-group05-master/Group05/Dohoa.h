@@ -42,5 +42,9 @@ void Delete_On_Console(int start_x, int start_y, int end_x, int end_y);// Triang
 /* GetAsyncKeyState(VK_ESCAPE) => bắt sự kiện phím Esc */
 // Hàm tự viết
 void ToMau(int x, int y, char *a, int color);// x, y là tọa độ con trỏ cần nhảy đến để viết, a là chuỗi cần truyền vào, color là màu truyền vào.
+void Table_Expand(int m);// Testing Function dont use if dont know
+void Table_Basic(int m);
+void Table_Calc_Cost(int m);
 #endif // !_Dohoa_
 
+void Delete_On_Console(int start_x, int start_y, int end_x, int end_y);
