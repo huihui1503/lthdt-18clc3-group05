@@ -23,6 +23,7 @@ private:
 	string Screen;
 	static int InstanceCount;
 public:
+	string getbrand() { return Brand; }
 	double PriceBuy() {return Price_b;}
 public:
 	//OPERATOR 

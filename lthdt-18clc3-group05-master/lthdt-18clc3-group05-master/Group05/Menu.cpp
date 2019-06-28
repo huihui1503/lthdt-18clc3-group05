@@ -476,6 +476,7 @@ void Menu::Start_System()
 	Sleep(1000);
 }
 
+
 void Menu::About_Us()
 {
 	system("cls");
@@ -520,8 +521,8 @@ bool checkIfUnique(vector<string> unique, string input) {
 void Menu::Master_Move() { // call when login returned 1
 	vector<string> uniqueName; // argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
 	for (int i = 0; i < main_data.getNum(); i++) {
-	//	if (checkIfUnique(uniqueName, main_data[i].Brand))
-		//	uniqueName.push_back(main_data[i].Brand);
+		if (checkIfUnique(uniqueName, main_data[i].getbrand()))
+			uniqueName.push_back(main_data[i].getbrand());
 	}
 	//end of unique
 	system("cls");
@@ -655,12 +656,78 @@ void Menu::Master_Move() { // call when login returned 1
 			break;
 		}
 		if (int(c) == 13) { // enter 
-			cout << choice << endl; // try choice 
+			if (choice != uniqueName.size()) {
+				add_Edit(uniqueName[choice]);
+			}
 		}
 	}
 }
 
-void Menu::add_Edit(string Brand)
+int Menu::add_Edit(string brand)
 {
-
+	vector<int> index; // this vector save the index of each element in store which same brand as my current brand
+	int x = 40, y = 5;
+	system("cls");
+	int length = 0;
+	for (int i = 0; i < main_data.getNum(); i++) {
+		if (main_data[i].compare_with_brand(brand)) {
+			main_data[i].COUT_NAME(y, x, x, White);
+			y += 5;
+			index.push_back(i);
+			length++;
+		}
+	}
+	length--;
+	x = 10;
+	y = 5;
+	// move 
+	int Index = 0;
+	string Arrow = "-->";
+	string deleteArrow = "   ";
+	gotoxy(x, y); cout << Arrow;
+	char c;
+	do {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(x, y); cout << deleteArrow;
+			if (y == 5) {
+				y = length * 5 + 5;
+				Index = length;
+				gotoxy(x, y); cout << Arrow;
+			}
+			else {
+				y -= 5;
+				Index--;
+				gotoxy(x, y); cout << Arrow;
+			}
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(x, y); cout << deleteArrow;
+			if (y >= length * 5 + 5) {
+				y = 5;
+				Index = 0;
+				gotoxy(x, y); cout << Arrow;
+			}
+			else {
+				y += 5;
+				Index++;
+				gotoxy(x, y); cout << Arrow;
+			}
+		}
+		if ((int)c == KEY_ENTER) {
+			cout << Index;
+		}
+	} while ((int)c != KEY_ESC);
+	return 1;
 }
+
+void Menu::edit(string name)
+{
+	// kh co ham r sao edit day
+}
+
+void Menu::New()
+{
+	// mat ham new smartphone
+}
+
