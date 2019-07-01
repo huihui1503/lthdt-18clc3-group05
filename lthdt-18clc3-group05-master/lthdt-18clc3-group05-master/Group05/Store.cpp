@@ -1,4 +1,6 @@
 #include "Store.h"
+double Store::Sum=0;
+
 //******************************************************* DON'T TOUCH *********************************************************************************************************************************
 //____________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -45,20 +47,28 @@
 	arrSmartphones[i].output_Basic();
 }
 
-/*++*/int Store::findSmartphone(string ID)
+/*++*/int Store::findSmartphone(vector<Smartphone>&temp,string ID)
 {
-	for (int i = 0; i < num; i++)
-		if (arrSmartphones[i].compare_with_id(ID))
+	if (temp.empty()) return -1;
+	for (int i = 0; i < temp.size(); i++)
+	{
+		if (temp[i].compare_with_id(ID))
 			return i;
+	}
 	return -1;
 }
 
 /*++*/bool Store::Sell_A_Smartphone(string ID)
 {
-	int k = findSmartphone(ID);
-	if (k < 0)
-		return false;
-	return arrSmartphones[k].Sell_Smartphone();
+	int k = findSmartphone(arrSmartphones,ID);
+	if (k < 0) return false;
+	bool check = arrSmartphones[k].Sell_Smartphone();
+	if (check)
+	{
+		Add_To_Bags(arrSmartphones[k]);
+		arrSmartphones[k].Add_to_Sum(Sum);
+	}
+	return check;
 }
 
 /*++*/void Store::AddNewSmartphone_From_keyboard()
@@ -66,6 +76,67 @@
 	Smartphone tmp;
 	cin >> tmp;
 	arrSmartphones.push_back(tmp);
+}
+
+/*++*/bool Store::Decrease_Quantity(string ID)
+{
+	int k = findSmartphone(Bags, ID);
+	if (k >= 0)
+	{
+		if (Bags[k].Decrease_StockLevel(1))
+		{
+			int pos = findSmartphone(arrSmartphones, ID);
+			arrSmartphones[pos].Increase_StockLevel(1);
+			arrSmartphones[pos].Remove_from_Sum(Sum);
+		}
+		return true;
+	}
+	return false;
+}
+
+/*++*/void Store::Add_To_Bags(Smartphone& temp)
+{
+	int k = findSmartphone(Bags, temp.Get_ID());
+	if (k < 0 || Bags.empty())
+	{
+		Bags.push_back(temp);
+		Bags[Bags.size()-1].Set_StockLevel(1);
+	}
+	else
+	{
+		Bags[k].Increase_StockLevel(1);
+	}
+}
+
+/*++*/bool Store::Reset_Bags()
+{
+	if (Bags.empty()) return true;
+	for (auto i = 0; i < Bags.size(); i++)
+	{
+		int k= findSmartphone(arrSmartphones, Bags[i].Get_ID());
+		arrSmartphones[k].Increase_StockLevel(Bags[i].Get_StockLevel());
+	}
+	Bags.clear();
+	Sum = 0;
+	return true;
+}
+
+/*++*/bool Store::Print_Bill_On_Console()
+{
+	textcolor(White);
+	int x = 84;
+	int y = 5;
+	for (auto i = 0; i < Bags.size(); i++)
+	{
+		if (Bags[i].Check_On_Console(x,y))
+		{
+			y += 1;
+		}
+	}
+	gotoxy(x,y); cout <<"---------------------------------";
+	textcolor(Red);
+	gotoxy(x + 15, y + 1); cout << "Total: "; printf("%.f", Sum);
+	return true;
 }
 
 /*++*/istream& operator>>(istream& is, Store& p)
@@ -131,7 +202,7 @@ bool Store::Sell_Bags()
 	while (ID.compare("0") != 0) {
 		cin >> ID;
 		try {
-			Bags.push_back(this->arrSmartphones[this->findSmartphone(ID)]);
+			Bags.push_back(this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)]);
 		}
 		catch (const char tmp) {
 			cout << tmp;
@@ -236,7 +307,7 @@ bool Store::changeDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
 	try {
-		this->arrSmartphones[this->findSmartphone(ID)] = tmp;
+		this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)] = tmp;
 	}
 	catch (const char fail){
 		cout << fail;

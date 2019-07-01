@@ -50,6 +50,42 @@ public:
 public:
 	void COUT_NAME(int y, int left, int right, int color);
 	bool compare_with_brand(string brand);
+	bool Check_On_Console(int x, int y);
+public:
+	void Set_StockLevel(int value)
+	{
+		StockLevel = value;
+	}
+
+	string Get_ID()
+	{
+		return ID;
+	}
+
+	void Increase_StockLevel(int value)
+	{
+		this->StockLevel += value;
+	}
+
+	bool Decrease_StockLevel(int value)
+	{
+		if (StockLevel-value > 0) StockLevel -= value;
+		else return false;
+		return true;
+	}
+
+	int Get_StockLevel()
+	{
+		return StockLevel;
+	}
+	void Add_to_Sum(double&Sum)
+	{
+		Sum += Price_s;
+	}
+	void Remove_from_Sum(double& Sum)
+	{
+		Sum -= Price_s;
+	}
 public:
 	Smartphone();
 	Smartphone(const Smartphone& other);

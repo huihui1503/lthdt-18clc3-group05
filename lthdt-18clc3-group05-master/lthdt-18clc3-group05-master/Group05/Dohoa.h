@@ -32,6 +32,8 @@ using namespace std;
 #define KEY_BACKSPACE	8
 #define KEY_TAB         9
 #define KEY_CTRL            17
+#define KEY_ADD			43
+#define KEY_MINUS		45
 void resizeConsole(int width, int height); // Hàm tô màu.
 void textcolor(int x);
 void gotoxy(int x, int y);// Hàm xóa màn hình.

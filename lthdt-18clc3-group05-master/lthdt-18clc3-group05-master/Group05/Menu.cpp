@@ -333,9 +333,6 @@ Done:
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
-	textcolor(Red);
-	gotoxy(35, 2); cout << "All PRODUCTS";
-	gotoxy(97, 2); cout << "Your bag";
 	char key = '.';
 	int max_col = move % 3;
 	int max_row = move / 3;
@@ -396,11 +393,11 @@ Done:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
 			Choice_For_Sell(main_data.Count_Brand[current]);
-			system("pause>nul");
 			goto Done;
 			break;
 		}
 	}
+	main_data.Reset_Bags();
 }
 
 void Menu::Choice_For_Sell(string chosen_brand)
@@ -428,9 +425,24 @@ void Menu::Choice_For_Sell(string chosen_brand)
 			current += 1;
 			if (current >= temp.size()) current = 0;
 			break;
-		case KEY_ENTER:
-			//// CODE PRINT ON CONSOLE
-
+		case 83:
+			//// Press Shift + S to print bill
+			break;
+		case KEY_ADD:
+			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
+			{
+				temp[current].Decrease_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			main_data.Print_Bill_On_Console();
+			break;
+		case KEY_MINUS:
+			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
+			{
+				temp[current].Increase_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			main_data.Print_Bill_On_Console();
 			break;
 		}
 	}

@@ -32,14 +32,25 @@ public:
 	bool Load_Data_from_file();
 	bool Input_New_Data_from_file(string Filename, string info);
 public: // Xu li nghiep vu
-	int  findSmartphone(string ID);
+	int  findSmartphone(vector<Smartphone>& temp, string ID);
 	bool Sell_A_Smartphone(string ID);
 	bool Sell_Bags(); // tham so gio hang se duoc khai bao trong methods
+	void Add_To_Bags(Smartphone&temp);
+	bool Decrease_Quantity(string ID);
+	bool Reset_Bags();
+	bool Print_Bill_On_Console();
 	//Seller Function of Hui
 	int Draw_Brand_For_Choice();
 	void Draw_Phone_of_Brand(string brand, vector<Smartphone>&temp);
 	void Effect_of_Move(int pos,vector<Smartphone>temp);
 	vector<string> Count_Brand;
+	static double Sum;
+	int Get_Size_Of_Bags()
+	{
+		if (Bags.empty()) return 0;
+		return Bags.size();
+	}
+
 public:
 	Store(const Store& p);
 	Store();

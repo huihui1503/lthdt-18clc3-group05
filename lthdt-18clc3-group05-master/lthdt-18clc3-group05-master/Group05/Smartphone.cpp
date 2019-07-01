@@ -321,8 +321,20 @@ void Smartphone::COUT_NAME(int y,int left,int right,int color)
 	gotoxy(standard - 5, y + 2);
 	cout << "Quantity: " << StockLevel;
 }
+
 bool Smartphone::compare_with_brand(string brand)
 {
 	return Brand == brand;
+}
+
+bool Smartphone::Check_On_Console(int x,int y)
+{
+	if (StockLevel > 0)
+	{
+		gotoxy(x, y); cout << ID;
+		gotoxy(x + 20, y);  printf("%.f", Price_s);cout << " X " << StockLevel;
+		return true;
+	}
+	return false;
 }
 
