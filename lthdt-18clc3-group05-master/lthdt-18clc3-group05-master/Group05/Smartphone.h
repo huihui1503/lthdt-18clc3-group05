@@ -69,7 +69,7 @@ public:
 
 	bool Decrease_StockLevel(int value)
 	{
-		if (StockLevel-value > 0) StockLevel -= value;
+		if (StockLevel-value >= 0) StockLevel -= value;
 		else return false;
 		return true;
 	}

@@ -88,8 +88,8 @@ double Store::Sum=0;
 			int pos = findSmartphone(arrSmartphones, ID);
 			arrSmartphones[pos].Increase_StockLevel(1);
 			arrSmartphones[pos].Remove_from_Sum(Sum);
+			return true;
 		}
-		return true;
 	}
 	return false;
 }
