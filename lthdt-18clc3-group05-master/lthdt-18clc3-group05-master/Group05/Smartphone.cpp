@@ -297,6 +297,15 @@ void Smartphone::Display_Calc_Cost(int i)
 //**********************************************************************************************************************************************************************************************************
 
 
+string Smartphone::ToStringBill()
+{
+	stringstream writer;
+	
+	writer << ID << "," << Name << "," << Price_b << "," << Price_s;
+
+	return writer.str();
+}
+
 string Smartphone::ToString()
 {
 	stringstream writer;
