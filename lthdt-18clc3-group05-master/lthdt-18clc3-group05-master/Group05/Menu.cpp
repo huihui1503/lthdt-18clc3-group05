@@ -321,8 +321,8 @@ Done:
  
 void Menu::Seller_Move()
 {
-Done:
 	system("cls");
+Done:
 	textcolor(White);
 	for (int i = 0; i <= 40; i++)
 	{
@@ -393,6 +393,7 @@ Done:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
 			Choice_For_Sell(main_data.Count_Brand[current]);
+			Delete_On_Console(8, 5, 80, 5 + max_row * 10);
 			goto Done;
 			break;
 		}

@@ -314,6 +314,15 @@ Smartphone::Smartphone(string id, string name, string origin, double price_b, do
 //**********************************************************************************************************************************************************************************************************
 
 
+string Smartphone::ToStringBill()
+{
+	stringstream writer;
+	
+	writer << ID << "," << Name << "," << Price_b << "," << Price_s;
+
+	return writer.str();
+}
+
 string Smartphone::ToString()
 {
 	stringstream writer;
