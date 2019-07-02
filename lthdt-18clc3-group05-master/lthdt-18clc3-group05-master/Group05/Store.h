@@ -39,6 +39,7 @@ public: // Xu li nghiep vu
 	bool Decrease_Quantity(string ID);
 	bool Reset_Bags();
 	bool Print_Bill_On_Console();
+	void addNewSmartphone(Smartphone tmp);
 	//Seller Function of Hui
 	int Draw_Brand_For_Choice();
 	void Draw_Phone_of_Brand(string brand, vector<Smartphone>&temp);

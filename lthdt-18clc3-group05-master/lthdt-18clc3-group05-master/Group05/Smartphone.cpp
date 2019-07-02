@@ -209,6 +209,23 @@ void Smartphone::Display_Calc_Cost(int i)
 	InstanceCount++;
 }
 
+Smartphone::Smartphone(string id, string name, string origin, double price_b, double price_s, string ram, string rom, string battery, string screen, int stock)
+{
+	ID = id;
+	Name = name;
+	Origin = origin;
+	Price_b = price_b;
+	Price_s = price_s;
+	Ram = ram;
+	Rom = rom;
+	Battery = battery;
+	Screen = screen;
+	vector<string> tmp = Tokenizer::Parse(name, " ");
+	if (tmp.size() == (size_t)0) Brand = name;
+	else Brand = tmp[0];
+	StockLevel = stock;
+}
+
 /*++*/Smartphone::Smartphone(const Smartphone& other)
 {
 	ID = other.ID;
@@ -300,7 +317,10 @@ void Smartphone::Display_Calc_Cost(int i)
 string Smartphone::ToString()
 {
 	stringstream writer;
-	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin << "" << Ram << "," << Rom << "," << Battery << "," << Screen;
+	char priceb[100], prices[100];
+	_itoa_s(Price_b, priceb, 10);
+	_itoa_s(Price_s, prices, 10);
+	writer << ID << "," << Name << "," << Origin << "," << Price_b << "," << Price_s << ","  << Ram << "," << Rom << "," << Battery << "," << Screen << "," << StockLevel;
 	return writer.str();
 }
 Smartphone::~Smartphone()

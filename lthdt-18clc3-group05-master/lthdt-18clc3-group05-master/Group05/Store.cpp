@@ -139,6 +139,11 @@ double Store::Sum=0;
 	return true;
 }
 
+void Store::addNewSmartphone(Smartphone tmp)
+{
+	arrSmartphones.push_back(tmp);
+}
+
 /*++*/istream& operator>>(istream& is, Store& p)
 {
 	int num;
