@@ -179,12 +179,13 @@ bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 	fout.open(fileName);
 	if (!fout.is_open())
 	{
-		return;
+		return false;
 	}
 	else
 	{
 		fout << today.ToString() << "," << smp.ToStringBill();
 	}
+	return true;
 }
 
 bool Store::Output_Bill(string name, double money)
@@ -224,7 +225,7 @@ bool Store::Sell_Bags()
 
 	cout << "Your bags include: " << endl;
 	for (size_t i = 0; i < Bags.size(); i++) {
-		Bags[i].Display_Basic;
+		Bags[i].Display_Basic(0);
 	}
 
 	cout << "You have to pay: " << total << endl;
@@ -457,6 +458,9 @@ int Store::Draw_Brand_For_Choice()
 			x += 25;
 		}
 	}
+	Draw_Box(x, y, 5, 15, White);
+	textcolor(DarkCyan);
+	gotoxy(x + 4, y + 3); cout <<"Filter";
 	return Count_Brand.size();
 }
 
