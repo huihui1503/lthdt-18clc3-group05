@@ -299,9 +299,38 @@ string Smartphone::ToString()
 	writer << Price_b << "," << Price_s << "," << Name << "," << ID << "," << Origin << "" << Ram << "," << Rom << "," << Battery << "," << Screen;
 	return writer.str();
 }
-
 Smartphone::~Smartphone()
 {
 
+}
+
+// FUNCTION OF HUI
+void Smartphone::COUT_NAME(int y,int left,int right,int color)
+{
+	textcolor(color);
+	int standard = (right - left)/2+left;
+	gotoxy(standard - Name.size() / 2, y);
+	cout << Name;
+	textcolor(White);
+	gotoxy(standard - 5, y + 1);
+	cout << "Price: " << Price_s;
+	gotoxy(standard - 5, y + 2);
+	cout << "Quantity: " << StockLevel;
+}
+
+bool Smartphone::compare_with_brand(string brand)
+{
+	return Brand == brand;
+}
+
+bool Smartphone::Check_On_Console(int x,int y)
+{
+	if (StockLevel > 0)
+	{
+		gotoxy(x, y); cout << ID;
+		gotoxy(x + 20, y);  printf("%.f", Price_s);cout << " X " << StockLevel;
+		return true;
+	}
+	return false;
 }
 

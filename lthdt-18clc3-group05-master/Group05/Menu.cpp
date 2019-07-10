@@ -321,6 +321,7 @@ Done:
  
 void Menu::Seller_Move()
 {
+Done:
 	system("cls");
 	textcolor(White);
 	for (int i = 0; i <= 40; i++)
@@ -328,7 +329,7 @@ void Menu::Seller_Move()
 		gotoxy(80, 1 + i);
 		cout << "|$|";
 	}
-	int move = main_data.Draw_Brand_For_Choice();
+	int move=main_data.Draw_Brand_For_Choice();
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
@@ -341,6 +342,7 @@ void Menu::Seller_Move()
 	int y = 1;
 	while (key != char(KEY_ESC))
 	{
+		Draw_Box(x * 25 -17,y * 10 -5, 5, 15, Cyan);
 		Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, Cyan);
 		key = _getch();
 		switch (int(key))
@@ -375,7 +377,7 @@ void Menu::Seller_Move()
 			if (y <= 0)
 			{
 				y = max_row;
-				if (x > max_row) x = max_row;
+				if (x > max_col) x = max_col;
 			}
 			break;
 		case KEY_DOWN:
@@ -388,10 +390,59 @@ void Menu::Seller_Move()
 			}
 			break;
 		case KEY_ENTER:
-			int current = (y - 1) * 3 + x;
+			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			//Move to other screen
-			system("pause>nul");
+			Choice_For_Sell(main_data.Count_Brand[current]);
+			goto Done;
+			break;
+		}
+	}
+	main_data.Reset_Bags();
+}
+
+void Menu::Choice_For_Sell(string chosen_brand)
+{
+	int y = 5;
+	vector<Smartphone>temp;
+	main_data.Draw_Phone_of_Brand(chosen_brand,temp);
+	char key = '.';
+	int current = 0;
+	while (key != char(KEY_ESC))
+	{
+		main_data.Effect_of_Move(current, temp);
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_UP:
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
+			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
+			current -= 1;
+			if (current < 0) current = temp.size() - 1;
+			break;
+		case KEY_DOWN:
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
+			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
+			current += 1;
+			if (current >= temp.size()) current = 0;
+			break;
+		case 83:
+			//// Press Shift + S to print bill
+			break;
+		case KEY_ADD:
+			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
+			{
+				temp[current].Decrease_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			main_data.Print_Bill_On_Console();
+			break;
+		case KEY_MINUS:
+			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
+			{
+				temp[current].Increase_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			main_data.Print_Bill_On_Console();
 			break;
 		}
 	}
@@ -437,6 +488,7 @@ void Menu::Start_System()
 	Sleep(1000);
 }
 
+
 void Menu::About_Us()
 {
 	system("cls");
@@ -444,6 +496,7 @@ void Menu::About_Us()
 	cout << "Thai Hoang Huy"<<endl;
 	cout << "Tran Dinh Huy" << endl;
 	cout << "Tran Xuan Loc" << endl;
+	cout << "Tran Thanh Tuan" << endl;
 	system("pause>nul");
 }
  
@@ -455,19 +508,18 @@ void Menu::Exit()
 	Sleep(500);
 	gotoxy(50, 15);
 	cout << "See you later!!!";
-	Sleep(500);
 }
 
 Menu::Menu()
 {
-	main_data.Load_Data_from_file();
+	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
 
 }
 
 
 Menu::~Menu()
 {
-
+	main_data.Save_All_Data();
 }
 
 bool checkIfUnique(vector<string> unique, string input) {
@@ -481,8 +533,8 @@ bool checkIfUnique(vector<string> unique, string input) {
 void Menu::Master_Move() { // call when login returned 1
 	vector<string> uniqueName; // argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
 	for (int i = 0; i < main_data.getNum(); i++) {
-		//if (checkIfUnique(uniqueName, main_data[i].Brand))
-	//		uniqueName.push_back(main_data[i].Brand);
+		if (checkIfUnique(uniqueName, main_data[i].getbrand()))
+			uniqueName.push_back(main_data[i].getbrand());
 	}
 	//end of unique
 	system("cls");
@@ -616,12 +668,78 @@ void Menu::Master_Move() { // call when login returned 1
 			break;
 		}
 		if (int(c) == 13) { // enter 
-			cout << choice << endl; // try choice 
+			if (choice != uniqueName.size()) {
+				add_Edit(uniqueName[choice]);
+			}
 		}
 	}
 }
 
-void Menu::add_Edit(string Brand)
+int Menu::add_Edit(string brand)
 {
-
+	vector<int> index; // this vector save the index of each element in store which same brand as my current brand
+	int x = 40, y = 5;
+	system("cls");
+	int length = 0;
+	for (int i = 0; i < main_data.getNum(); i++) {
+		if (main_data[i].compare_with_brand(brand)) {
+			main_data[i].COUT_NAME(y, x, x, White);
+			y += 5;
+			index.push_back(i);
+			length++;
+		}
+	}
+	length--;
+	x = 10;
+	y = 5;
+	// move 
+	int Index = 0;
+	string Arrow = "-->";
+	string deleteArrow = "   ";
+	gotoxy(x, y); cout << Arrow;
+	char c;
+	do {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(x, y); cout << deleteArrow;
+			if (y == 5) {
+				y = length * 5 + 5;
+				Index = length;
+				gotoxy(x, y); cout << Arrow;
+			}
+			else {
+				y -= 5;
+				Index--;
+				gotoxy(x, y); cout << Arrow;
+			}
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(x, y); cout << deleteArrow;
+			if (y >= length * 5 + 5) {
+				y = 5;
+				Index = 0;
+				gotoxy(x, y); cout << Arrow;
+			}
+			else {
+				y += 5;
+				Index++;
+				gotoxy(x, y); cout << Arrow;
+			}
+		}
+		if ((int)c == KEY_ENTER) {
+			cout << Index;
+		}
+	} while ((int)c != KEY_ESC);
+	return 1;
 }
+
+void Menu::edit(string name)
+{
+	// kh co ham r sao edit day
+}
+
+void Menu::New()
+{
+	// mat ham new smartphone
+}
+

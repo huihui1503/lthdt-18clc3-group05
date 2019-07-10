@@ -1,4 +1,6 @@
 #include "Store.h"
+double Store::Sum=0;
+
 //******************************************************* DON'T TOUCH *********************************************************************************************************************************
 //____________________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -70,20 +72,28 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	arrSmartphones[i].output_Basic();
 }
 
-/*++*/int Store::findSmartphone(string ID)
+/*++*/int Store::findSmartphone(vector<Smartphone>&temp,string ID)
 {
-	for (int i = 0; i < num; i++)
-		if (arrSmartphones[i].compare_with_id(ID))
+	if (temp.empty()) return -1;
+	for (int i = 0; i < temp.size(); i++)
+	{
+		if (temp[i].compare_with_id(ID))
 			return i;
+	}
 	return -1;
 }
 
 /*++*/bool Store::Sell_A_Smartphone(string ID)
 {
-	int k = findSmartphone(ID);
-	if (k < 0)
-		return false;
-	return arrSmartphones[k].Sell_Smartphone();
+	int k = findSmartphone(arrSmartphones,ID);
+	if (k < 0) return false;
+	bool check = arrSmartphones[k].Sell_Smartphone();
+	if (check)
+	{
+		Add_To_Bags(arrSmartphones[k]);
+		arrSmartphones[k].Add_to_Sum(Sum);
+	}
+	return check;
 }
 
 /*++*/void Store::AddNewSmartphone_From_keyboard()
@@ -91,6 +101,67 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	Smartphone tmp;
 	cin >> tmp;
 	arrSmartphones.push_back(tmp);
+}
+
+/*++*/bool Store::Decrease_Quantity(string ID)
+{
+	int k = findSmartphone(Bags, ID);
+	if (k >= 0)
+	{
+		if (Bags[k].Decrease_StockLevel(1))
+		{
+			int pos = findSmartphone(arrSmartphones, ID);
+			arrSmartphones[pos].Increase_StockLevel(1);
+			arrSmartphones[pos].Remove_from_Sum(Sum);
+			return true;
+		}
+	}
+	return false;
+}
+
+/*++*/void Store::Add_To_Bags(Smartphone& temp)
+{
+	int k = findSmartphone(Bags, temp.Get_ID());
+	if (k < 0 || Bags.empty())
+	{
+		Bags.push_back(temp);
+		Bags[Bags.size()-1].Set_StockLevel(1);
+	}
+	else
+	{
+		Bags[k].Increase_StockLevel(1);
+	}
+}
+
+/*++*/bool Store::Reset_Bags()
+{
+	if (Bags.empty()) return true;
+	for (auto i = 0; i < Bags.size(); i++)
+	{
+		int k= findSmartphone(arrSmartphones, Bags[i].Get_ID());
+		arrSmartphones[k].Increase_StockLevel(Bags[i].Get_StockLevel());
+	}
+	Bags.clear();
+	Sum = 0;
+	return true;
+}
+
+/*++*/bool Store::Print_Bill_On_Console()
+{
+	textcolor(White);
+	int x = 84;
+	int y = 5;
+	for (auto i = 0; i < Bags.size(); i++)
+	{
+		if (Bags[i].Check_On_Console(x,y))
+		{
+			y += 1;
+		}
+	}
+	gotoxy(x,y); cout <<"---------------------------------";
+	textcolor(Red);
+	gotoxy(x + 15, y + 1); cout << "Total: "; printf("%.f", Sum);
+	return true;
 }
 
 /*++*/istream& operator>>(istream& is, Store& p)
@@ -149,6 +220,7 @@ void Store::Output_Bill()
 }
 
 
+<<<<<<< HEAD:lthdt-18clc3-group05-master/Group05/Store.cpp
 	bool Store::Sell_Bags()
 	{
 		string ID = " ";
@@ -161,6 +233,19 @@ void Store::Output_Bill()
 			catch (const char tmp) {
 				cout << tmp;
 			}
+=======
+bool Store::Sell_Bags()
+{
+	string ID = " ";
+	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
+	while (ID.compare("0") != 0) {
+		cin >> ID;
+		try {
+			Bags.push_back(this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)]);
+		}
+		catch (const char tmp) {
+			cout << tmp;
+>>>>>>> 87056e413f17ca58411f2df07cbf832d3fa56ce2:lthdt-18clc3-group05-master/lthdt-18clc3-group05-master/Group05/Store.cpp
 		}
 		cout << "Your bags include: " << endl;
 		for (size_t i = 0; i < Bags.size(); i++) {
@@ -217,6 +302,17 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
 		fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
+		/////  Restricted area ////////
+		if (Count_Brand.size() == 0) Count_Brand.push_back(v[0]);
+		else
+		{
+			for (int i = 0; i < Count_Brand.size(); i++)\
+			{
+				if (v[0] == Count_Brand[i]) break;
+				if (i == Count_Brand.size() - 1) Count_Brand.push_back(v[0]);
+			}
+		}
+		//////////////////////////////////////////////////////////
 		a.Add_Basic_Attributes(id, name, v[0], pb, ps, ori, sl);
 		arrSmartphones.push_back(a);
 	}
@@ -250,7 +346,7 @@ bool Store::changeDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
 	try {
-		this->arrSmartphones[this->findSmartphone(ID)] = tmp;
+		this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)] = tmp;
 	}
 	catch (const char fail){
 		cout << fail;
@@ -323,6 +419,20 @@ bool Store::Load_Data_from_file()
 
 
 // Seller Function of Hui
+void Store::Draw_Phone_of_Brand(string brand,vector<Smartphone>&temp)
+{
+	int y = 5;
+	for (int i = 0; i < arrSmartphones.size(); i++)
+	{
+		if (arrSmartphones[i].compare_with_brand(brand))
+		{
+			arrSmartphones[i].COUT_NAME(y,1,80,White); 
+			temp.push_back(arrSmartphones[i]);
+			y += 5;
+		}
+	}
+}
+
 int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
@@ -343,4 +453,18 @@ int Store::Draw_Brand_For_Choice()
 		}
 	}
 	return Count_Brand.size();
+}
+
+void Store::Effect_of_Move(int pos,vector<Smartphone>temp)
+{
+	temp[pos].COUT_NAME(pos*5+5, 1, 80, Cyan);
+	textcolor(Cyan);
+	gotoxy(1, pos * 5 + 5);
+	cout << "   |";
+	gotoxy(1, pos * 5 + 6);
+	cout << "---+---";
+	gotoxy(1, pos * 5 + 7);
+	cout << "   |";
+	gotoxy(73, pos * 5 + 6);
+	cout << "=======";
 }
