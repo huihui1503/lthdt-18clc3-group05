@@ -15,6 +15,10 @@ public:
 	void Seller_Move();
 	void Master_Move();
 	void Choice_For_Sell(string chosen_brand);
+	//Filter
+	void Advanced_Filter();
+	string Show_Option_In_Filter( int y,int current, int& value);
+	int Move_in_Filter( int current,int y, vector<string>content);
 	int add_Edit(string brand);
 	void About_Us();
 	void Exit();
@@ -23,7 +27,7 @@ public:
 	int Login();
 	void Print_FlashScreen();
 	void Start_System();
-	void edit(string name);
+	void edit(int Index);
 	void New();
 	Menu();
 	~Menu();

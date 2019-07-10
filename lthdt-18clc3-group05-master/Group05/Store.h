@@ -17,8 +17,8 @@ public:
 	Smartphone & operator[](int index);
 	int getNum() { return num; }
 public: // Xuat hoa don
-	void Input_Storage(const Smartphone& smp);
-	void Output_Bill();
+	bool Input_Storage(Smartphone& smp); //Nhap vao kho
+	bool Output_Bill(string name, double change);
 public:
 	//MASTER
 	void output_Basic(int i);
@@ -42,6 +42,7 @@ public: // Xu li nghiep vu
 	bool Decrease_Quantity(string ID);
 	bool Reset_Bags();
 	bool Print_Bill_On_Console();
+	void addNewSmartphone(Smartphone tmp);
 	//Seller Function of Hui
 	int Draw_Brand_For_Choice();
 	void Draw_Phone_of_Brand(string brand, vector<Smartphone>&temp);

@@ -1,5 +1,5 @@
 #include "Store.h"
-double Store::Sum=0;
+double Store::Sum = 0;
 
 //******************************************************* DON'T TOUCH *********************************************************************************************************************************
 //____________________________________________________________________________________________________________________________________________________________________________________________________
@@ -29,8 +29,8 @@ double Store::Sum=0;
 /*++*/void Store::Display_All_Advanced()
 {
 	Table_Expand(num);
-	for (int i = 0; i < 2*num; i+=2) {
-		arrSmartphones[i/2].Display_Expand(i);
+	for (int i = 0; i < 2 * num; i += 2) {
+		arrSmartphones[i / 2].Display_Expand(i);
 	}
 }
 
@@ -72,7 +72,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	arrSmartphones[i].output_Basic();
 }
 
-/*++*/int Store::findSmartphone(vector<Smartphone>&temp,string ID)
+/*++*/int Store::findSmartphone(vector<Smartphone>& temp, string ID)
 {
 	if (temp.empty()) return -1;
 	for (int i = 0; i < temp.size(); i++)
@@ -85,7 +85,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 
 /*++*/bool Store::Sell_A_Smartphone(string ID)
 {
-	int k = findSmartphone(arrSmartphones,ID);
+	int k = findSmartphone(arrSmartphones, ID);
 	if (k < 0) return false;
 	bool check = arrSmartphones[k].Sell_Smartphone();
 	if (check)
@@ -125,7 +125,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	if (k < 0 || Bags.empty())
 	{
 		Bags.push_back(temp);
-		Bags[Bags.size()-1].Set_StockLevel(1);
+		Bags[Bags.size() - 1].Set_StockLevel(1);
 	}
 	else
 	{
@@ -138,7 +138,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	if (Bags.empty()) return true;
 	for (auto i = 0; i < Bags.size(); i++)
 	{
-		int k= findSmartphone(arrSmartphones, Bags[i].Get_ID());
+		int k = findSmartphone(arrSmartphones, Bags[i].Get_ID());
 		arrSmartphones[k].Increase_StockLevel(Bags[i].Get_StockLevel());
 	}
 	Bags.clear();
@@ -153,15 +153,20 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	int y = 5;
 	for (auto i = 0; i < Bags.size(); i++)
 	{
-		if (Bags[i].Check_On_Console(x,y))
+		if (Bags[i].Check_On_Console(x, y))
 		{
 			y += 1;
 		}
 	}
-	gotoxy(x,y); cout <<"---------------------------------";
+	gotoxy(x, y); cout << "---------------------------------";
 	textcolor(Red);
 	gotoxy(x + 15, y + 1); cout << "Total: "; printf("%.f", Sum);
 	return true;
+}
+
+void Store::addNewSmartphone(Smartphone tmp)
+{
+	arrSmartphones.push_back(tmp);
 }
 
 /*++*/istream& operator>>(istream& is, Store& p)
@@ -184,88 +189,114 @@ Store::~Store()
 {
 }
 
-Smartphone & Store::operator[](int index)
+Smartphone& Store::operator[](int index)
 {
 	if (index >= this->num || index < 0) throw "invalid index";
 	return this->arrSmartphones[index];
 }
 
 //**********************************************************************TRANSACTION**********************************************************************************************************
-void Store::Input_Storage(const Smartphone& smp) // Nhap vao lich su mua ban
+bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 {
 	ofstream fout("a");
 	Date today;
 	string fileName = today.ToString() + ".txt";
 	fout.open(fileName);
-	if(!fout.is_open())
+	if (!fout.is_open())
 	{
-		return;
+		return false;
 	}
 	else
 	{
-	//	fout << today.ToString() << ","<< smp.ToStringFile;
+		fout << today.ToString() << "," << smp.ToStringBill();
 	}
+	return true;
 }
 
-void Store::Output_Bill()
+bool Store::Output_Bill(string name, double money)
 {
-	int total = 0;
-	cout << "Bill of you: " << endl;
-	for(int i = 0; i < Bags.size(); i++)
+	Date today;
+	string fileName = today.ToString() + ".txt";
+	ofstream fout;
+	fout.open(fileName);
+	if (!fout.is_open())
 	{
-		cout << Bags[i] << endl;
-		total += Bags[i].PriceBuy();
+		return false;
 	}
-	cout << "Total cost you have to pay: " << total;
+	else
+	{
+		fout << today.ToString() << "," << name << ":" << endl;
+		for (int i = 0; i < Bags.size(); i++)
+		{
+			fout << Bags[i].ToStringBill();
+			fout << endl;
+		}
+
+		double total = Calc_Total_Cost(Bags);
+		fout << "Have to pay: " << total << endl;
+		fout << "Receive your money: " << money << endl;
+		fout << "Give back your change: " << money - total << endl;
+		fout << "Thank for using my service";
+	}
+	return true;
 }
 
 
-<<<<<<< HEAD:lthdt-18clc3-group05-master/Group05/Store.cpp
-	bool Store::Sell_Bags()
-	{
-		string ID = " ";
-		cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
-		while (ID.compare("0") != 0) {
-			cin >> ID;
-			try {
-				Bags.push_back(this->arrSmartphones[this->findSmartphone(ID)]);
-			}
-			catch (const char tmp) {
-				cout << tmp;
-			}
-=======
 bool Store::Sell_Bags()
 {
-	string ID = " ";
-	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
-	while (ID.compare("0") != 0) {
-		cin >> ID;
-		try {
-			Bags.push_back(this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)]);
-		}
-		catch (const char tmp) {
-			cout << tmp;
->>>>>>> 87056e413f17ca58411f2df07cbf832d3fa56ce2:lthdt-18clc3-group05-master/lthdt-18clc3-group05-master/Group05/Store.cpp
-		}
-		cout << "Your bags include: " << endl;
-		for (size_t i = 0; i < Bags.size(); i++) {
-			cout << Bags[i] << endl;
-		}
-		cout << "Are you sure you want to pay: (Y: yes, N: no)";
-		cin.ignore();
-		char c = _getch();
-		if (c == 'y' || 'Y') {
-			for (size_t i = 0; i < Bags.size(); i++) {
-				this->arrSmartphones[i].Sell_Smartphone();
+				string name;
+				long money;
+				double total = Calc_Total_Cost(Bags);
 
-			}
-		}
-		cout << endl;
-		return true;
-	}
+				cout << "Your bags include: " << endl;
+				for (size_t i = 0; i < Bags.size(); i++) {
+					Bags[i].Display_Basic(0);
+				}
 
+				cout << "You have to pay: " << total << endl;
 
-bool Store::Input_New_Data_from_file(string Filename, string info) 
+				cout << "Are you sure you want to pay: (Y: yes, N: no)";
+				cin.ignore();
+				char c = _getch();
+				if (c == 'y' || 'Y') {
+					cout << "Input your name: ";
+					cin >> name;
+					cout << "Receive money from you: ";
+					cin >> money;
+					do
+					{
+						cout << "Your change is: " << money - total << endl;
+						if ((money - total) < 0)
+						{
+							cout << "Not enough, please pay more" << endl;
+						}
+					} while (money < total);
+
+					cout << "Are you sure you want print bill: (Y: yes, N: no)";
+					cin.ignore();
+					char c = _getch();
+					if (c == 'y' || 'Y') {
+						if (Output_Bill(name, money))
+						{
+							cout << "Print bill successfully";
+						}
+					}
+					cout << endl;
+					return true;
+				}
+				cout << "Thank for coming my shop, see you again" << endl;
+
+				for (auto i = 0; i < Bags.size(); i++) // ADD TO STORAGE
+				{
+					Input_Storage(Bags[i]);
+				}
+
+				if (Reset_Bags()) //Reset bags
+				{
+					return true;
+				}
+}
+bool Store::Input_New_Data_from_file(string Filename, string info)
 {
 	ifstream fin1(Filename);
 	if (!fin1.is_open()) {
@@ -274,7 +305,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	string tmp;
 
 	int count = 0;
-	
+
 	while (!fin1.eof())
 	{
 		tmp = fin1.get();
@@ -298,7 +329,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, ',');            name = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
-		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
+		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
 		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
 		fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
@@ -329,12 +360,12 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	string screen;
 	for (int i = k; i < num; i++)
 	{
- 		fin2.getline(tmp1, 1000, ',');           name = string(tmp1);
- 		fin2.getline(tmp1, 1000, ',');           id = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');           name = string(tmp1);
+		fin2.getline(tmp1, 1000, ',');           id = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');            ram = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');            rom = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
-		fin2.getline(tmp1, 1000, '.');       	 screen= string(tmp1);
+		fin2.getline(tmp1, 1000, '.');       	 screen = string(tmp1);
 		fin2.ignore();
 		arrSmartphones[i].Add_Advanced_Attributes(ram, rom, battery, screen);
 	}
@@ -346,9 +377,9 @@ bool Store::changeDataSmartPhone(string ID) {
 	Smartphone tmp;
 	cin >> tmp;
 	try {
-		this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)] = tmp;
+		this->arrSmartphones[this->findSmartphone(arrSmartphones, ID)] = tmp;
 	}
-	catch (const char fail){
+	catch (const char fail) {
 		cout << fail;
 		return false;
 	}
@@ -362,7 +393,7 @@ bool Store::Save_All_Data()
 		fout << arrSmartphones[i].ToStringFile_Expand() << endl;
 	fout.close();
 	return true;
-	
+
 }
 
 bool Store::Load_Data_from_file()
@@ -419,14 +450,14 @@ bool Store::Load_Data_from_file()
 
 
 // Seller Function of Hui
-void Store::Draw_Phone_of_Brand(string brand,vector<Smartphone>&temp)
+void Store::Draw_Phone_of_Brand(string brand, vector<Smartphone>& temp)
 {
 	int y = 5;
 	for (int i = 0; i < arrSmartphones.size(); i++)
 	{
 		if (arrSmartphones[i].compare_with_brand(brand))
 		{
-			arrSmartphones[i].COUT_NAME(y,1,80,White); 
+			arrSmartphones[i].COUT_NAME(y, 1, 80, White);
 			temp.push_back(arrSmartphones[i]);
 			y += 5;
 		}
@@ -441,7 +472,7 @@ int Store::Draw_Brand_For_Choice()
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
-		gotoxy(x + 4, y + 3); cout << Count_Brand[i-1];
+		gotoxy(x + 4, y + 3); cout << Count_Brand[i - 1];
 		if (i % 3 == 0)
 		{
 			x = 8;
@@ -452,12 +483,15 @@ int Store::Draw_Brand_For_Choice()
 			x += 25;
 		}
 	}
+	Draw_Box(x, y, 5, 15, White);
+	textcolor(DarkCyan);
+	gotoxy(x + 4, y + 3); cout <<"Filter";
 	return Count_Brand.size();
 }
 
-void Store::Effect_of_Move(int pos,vector<Smartphone>temp)
+void Store::Effect_of_Move(int pos, vector<Smartphone>temp)
 {
-	temp[pos].COUT_NAME(pos*5+5, 1, 80, Cyan);
+	temp[pos].COUT_NAME(pos * 5 + 5, 1, 80, Cyan);
 	textcolor(Cyan);
 	gotoxy(1, pos * 5 + 5);
 	cout << "   |";

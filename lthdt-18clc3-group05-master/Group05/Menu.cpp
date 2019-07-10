@@ -321,8 +321,8 @@ Done:
  
 void Menu::Seller_Move()
 {
-Done:
 	system("cls");
+Done:
 	textcolor(White);
 	for (int i = 0; i <= 40; i++)
 	{
@@ -330,6 +330,7 @@ Done:
 		cout << "|$|";
 	}
 	int move=main_data.Draw_Brand_For_Choice();
+	move += 1;// for advance filter
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
@@ -392,12 +393,174 @@ Done:
 		case KEY_ENTER:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			Choice_For_Sell(main_data.Count_Brand[current]);
+			if (current < move-1)
+			{
+				Choice_For_Sell(main_data.Count_Brand[current]);
+			}
+			else
+			{
+				Advanced_Filter();
+				system("cls");
+			}
+			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
 			goto Done;
 			break;
 		}
 	}
 	main_data.Reset_Bags();
+}
+
+void Menu::Advanced_Filter()
+{
+	system("cls");
+	// Draw effect
+	int xBox = 40, yBox = 5;
+	Draw_Box(37, 4, 25, 43, 25);// big box
+	for (int i = 0; i <= 4; i++)
+	{
+		Draw_Box(xBox, 7 + i * 5, 1, 37, White);
+	}
+	int x = 42;
+	textcolor(Cyan);
+	gotoxy(x, 6); cout << "Brand";
+	gotoxy(x, 11); cout << "Price";
+	gotoxy(x, 16); cout << "Ram";
+	gotoxy(x, 21); cout << "Rom";
+	gotoxy(x, 26); cout << "Battery";
+	textcolor(White);
+	for (int i = 0; i <= 4; i++)
+	{
+		gotoxy(x + 1, 8 + 5 * i); cout << "None";
+	}
+	textcolor(Red);
+	gotoxy(51, 2); cout << "Advanced Filter";
+	Draw_Box(4, 12, 7, 31, White);
+	textcolor(Red); gotoxy(6, 13); cout << "* Notes:";
+	textcolor(White); gotoxy(6, 15); cout << "[i]: Press Shift + F to find";
+	gotoxy(6, 17); cout << "[i]: Esc to exit";
+	// Operate
+	string content = "";
+	int value = 0;//postion of option in array
+	int array[5];//options
+	int current = 0;// current position
+	for (int i = 0; i < 5; i++) array[i] = 0;
+	char key='.';
+	while (int(key) != KEY_ESC)
+	{
+		Draw_Box(xBox, 7 + current * 5, 1, 37, Pink); textcolor(White); gotoxy(xBox + 33, 8 + current * 5); cout << "=>";
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_RIGHT:
+			if (current != 4 && current != 3) content=Show_Option_In_Filter(7 + current * 5, current, value);
+			else if (current == 4) content = Show_Option_In_Filter(7 + current * 5 - 6, current, value);
+			else if (current == 3) content = Show_Option_In_Filter(7 + current * 5 - 8, current, value);
+			array[current] = value;
+			gotoxy(x + 1, 8 + 5 * current); cout << "                                  ";
+			textcolor(White);
+			gotoxy(x + 1, 8 + 5 * current); cout << content;
+			Delete_On_Console(82, 5, 110, 30);
+			break;
+		case KEY_UP:
+			Draw_Box(xBox, 7 + current * 5, 1, 37, White); gotoxy(xBox + 33, 8 + current * 5); cout << "  ";
+			current -= 1;
+			if (current < 0) current = 4;
+			break;
+		case KEY_DOWN:
+			Draw_Box(xBox, 7 + current * 5, 1, 37, White);gotoxy(xBox + 33, 8 + current * 5); cout << "  ";
+			current += 1;
+			if (current > 4) current = 0;
+			break;
+		}
+	}
+}
+
+string Menu::Show_Option_In_Filter(int y,int current,int&value)
+{
+	vector<string> temp;
+	temp.push_back("None");
+	if (current == 1)
+	{
+		temp.push_back("Under 6M VND");
+		temp.push_back("From 6M to 15M VND");
+		temp.push_back("Over 15M VND");
+	}
+	else if (current == 2)
+	{
+		temp.push_back("Under 4GB");
+		temp.push_back("From 4GB to 10GB");
+		temp.push_back("Over 10GB");
+	}
+	else if (current == 3)
+	{
+		temp.push_back("32GB");
+		temp.push_back("64GB");
+		temp.push_back("128GB");
+		temp.push_back("Over 128GB");
+	}
+	else if(current==4)
+	{
+		temp.push_back("Under 3500 mAh");
+		temp.push_back("From 3500 mAh to 5000 mAh");
+		temp.push_back("Over 5000 mAh");
+	}
+	switch (current)
+	{
+	case 0:
+		for (int i = 0; i < main_data.Count_Brand.size(); i++) temp.push_back(main_data.Count_Brand[i]);
+		value= Move_in_Filter(0,y,temp);
+		break;
+	case 1:
+		value= Move_in_Filter(0, y, temp);
+		break;
+	case 2:
+		value= Move_in_Filter(0, y, temp);
+		break;
+	case 3:
+		value = Move_in_Filter(0, y, temp);
+		break;
+	case 4:
+		value = Move_in_Filter(temp.size()-1, y, temp);
+		break;
+	}
+	return temp[value];
+}
+
+int Menu::Move_in_Filter(int current,int y,vector<string>content)
+{
+	for (int i = 0; i < content.size(); i++)
+	{
+		textcolor(White);
+		gotoxy(85, y + 1 + i * 2); cout << content[i];
+	}
+	int x = 80;
+	int max = content.size()-1;
+	char key = '.';
+	while (int(key) != KEY_ESC)
+	{
+		textcolor(Pink);
+		gotoxy(85, y + 1 + current * 2); cout << content[current];
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_UP:
+			textcolor(White);
+			gotoxy(85, y + 1 + current * 2); cout << content[current];
+			current -= 1;
+			if (current < 0) current = max;
+			break;
+		case KEY_DOWN:
+			textcolor(White);
+			gotoxy(85, y + 1 + current * 2); cout << content[current];
+			current += 1;
+			if (current > max) current = 0;
+			break;
+		case KEY_ENTER:
+			return current;
+			break;
+		}
+	}
+	return -1;
 }
 
 void Menu::Choice_For_Sell(string chosen_brand)
@@ -525,19 +688,22 @@ Menu::~Menu()
 bool checkIfUnique(vector<string> unique, string input) {
 	if (unique.size() == 0) return true;
 	for (size_t i = 0; i < unique.size(); i++) {
-		if (input.compare(unique[i]) == 0) return false;
+		if (input == unique[i]) return false;
 	}
 	return true;
 } // this will check the logo if it existed or not 
 
 void Menu::Master_Move() { // call when login returned 1
-	vector<string> uniqueName; // argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
+	vector<string> uniqueName;
+link: {
+	uniqueName.erase(uniqueName.begin(), uniqueName.end());
+	system("cls");
+	// argument to get unique logo for example "Samsung" "Iphone" "Xiaomi" "Asus"
 	for (int i = 0; i < main_data.getNum(); i++) {
 		if (checkIfUnique(uniqueName, main_data[i].getbrand()))
 			uniqueName.push_back(main_data[i].getbrand());
 	}
 	//end of unique
-	system("cls");
 	//go for interface
 	int x = 10, y = 5;
 	int count = 1; // if count = 3 endline and draw another box
@@ -545,18 +711,17 @@ void Menu::Master_Move() { // call when login returned 1
 		Draw_Box(x, y, 3, 12, Yellow);
 		gotoxy(x + 2, y + 2);
 		cout << uniqueName[i];
-		if (count == 3) {
+ 		if (count == 3) {
 			y += 8;
 			x = 10;
 			count = 0;
 		}
 		else {
 			x += 20;
-			y = 5;
+
 		}
 		count++;
 	}
-	y += 8;
 	Draw_Box(x, y, 3, 12, Yellow);
 	gotoxy(x + 2, y + 2);
 	cout << "  New"; // the new box
@@ -582,7 +747,7 @@ void Menu::Master_Move() { // call when login returned 1
 	x = 10;
 	y = 5;
 	Draw_Box(x, y, 3, 12, Cyan);
-	
+
 	gotoxy(x, y);
 
 	int choice = 0; // choice implement another interface
@@ -613,7 +778,7 @@ void Menu::Master_Move() { // call when login returned 1
 			int xa = x, ya = y;
 			if (x >= 50) {
 				x = 10;
-				choice-= 2;
+				choice -= 2;
 			}
 			else {
 				x += 20;
@@ -670,13 +835,22 @@ void Menu::Master_Move() { // call when login returned 1
 		if (int(c) == 13) { // enter 
 			if (choice != uniqueName.size()) {
 				add_Edit(uniqueName[choice]);
+				system("cls");
+			}
+			else {
+				New();
+				system("cls");
+			}
+				goto link;
+				break;
 			}
 		}
 	}
 }
 
-int Menu::add_Edit(string brand)
-{
+
+int Menu::add_Edit(string brand){
+link: {
 	vector<int> index; // this vector save the index of each element in store which same brand as my current brand
 	int x = 40, y = 5;
 	system("cls");
@@ -727,19 +901,167 @@ int Menu::add_Edit(string brand)
 			}
 		}
 		if ((int)c == KEY_ENTER) {
-			cout << Index;
+			edit(Index);
+			goto link;
+			break;
 		}
 	} while ((int)c != KEY_ESC);
 	return 1;
+	}
 }
 
-void Menu::edit(string name)
+void Menu::edit(int Index)
 {
-	// kh co ham r sao edit day
+	system("cls");
+	string inf = main_data[Index].ToString();
+	vector<string> data = Tokenizer::Parse(inf, ",");
+	gotoxy(20, 1);
+	textcolor(Gray); cout << "to edit press enter, exit press ESC" << endl;
+	int xBox = 13, yBox = 5;
+	Draw_Box(10, 4, 27, 43, 27);// big box
+	Draw_Box(xBox, 5, 1, 37, 11); // name
+	Draw_Box(xBox, 8, 1, 37, 11); // origin
+	Draw_Box(xBox, 11, 1, 37, 11);// price B
+	Draw_Box(xBox, 14, 1, 37, 11);// price S
+	Draw_Box(xBox, 17, 1, 37, 11);// ram
+	Draw_Box(xBox, 20, 1, 37, 11);// rom
+	Draw_Box(xBox, 23, 1, 37, 11);// battery
+	Draw_Box(xBox, 26, 1, 37, 11);// screen
+	Draw_Box(xBox, 29, 1, 37, 11);//stock
+	int x = 15, y = 6;
+	for (int i = 1; i < data.size(); i++) {
+		gotoxy(x, y);
+		textcolor(Yellow);
+		cout << data[i];
+		y += 3;
+	}
+	y = 6;
+	Draw_Box(xBox, y - 1, 1, 37, Red);
+	int index = 1;
+	gotoxy(x, y);
+	char c;
+	do {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			Draw_Box(xBox, y - 1, 1, 37, Cyan);
+			if (y == 6) {
+				y = 30;
+				index = 9;
+			}
+			else {
+				y -= 3;
+				index--;
+			}
+			Draw_Box(xBox, y - 1, 1, 37, Red);
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_DOWN) {
+			Draw_Box(xBox, y - 1, 1, 37, Cyan);
+			if (y >= 30) {
+				y = 6;
+				index = 1;
+			}
+			else {
+				y += 3;
+				index++;
+			}
+			Draw_Box(xBox, y - 1, 1, 37, Red);
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_ENTER) {
+			cout << "                                  ";
+			gotoxy(x, y);
+			textcolor(Yellow);
+			char tmp[100];
+			gets_s(tmp);
+			data[index] = (string)tmp;
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_ESC) break;
+	} while (1);
+	Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
+	main_data[Index] = tmp;
 }
 
 void Menu::New()
 {
-	// mat ham new smartphone
+	system("cls");
+	gotoxy(20, 1);
+	textcolor(Gray); cout << "to edit press enter, exit press ESC" << endl;
+	int xBox = 13, yBox = 5;
+	Draw_Box(10, 4, 27, 43, 27);// big box
+	Draw_Box(xBox, 5, 1, 37, 11); // name
+	Draw_Box(xBox, 8, 1, 37, 11); // origin
+	Draw_Box(xBox, 11, 1, 37, 11);// price B
+	Draw_Box(xBox, 14, 1, 37, 11);// price S
+	Draw_Box(xBox, 17, 1, 37, 11);// ram
+	Draw_Box(xBox, 20, 1, 37, 11);// rom
+	Draw_Box(xBox, 23, 1, 37, 11);// battery
+	Draw_Box(xBox, 26, 1, 37, 11);// screen
+	Draw_Box(xBox, 29, 1, 37, 11);//stock
+	int x = 15, y = 6;
+	gotoxy(x, y); cout << "# Name"; y += 3;
+	gotoxy(x, y); cout << "# Origin"; y += 3;
+	gotoxy(x, y); cout << "# Price buy"; y += 3;
+	gotoxy(x, y); cout << "# Price sell"; y += 3;
+	gotoxy(x, y); cout << "# Ram"; y += 3;
+	gotoxy(x, y); cout << "# Rom"; y += 3;
+	gotoxy(x, y); cout << "# Battery"; y += 3;
+	gotoxy(x, y); cout << "# Screen"; y += 3;
+	gotoxy(x, y); cout << "# Stock"; y += 3;
+	y = 6; gotoxy(x, y);
+	string data[9];
+	int index = 1;
+	char c;
+	do {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			Draw_Box(xBox, y - 1, 1, 37, Cyan);
+			if (y == 6) {
+				y = 30;
+				index = 9;
+			}
+			else {
+				y -= 3;
+				index--;
+			}
+			Draw_Box(xBox, y - 1, 1, 37, Red);
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_DOWN) {
+			Draw_Box(xBox, y - 1, 1, 37, Cyan);
+			if (y >= 30) {
+				y = 6;
+				index = 1;
+			}
+			else {
+				y += 3;
+				index++;
+			}
+			Draw_Box(xBox, y - 1, 1, 37, Red);
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_ENTER) {
+			cout << "                                  ";
+			gotoxy(x, y);
+			textcolor(Yellow);
+			char tmp[100];
+			gets_s(tmp);
+			data[index] = (string)tmp;
+			gotoxy(x, y);
+		}
+		if ((int)c == KEY_ESC) break;
+	} while (1);
+	int r = rand() % 99999 + 100000;
+	char ran[10];
+	_itoa_s(r, ran, 10);
+	for (size_t i = 0; i < main_data.getNum(); i++) {
+		while(main_data[i].compare_with_id((string)ran)) {
+			int r = rand() % 99999 + 100000;
+			_itoa_s(r, ran, 10);
+		}
+	}
+	data[0] = (string)ran;
+	Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
+	main_data.addNewSmartphone(tmp);
 }
-
