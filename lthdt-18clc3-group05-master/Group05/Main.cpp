@@ -1,7 +1,6 @@
 #include<iostream>
 #include"Store.h"
 #include<vector>
-//#include"Dohoa.h"
 #include"Menu.h"
 using namespace std;
 int Store::num = 0;
