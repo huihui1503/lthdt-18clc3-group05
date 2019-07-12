@@ -330,7 +330,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
 		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
-		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
+		fin.getline(tmp1, 1000, '\n');			 sl = string(tmp1);
 		fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
 		/////  Restricted area ////////
@@ -365,7 +365,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin2.getline(tmp1, 1000, ',');            ram = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');            rom = string(tmp1);
 		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
-		fin2.getline(tmp1, 1000, '.');       	 screen = string(tmp1);
+		fin2.getline(tmp1, 1000, '\n');       	 screen = string(tmp1);
 		fin2.ignore();
 		arrSmartphones[i].Add_Advanced_Attributes(ram, rom, battery, screen);
 	}
