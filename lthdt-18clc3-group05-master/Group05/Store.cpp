@@ -164,6 +164,11 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 	return true;
 }
 
+void Store::addNewSmartphone(Smartphone tmp)
+{
+	arrSmartphones.push_back(tmp);
+}
+
 /*++*/istream& operator>>(istream& is, Store& p)
 {
 	int num;
@@ -217,36 +222,8 @@ void Store::Output_Bill()
 		total += Bags[i].PriceBuy();
 	}
 	cout << "Total cost you have to pay: " << total;
-}
 
 
-<<<<<<< HEAD:lthdt-18clc3-group05-master/Group05/Store.cpp
-	bool Store::Sell_Bags()
-	{
-		string ID = " ";
-		cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
-		while (ID.compare("0") != 0) {
-			cin >> ID;
-			try {
-				Bags.push_back(this->arrSmartphones[this->findSmartphone(ID)]);
-			}
-			catch (const char tmp) {
-				cout << tmp;
-			}
-=======
-bool Store::Sell_Bags()
-{
-	string ID = " ";
-	cout << "Enter your Smartphone's ID to add to your bags (0 to end of input): ";
-	while (ID.compare("0") != 0) {
-		cin >> ID;
-		try {
-			Bags.push_back(this->arrSmartphones[this->findSmartphone(arrSmartphones,ID)]);
-		}
-		catch (const char tmp) {
-			cout << tmp;
->>>>>>> 87056e413f17ca58411f2df07cbf832d3fa56ce2:lthdt-18clc3-group05-master/lthdt-18clc3-group05-master/Group05/Store.cpp
-		}
 		cout << "Your bags include: " << endl;
 		for (size_t i = 0; i < Bags.size(); i++) {
 			cout << Bags[i] << endl;
@@ -261,7 +238,6 @@ bool Store::Sell_Bags()
 			}
 		}
 		cout << endl;
-		return true;
 	}
 
 
@@ -278,7 +254,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 	while (!fin1.eof())
 	{
 		tmp = fin1.get();
-		if (tmp == ".")
+		if (tmp == "\n")
 			count++;
 	}
 	fin1.close();
@@ -299,7 +275,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, ',');       	 pb = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
 		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);			
-		fin.getline(tmp1, 1000, '.');			 sl = string(tmp1);
+		fin.getline(tmp1, 1000, '\n');			 sl = string(tmp1);
 		fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
 		/////  Restricted area ////////
@@ -370,14 +346,15 @@ bool Store::Load_Data_from_file()
 	ifstream fin1(File_Save_Expand);
 	if (!fin1.is_open())
 		return false;
-	string tmp;
 	int count = 0;
-	while (!fin1.eof())
+	string tmp;
+	while(!fin1.eof())
 	{
 		tmp = fin1.get();
-		if (tmp == ".")
+		if (tmp == "\n")
 			count++;
 	}
+	fin1.close();
 	int k = num;
 	num += count;
 	fin1.close();
@@ -409,8 +386,21 @@ bool Store::Load_Data_from_file()
 		fin.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
 		fin.getline(tmp1, 1000, '\n');       	 screen = string(tmp1);
 		fin.ignore();
+		vector<string> v = Tokenizer::Parse(name, " ");
+		/////  Restricted area ////////
+		if (Count_Brand.size() == 0) Count_Brand.push_back(v[0]);
+		else
+		{
+			for (int i = 0; i < Count_Brand.size(); i++)\
+			{
+				if (v[0] == Count_Brand[i]) break;
+				if (i == Count_Brand.size() - 1) Count_Brand.push_back(v[0]);
+			}
+		}
+		//////////////////////////////////////////////////////////
+
 		a.Add_Basic_Attributes(id, name, brand, pb, ps, ori, sl);
-		a.Add_Advanced_Attributes(ram, rom, battery, screen);
+		a.Add_Advanced_Attributes(ram, rom, battery, screen);	
 		arrSmartphones.push_back(a);
 	}
 

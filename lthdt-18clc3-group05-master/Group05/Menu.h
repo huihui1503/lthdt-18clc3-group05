@@ -23,7 +23,7 @@ public:
 	int Login();
 	void Print_FlashScreen();
 	void Start_System();
-	void edit(string name);
+	void edit(int Index);
 	void New();
 	Menu();
 	~Menu();

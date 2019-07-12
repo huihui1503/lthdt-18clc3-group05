@@ -88,6 +88,7 @@ public:
 	}
 public:
 	Smartphone();
+	Smartphone(string id, string name, string origin, double price_b, double price_s, string ram, string rom, string battery, string screen, int stock);
 	Smartphone(const Smartphone& other);
 	~Smartphone();
 };
