@@ -321,8 +321,8 @@ Done:
  
 void Menu::Seller_Move()
 {
-Done:
 	system("cls");
+Done:
 	textcolor(White);
 	for (int i = 0; i <= 40; i++)
 	{
@@ -330,6 +330,7 @@ Done:
 		cout << "|$|";
 	}
 	int move=main_data.Draw_Brand_For_Choice();
+	move += 1;// for advance filter
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
@@ -392,12 +393,174 @@ Done:
 		case KEY_ENTER:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			Choice_For_Sell(main_data.Count_Brand[current]);
+			if (current < move-1)
+			{
+				Choice_For_Sell(main_data.Count_Brand[current]);
+			}
+			else
+			{
+				Advanced_Filter();
+				system("cls");
+			}
+			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
 			goto Done;
 			break;
 		}
 	}
 	main_data.Reset_Bags();
+}
+
+void Menu::Advanced_Filter()
+{
+	system("cls");
+	// Draw effect
+	int xBox = 40, yBox = 5;
+	Draw_Box(37, 4, 25, 43, 25);// big box
+	for (int i = 0; i <= 4; i++)
+	{
+		Draw_Box(xBox, 7 + i * 5, 1, 37, White);
+	}
+	int x = 42;
+	textcolor(Cyan);
+	gotoxy(x, 6); cout << "Brand";
+	gotoxy(x, 11); cout << "Price";
+	gotoxy(x, 16); cout << "Ram";
+	gotoxy(x, 21); cout << "Rom";
+	gotoxy(x, 26); cout << "Battery";
+	textcolor(White);
+	for (int i = 0; i <= 4; i++)
+	{
+		gotoxy(x + 1, 8 + 5 * i); cout << "None";
+	}
+	textcolor(Red);
+	gotoxy(51, 2); cout << "Advanced Filter";
+	Draw_Box(4, 12, 7, 31, White);
+	textcolor(Red); gotoxy(6, 13); cout << "* Notes:";
+	textcolor(White); gotoxy(6, 15); cout << "[i]: Press Shift + F to find";
+	gotoxy(6, 17); cout << "[i]: Esc to exit";
+	// Operate
+	string content = "";
+	int value = 0;//postion of option in array
+	int array[5];//options
+	int current = 0;// current position
+	for (int i = 0; i < 5; i++) array[i] = 0;
+	char key='.';
+	while (int(key) != KEY_ESC)
+	{
+		Draw_Box(xBox, 7 + current * 5, 1, 37, Pink); textcolor(White); gotoxy(xBox + 33, 8 + current * 5); cout << "=>";
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_RIGHT:
+			if (current != 4 && current != 3) content=Show_Option_In_Filter(7 + current * 5, current, value);
+			else if (current == 4) content = Show_Option_In_Filter(7 + current * 5 - 6, current, value);
+			else if (current == 3) content = Show_Option_In_Filter(7 + current * 5 - 8, current, value);
+			array[current] = value;
+			gotoxy(x + 1, 8 + 5 * current); cout << "                                  ";
+			textcolor(White);
+			gotoxy(x + 1, 8 + 5 * current); cout << content;
+			Delete_On_Console(82, 5, 110, 30);
+			break;
+		case KEY_UP:
+			Draw_Box(xBox, 7 + current * 5, 1, 37, White); gotoxy(xBox + 33, 8 + current * 5); cout << "  ";
+			current -= 1;
+			if (current < 0) current = 4;
+			break;
+		case KEY_DOWN:
+			Draw_Box(xBox, 7 + current * 5, 1, 37, White);gotoxy(xBox + 33, 8 + current * 5); cout << "  ";
+			current += 1;
+			if (current > 4) current = 0;
+			break;
+		}
+	}
+}
+
+string Menu::Show_Option_In_Filter(int y,int current,int&value)
+{
+	vector<string> temp;
+	temp.push_back("None");
+	if (current == 1)
+	{
+		temp.push_back("Under 6M VND");
+		temp.push_back("From 6M to 15M VND");
+		temp.push_back("Over 15M VND");
+	}
+	else if (current == 2)
+	{
+		temp.push_back("Under 4GB");
+		temp.push_back("From 4GB to 10GB");
+		temp.push_back("Over 10GB");
+	}
+	else if (current == 3)
+	{
+		temp.push_back("32GB");
+		temp.push_back("64GB");
+		temp.push_back("128GB");
+		temp.push_back("Over 128GB");
+	}
+	else if(current==4)
+	{
+		temp.push_back("Under 3500 mAh");
+		temp.push_back("From 3500 mAh to 5000 mAh");
+		temp.push_back("Over 5000 mAh");
+	}
+	switch (current)
+	{
+	case 0:
+		for (int i = 0; i < main_data.Count_Brand.size(); i++) temp.push_back(main_data.Count_Brand[i]);
+		value= Move_in_Filter(0,y,temp);
+		break;
+	case 1:
+		value= Move_in_Filter(0, y, temp);
+		break;
+	case 2:
+		value= Move_in_Filter(0, y, temp);
+		break;
+	case 3:
+		value = Move_in_Filter(0, y, temp);
+		break;
+	case 4:
+		value = Move_in_Filter(temp.size()-1, y, temp);
+		break;
+	}
+	return temp[value];
+}
+
+int Menu::Move_in_Filter(int current,int y,vector<string>content)
+{
+	for (int i = 0; i < content.size(); i++)
+	{
+		textcolor(White);
+		gotoxy(85, y + 1 + i * 2); cout << content[i];
+	}
+	int x = 80;
+	int max = content.size()-1;
+	char key = '.';
+	while (int(key) != KEY_ESC)
+	{
+		textcolor(Pink);
+		gotoxy(85, y + 1 + current * 2); cout << content[current];
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_UP:
+			textcolor(White);
+			gotoxy(85, y + 1 + current * 2); cout << content[current];
+			current -= 1;
+			if (current < 0) current = max;
+			break;
+		case KEY_DOWN:
+			textcolor(White);
+			gotoxy(85, y + 1 + current * 2); cout << content[current];
+			current += 1;
+			if (current > max) current = 0;
+			break;
+		case KEY_ENTER:
+			return current;
+			break;
+		}
+	}
+	return -1;
 }
 
 void Menu::Choice_For_Sell(string chosen_brand)

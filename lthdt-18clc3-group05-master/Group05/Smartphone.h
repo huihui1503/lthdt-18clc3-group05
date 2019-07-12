@@ -39,6 +39,7 @@ public:
 	void Display_Calc_Cost(int i);
 public:	
 	// METHOD
+	string ToStringBill();
 	string ToString();
 	string ToStringFile();
 	string ToStringFile_Expand();

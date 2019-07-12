@@ -17,8 +17,8 @@ public:
 	Smartphone & operator[](int index);
 	int getNum() { return num; }
 public: // Xuat hoa don
-	void Input_Storage(const Smartphone& smp);
-	void Output_Bill();
+	bool Input_Storage(Smartphone& smp); //Nhap vao kho
+	bool Output_Bill(string name, double change);
 public:
 	//MASTER
 	friend void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& arr);
