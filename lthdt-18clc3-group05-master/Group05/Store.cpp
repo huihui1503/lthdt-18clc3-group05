@@ -244,57 +244,57 @@ bool Store::Output_Bill(string name, double money)
 
 bool Store::Sell_Bags()
 {
-				string name;
-				long money;
-				double total = Calc_Total_Cost(Bags);
+	string name;
+	long money;
+	double total = Calc_Total_Cost(Bags);
 
-				cout << "Your bags include: " << endl;
-				for (size_t i = 0; i < Bags.size(); i++) {
-					Bags[i].Display_Basic(0);
-				}
+	cout << "Your bags include: " << endl;
+	for (size_t i = 0; i < Bags.size(); i++) {
+		Bags[i].Display_Basic(0);
+	}
 
-				cout << "You have to pay: " << total << endl;
+	cout << "You have to pay: " << total << endl;
 
-				cout << "Are you sure you want to pay: (Y: yes, N: no)";
-				cin.ignore();
-				char c = _getch();
-				if (c == 'y' || 'Y') {
-					cout << "Input your name: ";
-					cin >> name;
-					cout << "Receive money from you: ";
-					cin >> money;
-					do
-					{
-						cout << "Your change is: " << money - total << endl;
-						if ((money - total) < 0)
-						{
-							cout << "Not enough, please pay more" << endl;
-						}
-					} while (money < total);
+	cout << "Are you sure you want to pay: (Y: yes, N: no)";
+	cin.ignore();
+	char c = _getch();
+	if (c == 'y' || 'Y') {
+		cout << "Input your name: ";
+		cin >> name;
+		cout << "Receive money from you: ";
+		cin >> money;
+		do
+		{
+			cout << "Your change is: " << money - total << endl;
+			if ((money - total) < 0)
+			{
+				cout << "Not enough, please pay more" << endl;
+			}
+		} while (money < total);
 
-					cout << "Are you sure you want print bill: (Y: yes, N: no)";
-					cin.ignore();
-					char c = _getch();
-					if (c == 'y' || 'Y') {
-						if (Output_Bill(name, money))
-						{
-							cout << "Print bill successfully";
-						}
-					}
-					cout << endl;
-					return true;
-				}
-				cout << "Thank for coming my shop, see you again" << endl;
+		cout << "Are you sure you want print bill: (Y: yes, N: no)";
+		cin.ignore();
+		char c = _getch();
+		if (c == 'y' || 'Y') {
+			if (Output_Bill(name, money))
+			{
+				cout << "Print bill successfully";
+			}
+		}
+		cout << endl;
+		return true;
+	}
+	cout << "Thank for coming my shop, see you again" << endl;
 
-				for (auto i = 0; i < Bags.size(); i++) // ADD TO STORAGE
-				{
-					Input_Storage(Bags[i]);
-				}
+	for (auto i = 0; i < Bags.size(); i++) // ADD TO STORAGE
+	{
+		Input_Storage(Bags[i]);
+	}
 
-				if (Reset_Bags()) //Reset bags
-				{
-					return true;
-				}
+	if (Reset_Bags()) //Reset bags
+	{
+		return true;
+	}
 }
 bool Store::Input_New_Data_from_file(string Filename, string info)
 {
