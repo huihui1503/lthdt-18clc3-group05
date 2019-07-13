@@ -33,6 +33,31 @@ double Store::Sum = 0;
 		arrSmartphones[i / 2].Display_Expand(i);
 	}
 }
+void Store::Display_All_Calc_Cost()
+{
+	int n = 11 + 2* Bags.size();
+	Table_Calc_Cost(Bags.size());
+	for (int i = 0; i < 2 * Bags.size(); i += 2) {
+		Bags[i / 2].Display_Calc_Cost(i);
+	}
+	gotoxy(157, n - 5);
+	printf("%10.f",Calc_Total_Cost(Bags));
+	gotoxy(140, n - 5);
+	printf("%5d", Calc_Total_Stocklevel(Bags));
+	gotoxy(1, n+1);
+	cout << "DO YOU WANT TO SAVE THIS BILL ? (YES: Y, NO: N)" << endl;
+	char key = _getch();
+	if (key == 'Y')
+	{
+		long int  tmp;
+		string tmp1;
+		cout << "Enter Name of the customer: ";
+		getline(cin, tmp1,'\n');
+		cin >> tmp;
+		Output_Bill("TEMP",tmp);
+	}
+
+}
 
 void Store::Display_All_Basic()
 {
@@ -42,20 +67,13 @@ void Store::Display_All_Basic()
 	}
 }
 
-void Store::Display_All_Calc_Cost()
-{
-	Table_Calc_Cost(num);
-	for (int i = 0; i < 2 * num; i += 2) {
-		arrSmartphones[i / 2].Display_Calc_Cost(i);
-	}
-}
 
 void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& arr)
 {
 	stock = 0, total = 0;
 	for (int i = 0; i < arr.size(); i++)
 	{
-				//
+		//
 	}
 }
 

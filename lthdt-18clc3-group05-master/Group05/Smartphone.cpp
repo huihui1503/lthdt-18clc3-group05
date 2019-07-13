@@ -64,8 +64,17 @@ double Calc_Total_Cost(const vector<Smartphone>& p)
 {
 	double total = 0;
 	for (int i = 0; i < p.size(); i++)
-		total += p[i].Price_s;
+		total += p[i].Price_s*p[i].StockLevel;
 	return total;
+}
+
+int Calc_Total_Stocklevel(const vector<Smartphone>& p)
+{
+	int total = 0;
+	for (int i = 0; i < p.size(); i++)
+		total += p[i].StockLevel;
+	return total;
+
 }
 
 
@@ -177,7 +186,7 @@ void Smartphone::Display_Calc_Cost(int i)
 	cout << Name;
 
 	gotoxy(90, 6 + i);
-		
+	printf("%10.f", Price_s);
 
 	gotoxy(110, 6 + i);
 	cout << Origin;
@@ -189,7 +198,7 @@ void Smartphone::Display_Calc_Cost(int i)
 	cout << StockLevel;
 
 	gotoxy(157, 6 + i);
-	cout << StockLevel*Price_s;
+	printf("%10.f",StockLevel*Price_s);
 }
 
 /*++*/Smartphone::Smartphone()

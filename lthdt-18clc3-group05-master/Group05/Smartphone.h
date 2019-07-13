@@ -30,6 +30,7 @@ public:
 	Smartphone& operator = (const Smartphone& p);
 	friend ostream& operator<<(ostream& os, const Smartphone& p);
 	friend double Calc_Total_Cost(const vector<Smartphone>& p);
+	friend int Calc_Total_Stocklevel(const vector<Smartphone>& p);
 	friend istream& operator>>(istream& is, Smartphone& p);
 	vector<Smartphone>& operator -(vector<Smartphone>& p);
 	void output_Basic();
