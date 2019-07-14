@@ -367,7 +367,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
 		fin2.getline(tmp1, 1000, '\n');       	 screen = string(tmp1);
 		fin2.ignore();
-		arrSmartphones[i].Add_Advanced_Attributes(ram, rom, battery, screen);
+		arrSmartphones[i].Add_Advanced_Attributes( rom,ram, battery, screen);
 	}
 	fin2.close();
 	return true;
@@ -515,4 +515,42 @@ void Store::Effect_of_Move(int pos, vector<Smartphone>temp)
 	cout << "   |";
 	gotoxy(73, pos * 5 + 6);
 	cout << "=======";
+}
+
+void Store::Draw_Bag()
+{
+	for (int i = 0; i <= 40; i++)
+	{
+		gotoxy(80, 1 + i);
+		cout << "|$|";
+	}
+	textcolor(Red);
+	gotoxy(97, 2); cout << "Your bag";
+	if (Bags.empty()) return;
+	textcolor(White);
+	int x = 84;
+	int y = 5;
+	for (auto i = 0; i < Bags.size(); i++)
+	{
+		if (Bags[i].Check_On_Console(x, y))
+		{
+			y += 1;
+		}
+	}
+	gotoxy(x, y); cout << "---------------------------------";
+	textcolor(Red);
+	gotoxy(x + 15, y + 1); cout << "Total: "; printf("%.f", Sum);
+}
+
+//Advance Filter
+bool Store::Find_Smartphone_Filter(vector<Smartphone>& temp, int condition[])
+{
+	for (int i = 0; i < arrSmartphones.size(); i++)
+	{
+		if (arrSmartphones[i].Check_Condition_Filter(condition)&&(condition[0]==0||arrSmartphones[i].getbrand()==Count_Brand[condition[0]-1]))
+		{
+			temp.push_back(arrSmartphones[i]);
+		}
+	}
+	return temp.empty();
 }

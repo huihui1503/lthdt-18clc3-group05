@@ -6,9 +6,9 @@ using namespace std;
 int Store::num = 0;
 int main()
 {
-	resizeConsole(895,518 );
+	//resizeConsole(895,518 );
 	Menu screen;
-	screen.Start_System();
+	//screen.Start_System();
 	screen.Print_FlashScreen();
 
 	return 0;

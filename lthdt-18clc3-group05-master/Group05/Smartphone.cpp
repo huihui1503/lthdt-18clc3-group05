@@ -369,3 +369,89 @@ bool Smartphone::Check_On_Console(int x,int y)
 	return false;
 }
 
+bool Smartphone::Check_Condition_Filter(int condition[])
+{
+	if (condition[1] == 1)
+	{
+		if (this->Price_b > double(6000000)) return false;
+	}
+	if (condition[1] == 2)
+	{
+		if (this->Price_b <= double(6000000)|| this->Price_b >= double(15000000)) return false;
+	}
+	if (condition[1] == 3)
+	{
+		if (this->Price_b < double(15000000)) return false;
+	}
+	//check ram
+	int temp=0;
+	vector<string> edit;
+	if (this->Ram[Ram.size() - 2] == 'G')
+	{
+		edit = Tokenizer::Parse(Ram, "G");
+		temp = stoi(edit[0]);
+	}
+	else if(this->Ram[Ram.size() - 2] == 'T')
+	{
+		edit = Tokenizer::Parse(Ram, "T");
+		temp = stoi(edit[0])*1000;
+	}
+	if (condition[2] == 1)
+	{
+		if (temp > 4) return false;
+	}
+	if (condition[2] == 2)
+	{
+		if (temp <= 4||temp>=10) return false;
+	}
+	if (condition[2] == 3)
+	{
+		if (temp < 10) return false;
+
+	}
+	temp = 0;
+	edit.clear();
+	if (this->Rom[Rom.size() - 2] == 'G')
+	{
+		edit = Tokenizer::Parse(Rom, "G");
+		temp = stoi(edit[0]);
+	}
+	else if (this->Rom[Rom.size() - 2] == 'T')
+	{
+		edit = Tokenizer::Parse(Rom, "T");
+		temp = stoi(edit[0]) * 1000;
+	}
+	if (condition[3] == 1)
+	{
+		if (temp != 32) return false;
+	}
+	if (condition[3] == 2)
+	{
+		if (temp !=64 ) return false;
+	}
+	if (condition[3]==3)
+	{
+		if (temp !=128) return false;
+	}
+	if (condition[3] == 4)
+	{
+		if (temp <= 128) return false;
+	}
+	temp = 0;
+	edit.clear();
+	edit = Tokenizer::Parse(Ram, " ");
+	temp = stoi(edit[0]);
+	if (condition[4] == 1)
+	{
+		if (temp > 3500) return false;
+	}
+	if (condition[4] == 2)
+	{
+		if (temp <= 3500 || temp >= 5000) return false;
+	}
+	if (condition[4] == 3)
+	{
+		if (temp < 5000) return false;
+	}
+	return true;
+}
