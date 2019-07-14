@@ -401,6 +401,7 @@ Done:
 			{
 				Advanced_Filter();
 				system("cls");
+				main_data.Draw_Bag();
 			}
 			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
 			goto Done;
@@ -412,6 +413,7 @@ Done:
 
 void Menu::Advanced_Filter()
 {
+Done:
 	system("cls");
 	// Draw effect
 	int xBox = 40, yBox = 5;
@@ -442,6 +444,7 @@ void Menu::Advanced_Filter()
 	string content = "";
 	int value = 0;//postion of option in array
 	int array[5];//options
+	for (int i = 0; i < 5; i++) array[i] = 0;
 	int current = 0;// current position
 	for (int i = 0; i < 5; i++) array[i] = 0;
 	char key='.';
@@ -455,6 +458,7 @@ void Menu::Advanced_Filter()
 			if (current != 4 && current != 3) content=Show_Option_In_Filter(7 + current * 5, current, value);
 			else if (current == 4) content = Show_Option_In_Filter(7 + current * 5 - 6, current, value);
 			else if (current == 3) content = Show_Option_In_Filter(7 + current * 5 - 8, current, value);
+			if (value == -1) return;
 			array[current] = value;
 			gotoxy(x + 1, 8 + 5 * current); cout << "                                  ";
 			textcolor(White);
@@ -470,6 +474,67 @@ void Menu::Advanced_Filter()
 			Draw_Box(xBox, 7 + current * 5, 1, 37, White);gotoxy(xBox + 33, 8 + current * 5); cout << "  ";
 			current += 1;
 			if (current > 4) current = 0;
+			break;
+		case  70:
+			Show_Result_Filter(array);
+			goto Done;
+			break;
+		}
+	}
+}
+
+void Menu::Show_Result_Filter(int array[])
+{
+	system("cls");
+	vector<Smartphone> temp;
+	if (main_data.Find_Smartphone_Filter(temp, array))
+	{
+		cout << "Not founded";
+		system("pause>nul");
+		return;
+	}
+	main_data.Draw_Bag();
+	textcolor(Red);
+	gotoxy(33, 2); cout << "FONDED PRODUCTS";
+	for(int i=0;i<temp.size();i++) temp[i].COUT_NAME(i * 5 + 5, 1, 80, White);
+	char key = '.';
+	int current = 0;
+	while (key != char(KEY_ESC))
+	{
+		main_data.Effect_of_Move(current, temp);
+		key = _getch();
+		switch (int(key))
+		{
+		case KEY_UP:
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
+			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
+			current -= 1;
+			if (current < 0) current = temp.size() - 1;
+			break;
+		case KEY_DOWN:
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
+			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
+			current += 1;
+			if (current >= temp.size()) current = 0;
+			break;
+		case 83:
+			//// Press Shift + S to print bill
+			break;
+		case KEY_ADD:
+			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
+			{
+				temp[current].Decrease_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
+			main_data.Print_Bill_On_Console();
+			break;
+		case KEY_MINUS:
+			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
+			{
+				temp[current].Increase_StockLevel(1);
+			}
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
+			main_data.Print_Bill_On_Console();
 			break;
 		}
 	}
@@ -523,7 +588,8 @@ string Menu::Show_Option_In_Filter(int y,int current,int&value)
 		value = Move_in_Filter(temp.size()-1, y, temp);
 		break;
 	}
-	return temp[value];
+	if(value>=0) return temp[value];
+	return "";
 }
 
 int Menu::Move_in_Filter(int current,int y,vector<string>content)
@@ -683,9 +749,9 @@ void Menu::Exit()
 
 Menu::Menu()
 {
-	if (main_data.Load_Data_from_file())
-		return;
-	else 
+	//if (main_data.Load_Data_from_file())
+		//return;
+	//else 
 	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
 
 }

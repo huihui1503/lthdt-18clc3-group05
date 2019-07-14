@@ -49,13 +49,15 @@ public: // Xu li nghiep vu
 	void Draw_Phone_of_Brand(string brand, vector<Smartphone>&temp);
 	void Effect_of_Move(int pos,vector<Smartphone>temp);
 	vector<string> Count_Brand;
-	static double Sum;
+	static double Sum;// total money in bag
 	int Get_Size_Of_Bags()
 	{
 		if (Bags.empty()) return 0;
 		return Bags.size();
 	}
-
+	void Draw_Bag();
+	//Filter
+	bool Find_Smartphone_Filter(vector<Smartphone>& temp,int condition[]);
 public:
 	Store(const Store& p);
 	Store();

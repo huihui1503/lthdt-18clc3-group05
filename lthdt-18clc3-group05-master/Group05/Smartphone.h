@@ -88,6 +88,9 @@ public:
 	{
 		Sum -= Price_s;
 	}
+//advanced filter
+public:
+	bool Check_Condition_Filter(int condition[]);
 public:
 	Smartphone();
 	Smartphone(string id, string name, string origin, double price_b, double price_s, string ram, string rom, string battery, string screen, int stock);
