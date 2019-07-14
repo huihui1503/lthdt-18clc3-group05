@@ -656,6 +656,14 @@ void Menu::Choice_For_Sell(string chosen_brand)
 			break;
 		case 83:
 			//// Press Shift + S to print bill
+			// Test function  print bill
+			system("cls");
+			resizeConsole(1780, 1000);
+			main_data.Display_All_Calc_Cost();
+			system("pause");
+
+			system("cls");
+			resizeConsole(895, 518);
 			break;
 		case KEY_ADD:
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
@@ -742,8 +750,8 @@ void Menu::Exit()
 Menu::Menu()
 {
 	//if (main_data.Load_Data_from_file())
-	//	return;
-//	else 
+		//return;
+	//else 
 	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
 
 }
