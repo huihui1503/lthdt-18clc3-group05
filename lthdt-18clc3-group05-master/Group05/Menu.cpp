@@ -912,7 +912,7 @@ link: {
 			}
 		}
 		if ((int)c == KEY_ENTER) {
-			edit(Index);
+			edit(index[Index]);
 			goto link;
 			break;
 		}
