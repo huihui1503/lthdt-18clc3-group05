@@ -337,7 +337,7 @@ string Smartphone::ToString()
 	char priceb[100], prices[100];
 	_itoa_s(Price_b, priceb, 10);
 	_itoa_s(Price_s, prices, 10);
-	writer << ID << "," << Name << "," << Origin << "," << Price_b << "," << Price_s << ","  << Ram << "," << Rom << "," << Battery << "," << Screen << "," << StockLevel;
+	writer << ID << "," << Name << "," << Origin << "," << priceb << "," << prices << ","  << Ram << "," << Rom << "," << Battery << "," << Screen << "," << StockLevel;
 	return writer.str();
 }
 Smartphone::~Smartphone()

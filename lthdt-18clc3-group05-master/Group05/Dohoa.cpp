@@ -445,7 +445,7 @@ void Table_Calc_Cost(int m) {
 				else putchar(196);
 		if (i == n) putchar(217); else putchar(180);
 
-	}
+	}	
 
 	//information
 
@@ -469,4 +469,123 @@ void Table_Calc_Cost(int m) {
 	cout << "COST";
 	gotoxy(15, n - 8);
 	cout << "TOTAL :";
+}
+void Draw_an_columm(int x, int y, int height, int data) {
+	int i = 0;
+	for (; i < height; i++)
+	{
+		gotoxy(x, y - i+1);
+		textcolor(9);// BLUE
+		for(int i=0;i<8;i++)
+		putchar(219);
+	}
+	gotoxy(x+3, y - i);
+	textcolor(Yellow);
+	cout << data;
+	textcolor(White);
+
+}
+void Table_Draw_Chart(int m) {
+	m += 2;
+	int k = 110;
+	int n = 11 + 2 * m;
+	int distance = (60 + k) / 12;
+	textcolor(15);
+	gotoxy(0, 0);
+	putchar(218);
+	for (int i = 1; i <= 80 + k; i++)
+		putchar(196);
+	putchar(191);
+	printf("\n");
+
+	putchar(179);
+	for (int i = 1; i <= 80 + k; i++)
+		putchar(219);
+	printf("%c\n", 179);
+	//
+
+	for (int i = 1; i <= m * 2 + 3; i++)
+	{
+		putchar(179);
+		putchar(219);
+		gotoxy(80 + k, 1 + i);
+		printf("%c %c\n", 219, 179);
+	}
+	//21
+	gotoxy(2, m * 2 + 4);
+
+	for (int i = 1; i <= 79 + k; i++)
+		putchar(219);
+	printf("\n");
+
+	putchar(192);
+	for (int i = 1; i <= 80 + k; i++)
+		putchar(196);
+	putchar(217);
+	// phan bên trong
+	gotoxy(10, 3);
+	putchar(94);
+	// toạ độ điểm O
+	int posX = 10;
+	int posY = (m * 2 + 3) - 2;
+
+	gotoxy(posX, posY);
+	cout << "O";
+	//trục dọc
+	for (int i = 0; i < (m * 2 + 3) - 7; i++) {
+		gotoxy(10, 4 + i);
+		putchar(179);
+	}
+	//trục ngang
+	for (int i = 0; i < 68 + k; i++) {
+		gotoxy(10 + i, (m * 2 + 3) - 3);
+		putchar(196);
+	}
+	gotoxy(10, (m * 2 + 3) - 3);
+	putchar(192);
+
+	gotoxy(78 + k, (m * 2 + 3) - 3);
+	cout << ">";
+
+	//thong so truc hoanh
+	vector<string> Months = { "January","February","March", "April","May","June","July","August","September","October","November", "December" };
+	// test key
+	vector<double> Data = { 100, 90,80, 40, 67, 120, 110,70, 10, 10,30, 200 };
+	//find max value and index of one
+	int max = Data[0];
+	int i = 1;
+	for(;i< Data.size();i++)
+	{  
+		if (max < Data[i])
+		{
+			max = Data[i];
+		}
+	}
+	// khoảng cách mặc định trên trục tung
+	int default_distance = m * 2 - 5;
+	//tính độ cao của từng số trong data và quy ra độ cao với max là giá trị lớn nhất
+	vector<int> Height;
+	int h = 0;
+	for (int i = 0; i < Data.size(); i++)
+	{
+		h = 1.0 * (Data[i] * default_distance) / max;
+		Height.push_back(h);
+	}
+	//vẽ thông số trục hoành (tháng)
+	for (int i = 1; i <= 12; i++) {
+		// vẽ từng tháng
+		gotoxy(posX + distance * (i)-5, posY);
+		cout << Months[i - 1];
+		// vẽ từng cột và ghi dữ liệu lên đầu cột đó
+		Draw_an_columm(posX + distance * (i)-5, posY - 3, Height[i - 1], Data[i - 1]);
+		// vẽ độ chia trên trục tung
+		gotoxy(posX, posY - Height[i - 1]-1);
+		putchar(197);
+		gotoxy(3, posY - Height[i - 1]);
+		cout << Data[i - 1];
+	}
+	// vẽ độ chia trên trục tung
+	
+	gotoxy(70 + k, (m * 2 + 3) +10);
+	system("pause");
 }

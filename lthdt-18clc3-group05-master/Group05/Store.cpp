@@ -6,6 +6,8 @@ double Store::Sum = 0;
 
 /*++*/string Store::File_Save_Expand = "Super_Data.txt";
 
+/*++*/string Store::FILE_SAVE_BILL = "purchase_history.txt";
+
 /*++*/Store::Store(const Store& p)
 {
 	num = p.num;
@@ -199,6 +201,18 @@ void Store::addNewSmartphone(Smartphone tmp)
 	return is;
 }
 
+bool isFile_inSystem(string path)
+{
+	ifstream fin(path);
+	if (!fin.is_open())
+	{
+		fin.close();
+		return false;
+	}
+	fin.close();
+	return true;
+}
+
 //_________________________________________________________________________________________________________________________________________________________________________________________________________
 //**********************************************************************************************************************************************************************************************************
 
@@ -259,6 +273,11 @@ bool Store::Output_Bill(string name, double money)
 	return true;
 }
 
+void Store::Save_bill_by_month()
+{
+	Date a;
+	a.TimeNow();
+}
 
 bool Store::Sell_Bags()
 {
@@ -314,6 +333,7 @@ bool Store::Sell_Bags()
 		return true;
 	}
 }
+
 bool Store::Input_New_Data_from_file(string Filename, string info)
 {
 	ifstream fin1(Filename);

@@ -1,9 +1,13 @@
 ﻿#ifndef _Dohoa_
 #define _Dohoa_
 #include <iostream>
+#include<vector>
+#include"Smartphone.h"
 #include <conio.h>
 #include <Windows.h>
 #include<string>
+#include <io.h>
+#include <fcntl.h>
 using namespace std;
 #define Black			0
 #define DarkBlue		1
@@ -47,6 +51,8 @@ void ToMau(int x, int y, char *a, int color);// x, y là tọa độ con trỏ c
 void Table_Expand(int m);// Testing Function dont use if dont know
 void Table_Basic(int m);
 void Table_Calc_Cost(int m);
+void Table_Draw_Chart(int m);
+void Draw_an_columm(int x, int y, int height, int data);
 #endif // !_Dohoa_
 
 void Delete_On_Console(int start_x, int start_y, int end_x, int end_y);

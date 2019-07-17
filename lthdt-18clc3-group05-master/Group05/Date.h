@@ -2,6 +2,8 @@
 #include <string>
 #include <time.h>
 #include <sstream>
+#include<vector>
+#include "Tokenizer.h"
 using namespace std;
 class Date
 {
@@ -18,9 +20,13 @@ public:
 	int Year() { return m_year; }
 	bool Is_Date_in_Duaration(string date, string begin, string end);
 	bool Compare_Two_Date(string date1, string date2);
+	bool Compare_Two_Date(const Date& p);
+	void TimeNow();
 public:
 	static bool isLeapYear(int);
 	static bool isValidDate(int, int, int);
 	string ToString();
+	string ToString_Month();
+
 };
 

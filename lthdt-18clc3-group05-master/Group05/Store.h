@@ -9,6 +9,7 @@ using namespace std;
 class Store
 {
 private:
+	static string FILE_SAVE_BILL;
 	static string File_Save_Expand;
 	static int num;
 	vector<Smartphone> arrSmartphones;
@@ -19,6 +20,7 @@ public:
 public: // Xuat hoa don
 	bool Input_Storage(Smartphone& smp); //Nhap vao kho
 	bool Output_Bill(string name, double change);
+	void Save_bill_by_month();
 public:
 	//MASTER
 	friend void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& arr);
@@ -63,4 +65,5 @@ public:
 	Store();
 	~Store();
 };
+bool isFile_inSystem(string path);
 

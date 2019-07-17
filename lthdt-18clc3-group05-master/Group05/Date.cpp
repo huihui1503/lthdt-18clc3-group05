@@ -7,7 +7,7 @@ Date::Date()
 	localtime_s(&local, &now);
 
 	m_day = local.tm_mday;
-	m_month = local.tm_mon;
+	m_month = local.tm_mon+1;
 	m_year = local.tm_year + 1900;
 }
 
@@ -36,8 +36,49 @@ bool Date::Is_Date_in_Duaration(string date, string begin, string end)
 }
 
 bool Date::Compare_Two_Date(string date1, string date2)
+{ 
+	int d1, m1, y1, d2, m2, y2;
+
+	vector<string> Date1=Tokenizer::Parse(date1,"/");
+	d1 = stoi(Date1[0]); m1 = stoi(Date1[1]); y1 = stoi(Date1[2]);
+
+	vector<string> Date2 = Tokenizer::Parse(date2, "/");
+	d2 = stoi(Date2[0]); m2 = stoi(Date2[1]); y2 = stoi(Date2[2]);
+
+	if (y2 > y1) return true;
+	else if (y2 < y1) return false;
+	else if (y2 == y1 && m1 < m2) return true;
+	else if (y2 == y1 && m1 > m2) return false;
+	else if (y2 == y1 && m1 == m2 && d2 >= d1) return true;
+	else if (y2 == y1 && m1 == m2 && d2 < d1) return false;
+	return true;
+
+}
+
+bool Date::Compare_Two_Date(const Date& p)
 {
-	return false;
+	if (p.m_year > m_year) return true;
+	else if (p.m_year < m_year) return false;
+	else if (p.m_year == m_year && m_month < p.m_month) return true;
+	else if (p.m_year == m_year && m_month > p.m_month) return false;
+	else if (p.m_year == m_year && m_month == p.m_month && p.m_day >= m_day) return true;
+	else if (p.m_year == m_year && m_month == p.m_month && p.m_day < m_day) return false;
+	return true;
+
+}
+
+void Date::TimeNow()
+{
+	struct tm* ptr;
+	time_t lt;
+	char str[80];
+
+	lt = time(NULL);
+	ptr = localtime(&lt);
+
+	m_month = ptr->tm_mon;
+	m_day = ptr->tm_mday;
+	m_year = ptr->tm_year;
 }
 
 bool Date::isLeapYear(int year)
@@ -69,5 +110,12 @@ string Date::ToString()
 {
 	stringstream writer;
 	writer << m_day << "/" << m_month << "/" << m_year;
+	return writer.str();
+}
+
+string Date::ToString_Month()
+{
+	stringstream writer;
+	writer<< m_month << "/" << m_year;
 	return writer.str();
 }
