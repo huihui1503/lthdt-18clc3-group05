@@ -109,7 +109,14 @@ bool Date::isValidDate(int day, int month, int year)
 string Date::ToString()
 {
 	stringstream writer;
-	writer << m_day << "/" << m_month << "/" << m_year;
+	writer << m_day << "-" << m_month << "-" << m_year;
+	return writer.str();
+}
+
+string Date::ToStringDMonth()
+{
+	stringstream writer;
+	writer << m_day << "-" << m_month;
 	return writer.str();
 }
 

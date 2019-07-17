@@ -47,7 +47,7 @@ string Menu::Enter(int x, int y)
 				place[i + 1] = '\0';
 				break;
 			}
-			else if (key != char(KEY_UP) && key != char(KEY_DOWN) && key != char(KEY_LEFT) && key != char(KEY_RIGHT) && key != char(KEY_TAB) && key != char(KEY_CTRL))
+			else 
 			{
 				int check = i + 1;
 				if (check <= 30)
@@ -330,7 +330,7 @@ Done:
 		cout << "|$|";
 	}
 	int move=main_data.Draw_Brand_For_Choice();
-	move += 1;// for advance filter
+	move += 2;// for advance filter and costumer
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
@@ -393,16 +393,19 @@ Done:
 		case KEY_ENTER:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			if (current < move-1)
+			if (current == move-1)
 			{
-				Choice_For_Sell(main_data.Count_Brand[current]);
+				Move_in_Costumer();
+				system("cls");
+				main_data.Draw_Bag();
 			}
-			else
+			else if(current==move-2)
 			{
 				Advanced_Filter();
 				system("cls");
 				main_data.Draw_Bag();
 			}
+			else Choice_For_Sell(main_data.Count_Brand[current]);
 			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
 			goto Done;
 			break;
@@ -659,11 +662,12 @@ void Menu::Choice_For_Sell(string chosen_brand)
 			// Test function  print bill
 			system("cls");
 			resizeConsole(1780, 1000);
-			main_data.Display_All_Calc_Cost();
+			main_data.Sell_Bags();
 			system("pause");
 
 			system("cls");
 			resizeConsole(895, 518);
+			Seller_Move();
 			break;
 		case KEY_ADD:
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
@@ -753,7 +757,7 @@ Menu::Menu()
 		//return;
 	//else 
 	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
-
+	Load_Data_Costumer();
 }
 
 
@@ -1141,4 +1145,75 @@ void Menu::New()
 	data[0] = (string)ran;
 	Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
 	main_data.addNewSmartphone(tmp);
+}
+
+
+//costumer function
+void Menu::Load_Data_Costumer()
+{
+	ifstream file(path_costumer);
+	if (!file.is_open()) return;
+	while (file.good())
+	{
+		char temp[1000];
+		string name;
+		string id;
+		string point;
+		file.getline(temp, 1000, ','); id = string(temp);
+		file.getline(temp, 1000, ','); name = string(temp);
+		file.getline(temp, 1000, '\n'); point = string(temp);
+		file.ignore();
+		Costumer test(id, name, stoi(point));
+		data.push_back(test);
+	}
+	data[0].signal = 1;
+	file.close();
+}
+
+void Menu::Save_Data_Costumer()
+{
+	ofstream file(path_costumer);
+	if (!file.is_open()) return;
+	for (int i = 0; i < data.size(); i++)
+	{
+		data[i].Save_Attribute(file);
+	}
+	file.close();
+}
+
+void Menu::Move_in_Costumer()
+{
+Done:
+	system("cls");
+	// Draw effect
+	int xBox = 40, yBox = 5;
+	Draw_Box(37, 4, 25, 43, 25);// big box
+	for (int i = 0; i <= 1; i++)
+	{
+		Draw_Box(xBox, 7 + i * 5, 1, 37, White);
+	}
+	int x = 42;
+	textcolor(Cyan);
+	gotoxy(x, 6); cout << "ID";
+	gotoxy(x, 11); cout << "Name";
+	textcolor(Red);
+	gotoxy(49, 2); cout << "Costumer Management";
+	Draw_Box(xBox, 17, 7, 37, White);
+	textcolor(Red); gotoxy(xBox+2, 18); cout << "* Notes:";
+	textcolor(White); gotoxy(xBox + 2, 20); cout << "[i]: Press Enter to continue";
+	gotoxy(xBox+2, 22); cout << "[i]: Esc to exit";
+	gotoxy(xBox + 2, 8);
+	string place1 = Enter(xBox+2, 8);
+	gotoxy(xBox + 2, 13);
+	string place2 = Enter(xBox+2, 13);
+	if (place1 == "" && place2 == "") return;
+	bool check = false;
+	system("cls");
+	for (int i = 0; i < data.size()&&!check; i++)
+	{
+		check = data[i].Show_Info(place1,place2);
+	}
+	if (!check) cout << "NOT FOUNDED";
+	system("pause>nul");
+	goto Done;
 }

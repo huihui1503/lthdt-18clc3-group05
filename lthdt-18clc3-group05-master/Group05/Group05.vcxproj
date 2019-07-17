@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Costumer.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Dohoa.h" />
     <ClInclude Include="Menu.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Costumer.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Dohoa.cpp" />
     <ClCompile Include="Main.cpp" />

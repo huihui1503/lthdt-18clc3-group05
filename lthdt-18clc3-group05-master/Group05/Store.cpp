@@ -35,30 +35,17 @@ double Store::Sum = 0;
 		arrSmartphones[i / 2].Display_Expand(i);
 	}
 }
-void Store::Display_All_Calc_Cost()
+void Store::Display_All_Calc_Cost(int &pos)
 {
-	int n = 11 + 2* Bags.size();
+	pos = 11 + 2* Bags.size();
 	Table_Calc_Cost(Bags.size());
 	for (int i = 0; i < 2 * Bags.size(); i += 2) {
 		Bags[i / 2].Display_Calc_Cost(i);
 	}
-	gotoxy(157, n - 5);
+	gotoxy(157, pos - 5);
 	printf("%10.f",Calc_Total_Cost(Bags));
-	gotoxy(140, n - 5);
+	gotoxy(140, pos - 5);
 	printf("%5d", Calc_Total_Stocklevel(Bags));
-	gotoxy(1, n+1);
-	cout << "DO YOU WANT TO SAVE THIS BILL ? (YES: Y, NO: N)" << endl;
-	char key = _getch();
-	if (key == 'Y')
-	{
-		long int  tmp;
-		string tmp1;
-		cout << "Enter Name of the customer: ";
-		getline(cin, tmp1,'\n');
-		cin >> tmp;
-		Output_Bill("TEMP",tmp);
-	}
-
 }
 
 void Store::Display_All_Basic()
@@ -230,9 +217,9 @@ Smartphone& Store::operator[](int index)
 //**********************************************************************TRANSACTION**********************************************************************************************************
 bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 {
-	ofstream fout("a");
 	Date today;
-	string fileName = today.ToString() + ".txt";
+	string fileName = today.ToStringDMonth() + ".txt";
+	ofstream fout(fileName,ios::app);
 	fout.open(fileName);
 	if (!fout.is_open())
 	{
@@ -240,7 +227,7 @@ bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 	}
 	else
 	{
-		fout << today.ToString() << "," << smp.ToStringBill();
+		fout << today.ToString() << "," << smp.ToStringBill() << endl;
 	}
 	return true;
 }
@@ -249,8 +236,7 @@ bool Store::Output_Bill(string name, double money)
 {
 	Date today;
 	string fileName = today.ToString() + ".txt";
-	ofstream fout;
-	fout.open(fileName);
+	ofstream fout(fileName, ios::app);
 	if (!fout.is_open())
 	{
 		return false;
@@ -268,7 +254,7 @@ bool Store::Output_Bill(string name, double money)
 		fout << "Have to pay: " << total << endl;
 		fout << "Receive your money: " << money << endl;
 		fout << "Give back your change: " << money - total << endl;
-		fout << "Thank for using my service";
+		fout << "Thank for using my service" << endl;
 	}
 	return true;
 }
@@ -282,17 +268,13 @@ void Store::Save_bill_by_month()
 bool Store::Sell_Bags()
 {
 	string name;
-	long money;
+	long money; int pos;
 	double total = Calc_Total_Cost(Bags);
 
-	cout << "Your bags include: " << endl;
-	for (size_t i = 0; i < Bags.size(); i++) {
-		Bags[i].Display_Basic(0);
-	}
-
-	cout << "You have to pay: " << total << endl;
-
-	cout << "Are you sure you want to pay: (Y: yes, N: no)";
+	Display_All_Calc_Cost(pos);
+	
+	gotoxy(1, pos + 1);
+	cout << "Are you sure you want to pay: (Y: yes, N: no):";
 	cin.ignore();
 	char c = _getch();
 	if (c == 'y' || 'Y') {
@@ -309,9 +291,9 @@ bool Store::Sell_Bags()
 			}
 		} while (money < total);
 
-		cout << "Are you sure you want print bill: (Y: yes, N: no)";
+		cout << "Do you you want print bill: (Y: yes, N: no):";
 		cin.ignore();
-		char c = _getch();
+		c = _getch();
 		if (c == 'y' || 'Y') {
 			if (Output_Bill(name, money))
 			{
@@ -520,11 +502,22 @@ int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
 	int y = 5;
-	for (int i = 1; i <= Count_Brand.size(); i++)
+	for (int i = 1; i <= Count_Brand.size()+2; i++)
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
-		gotoxy(x + 4, y + 3); cout << Count_Brand[i - 1];
+		gotoxy(x + 4, y + 3);
+		if (i <= Count_Brand.size()) cout << Count_Brand[i - 1];
+		else if (i == Count_Brand.size() + 1)
+		{
+			textcolor(Pink);
+			cout << "Filter";
+		}
+		else
+		{
+			textcolor(Pink);
+			cout << "Costumer";
+		}
 		if (i % 3 == 0)
 		{
 			x = 8;
@@ -535,9 +528,6 @@ int Store::Draw_Brand_For_Choice()
 			x += 25;
 		}
 	}
-	Draw_Box(x, y, 5, 15, White);
-	textcolor(DarkCyan);
-	gotoxy(x + 4, y + 3); cout <<"Filter";
 	return Count_Brand.size();
 }
 
