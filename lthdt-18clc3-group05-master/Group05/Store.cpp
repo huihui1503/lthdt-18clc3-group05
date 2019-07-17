@@ -203,9 +203,9 @@ Smartphone& Store::operator[](int index)
 //**********************************************************************TRANSACTION**********************************************************************************************************
 bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 {
-	ofstream fout("a");
 	Date today;
 	string fileName = today.ToStringDMonth() + ".txt";
+	ofstream fout(fileName,ios::app);
 	fout.open(fileName);
 	if (!fout.is_open())
 	{
@@ -213,7 +213,7 @@ bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
 	}
 	else
 	{
-		fout << today.ToString() << "," << smp.ToStringBill();
+		fout << today.ToString() << "," << smp.ToStringBill() << endl;
 	}
 	return true;
 }
@@ -222,8 +222,7 @@ bool Store::Output_Bill(string name, double money)
 {
 	Date today;
 	string fileName = today.ToString() + ".txt";
-	ofstream fout;
-	fout.open(fileName);
+	ofstream fout(fileName, ios::app);
 	if (!fout.is_open())
 	{
 		return false;
@@ -241,7 +240,7 @@ bool Store::Output_Bill(string name, double money)
 		fout << "Have to pay: " << total << endl;
 		fout << "Receive your money: " << money << endl;
 		fout << "Give back your change: " << money - total << endl;
-		fout << "Thank for using my service";
+		fout << "Thank for using my service" << endl;
 	}
 	return true;
 }
@@ -256,9 +255,7 @@ bool Store::Sell_Bags()
 	Display_All_Calc_Cost(pos);
 	
 	gotoxy(1, pos + 1);
-	cout << "You have to pay: " << total << endl;
-
-	cout << "Are you sure you want to pay: (Y: yes, N: no)";
+	cout << "Are you sure you want to pay: (Y: yes, N: no):";
 	cin.ignore();
 	char c = _getch();
 	if (c == 'y' || 'Y') {
@@ -275,9 +272,9 @@ bool Store::Sell_Bags()
 			}
 		} while (money < total);
 
-		cout << "Are you sure you want print bill: (Y: yes, N: no)";
+		cout << "Do you you want print bill: (Y: yes, N: no):";
 		cin.ignore();
-		char c = _getch();
+		c = _getch();
 		if (c == 'y' || 'Y') {
 			if (Output_Bill(name, money))
 			{
