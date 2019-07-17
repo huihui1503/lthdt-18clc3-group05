@@ -500,11 +500,22 @@ int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
 	int y = 5;
-	for (int i = 1; i <= Count_Brand.size(); i++)
+	for (int i = 1; i <= Count_Brand.size()+2; i++)
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
-		gotoxy(x + 4, y + 3); cout << Count_Brand[i - 1];
+		gotoxy(x + 4, y + 3);
+		if (i <= Count_Brand.size()) cout << Count_Brand[i - 1];
+		else if (i == Count_Brand.size() + 1)
+		{
+			textcolor(Pink);
+			cout << "Filter";
+		}
+		else
+		{
+			textcolor(Pink);
+			cout << "Costumer";
+		}
 		if (i % 3 == 0)
 		{
 			x = 8;
@@ -515,9 +526,6 @@ int Store::Draw_Brand_For_Choice()
 			x += 25;
 		}
 	}
-	Draw_Box(x, y, 5, 15, White);
-	textcolor(DarkCyan);
-	gotoxy(x + 4, y + 3); cout <<"Filter";
 	return Count_Brand.size();
 }
 
