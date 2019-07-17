@@ -71,3 +71,10 @@ string Date::ToString()
 	writer << m_day << "/" << m_month << "/" << m_year;
 	return writer.str();
 }
+
+string Date::ToStringDMonth()
+{
+	stringstream writer;
+	writer << m_day << "/" << m_month;
+	return writer.str();
+}

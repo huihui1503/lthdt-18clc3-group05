@@ -33,7 +33,7 @@ public:
 	void output_Advanced(int i);
 	void Display_All_Advanced();
 	void Display_All_Basic();
-	void Display_All_Calc_Cost();
+	void Display_All_Calc_Cost(int &pos);
 	friend istream& operator>>(istream& is, Store& p);
 public: // Xu li nghiep vu
 	int  findSmartphone(vector<Smartphone>& temp, string ID);

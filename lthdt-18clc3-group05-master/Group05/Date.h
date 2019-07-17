@@ -22,5 +22,6 @@ public:
 	static bool isLeapYear(int);
 	static bool isValidDate(int, int, int);
 	string ToString();
+	string ToStringDMonth();
 };
 
