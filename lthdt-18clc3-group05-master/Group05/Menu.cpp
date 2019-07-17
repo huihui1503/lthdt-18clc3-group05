@@ -399,7 +399,7 @@ Done:
 				system("cls");
 				main_data.Draw_Bag();
 			}
-			else if(current=move-2)
+			else if(current==move-2)
 			{
 				Advanced_Filter();
 				system("cls");
