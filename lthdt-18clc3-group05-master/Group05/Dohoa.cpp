@@ -533,7 +533,7 @@ void Table_Draw_Chart(int m) {
 	cout << "O";
 	//trục dọc
 	for (int i = 0; i < (m * 2 + 3) - 7; i++) {
-		gotoxy(10, 4 + i);
+		gotoxy(posX, 4 + i);
 		putchar(179);
 	}
 	//trục ngang

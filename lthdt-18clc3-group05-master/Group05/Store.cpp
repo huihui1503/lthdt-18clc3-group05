@@ -262,7 +262,6 @@ bool Store::Output_Bill(string name, double money)
 void Store::Save_bill_by_month()
 {
 	Date a;
-	a.TimeNow();
 }
 
 bool Store::Sell_Bags()
