@@ -31,6 +31,7 @@ public:
 	friend ostream& operator<<(ostream& os, const Smartphone& p);
 	friend double Calc_Total_Cost(const vector<Smartphone>& p);
 	friend int Calc_Total_Stocklevel(const vector<Smartphone>& p);
+	double Calc_Profit(); //New
 	friend istream& operator>>(istream& is, Smartphone& p);
 	vector<Smartphone>& operator -(vector<Smartphone>& p);
 	void output_Basic();
@@ -40,15 +41,18 @@ public:
 	void Display_Calc_Cost(int i);
 public:	
 	// METHOD
-	string ToStringBill();
+	string ToStringBill(); //Fix
+	string ToStringBestSeller(); //New
 	string ToString();
 	string ToStringFile();
 	string ToStringFile_Expand();
 	bool compare_with_name(string name1);
 	bool compare_with_id(string id);
+	bool compare_id_with(Smartphone s); //New
 	bool Sell_Smartphone();
 	void Add_Basic_Attributes(string id, string name, string brand, string pb, string ps, string ori, string sl);
 	void Add_Advanced_Attributes(string rom, string ram, string battery, string screen);
+	void Add_Bill_Attributes(string id, string name, string pb, string ps, string sl);//New
 public:
 	void COUT_NAME(int y, int left, int right, int color);
 	bool compare_with_brand(string brand);

@@ -33,6 +33,11 @@ int Smartphone::InstanceCount = 0;
 	return ID == id;
 }
 
+bool Smartphone::compare_id_with(Smartphone s)
+{
+	return ID == s.ID;
+}
+
 /*++*/bool Smartphone::Sell_Smartphone()
 {
 	if (StockLevel == 0)
@@ -58,6 +63,15 @@ void Smartphone::Add_Advanced_Attributes(string rom, string ram, string battery,
 	Ram = ram;
 	Battery = battery;
 	Screen = screen;
+}
+
+void Smartphone::Add_Bill_Attributes(string id, string name, string pb, string ps, string sl)
+{
+	ID = id;
+	Name = name;
+	Price_b = stoi(pb);
+	Price_s = stoi(ps);
+	StockLevel = stoi(sl);
 }
 
 double Calc_Total_Cost(const vector<Smartphone>& p)
@@ -93,6 +107,11 @@ int Calc_Total_Stocklevel(const vector<Smartphone>& p)
 	Battery = p.Battery;
 	Screen = p.Screen;
 	return *this;
+}
+
+double Smartphone::Calc_Profit()
+{
+	return StockLevel*(Price_b-Price_s);
 }
 
 vector<Smartphone>& Smartphone::operator-(vector<Smartphone>& p)
@@ -326,6 +345,15 @@ string Smartphone::ToStringBill()
 {
 	stringstream writer;
 	
+	writer << ID << "," << Name << "," << Price_b << "," << Price_s << "," << StockLevel;
+
+	return writer.str();
+}
+
+string Smartphone::ToStringBestSeller()
+{
+	stringstream writer;
+
 	writer << ID << "," << Name << "," << Price_b << "," << Price_s;
 
 	return writer.str();

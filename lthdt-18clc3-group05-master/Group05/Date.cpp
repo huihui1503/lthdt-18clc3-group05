@@ -116,13 +116,6 @@ string Date::ToString()
 string Date::ToStringDMonth()
 {
 	stringstream writer;
-	writer << m_day << "-" << m_month;
-	return writer.str();
-}
-
-string Date::ToString_Month()
-{
-	stringstream writer;
-	writer<< m_month << "/" << m_year;
+	writer << m_month << "-" << m_year;
 	return writer.str();
 }
