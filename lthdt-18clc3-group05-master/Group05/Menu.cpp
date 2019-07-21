@@ -322,29 +322,28 @@ Done:
 void Menu::Seller_Move()
 {
 	system("cls");
+	int x = 1;
+	int y = 1;
 Done:
+	int move = main_data.Draw_Brand_For_Choice();
+	move += 2;// for advance filter and costumer
+	int max_col = move % 3;
+	int max_row = move / 3;
+	if (max_col != 0) max_row += 1;
+	else max_col = 3;
 	textcolor(White);
 	for (int i = 0; i <= 40; i++)
 	{
 		gotoxy(80, 1 + i);
 		cout << "|$|";
 	}
-	int move=main_data.Draw_Brand_For_Choice();
-	move += 2;// for advance filter and costumer
 	textcolor(Red);
 	gotoxy(35, 2); cout << "All PRODUCTS";
 	gotoxy(97, 2); cout << "Your bag";
 	char key = '.';
-	int max_col = move % 3;
-	int max_row = move / 3;
-	if (max_col != 0) max_row += 1;
-	else max_col = 3;
-	int x = 1;
-	int y = 1;
 	while (key != char(KEY_ESC))
 	{
 		Draw_Box(x * 25 -17,y * 10 -5, 5, 15, Cyan);
-		Draw_Box(x * 25 - 17, y * 10 - 5, 5, 15, Cyan);
 		key = _getch();
 		switch (int(key))
 		{
@@ -776,6 +775,8 @@ bool checkIfUnique(vector<string> unique, string input) {
 
 void Menu::Master_Move() { // call when login returned 1
 	vector<string> uniqueName;
+	int xa = 1;
+	int ya = 1;
 link: {
 	uniqueName.erase(uniqueName.begin(), uniqueName.end());
 	system("cls");
@@ -784,142 +785,130 @@ link: {
 		if (checkIfUnique(uniqueName, main_data[i].getbrand()))
 			uniqueName.push_back(main_data[i].getbrand());
 	}
+	int x = 8;
+	int y = 5;
+	for (int i = 1; i <= uniqueName.size() + 3; i++)
+	{
+		Draw_Box(x, y, 5, 15, White);
+		textcolor(DarkCyan);
+		gotoxy(x + 4, y + 3);
+		if (i <= uniqueName.size()) cout << uniqueName[i - 1];
+		else if (i == uniqueName.size() + 1)
+		{
+			textcolor(Pink);
+			cout << "New";
+		}
+		else if (i == uniqueName.size() + 2)
+		{
+			textcolor(Pink);
+			cout << "Costumer";
+		}
+		else
+		{
+			textcolor(Pink);
+			cout << "Report";
+		}
+		if (i % 3 == 0)
+		{
+			x = 8;
+			y += 10;
+		}
+		else
+		{
+			x += 25;
+		}
+	}
 	//end of unique
 	//go for interface
-	int x = 10, y = 5;
-	int count = 1; // if count = 3 endline and draw another box
-	for (size_t i = 0; i < uniqueName.size(); i++) {
-		Draw_Box(x, y, 3, 12, Yellow);
-		gotoxy(x + 2, y + 2);
-		cout << uniqueName[i];
- 		if (count == 3) {
-			y += 8;
-			x = 10;
-			count = 0;
-		}
-		else {
-			x += 20;
-
-		}
-		count++;
+	textcolor(White);
+	for (int i = 0; i <= 40; i++)
+	{
+		gotoxy(80, 1 + i);
+		cout << "|$|";
 	}
-	Draw_Box(x, y, 3, 12, Yellow);
-	gotoxy(x + 2, y + 2);
-	cout << "  New"; // the new box
-	x = 70;
-	y = 5;
-	for (size_t i = 0; i <= uniqueName.size() / 3; i++) {
-		for (int j = 0; j < 8; j++) {
-			gotoxy(x, y + j);
-			cout << "|";
-		}
-	} // drawn line prase between help and menu 
+	// drawn line prase between help and menu 
 	//menu list
 
-	x = 75;
+	/*x = 75;
 	y = 6;
 
-	textcolor(Gray);
+	textcolor(gray);
 	gotoxy(x, y);
 	cout << "#use keyboard to move ";
 	gotoxy(x, y + 1);
-	cout << "#Press ESC to exit ";
+	cout << "#press esc to exit ";*/
+	int Xmax = (uniqueName.size()+3) % 3;
+	int Ymax = (uniqueName.size()+3) / 3;
+	if (Ymax != 0) Ymax += 1;
+	else Ymax = 3;
+	char c = '.';
+	while (int(c)!=KEY_ESC) {
+		Draw_Box(xa * 25 - 17, ya * 10 - 5, 5, 15, Cyan);
+		c= _getch();
+		if (int(c) == KEY_UP) { // up
+			Draw_Box(xa * 25 - 17, ya * 10 - 5, 5, 15, White);
+			ya -= 1;
+			if (ya <= 0)
+			{
+				ya = Ymax;
+				if (xa > Xmax) xa=Xmax;
+			}
+		}
 
-	x = 10;
-	y = 5;
-	Draw_Box(x, y, 3, 12, Cyan);
+		if (int(c) == KEY_RIGHT) { // right
+			Draw_Box(xa * 25 - 17, ya * 10 - 5, 5, 15, White);
+			xa += 1;
+			if (ya != Ymax)
+			{
+				if (xa > 3) xa = 1;
+			}
+			else
+			{
+				if (xa > Xmax) xa = 1;
+			}
+		}
 
-	gotoxy(x, y);
+		if (int(c) == KEY_DOWN) { // down
+			Draw_Box(xa * 25 - 17, ya * 10 - 5, 5, 15, White);
+			ya += 1;
+			if (ya > Ymax) ya = 1;
+			if (ya == Ymax)
+			{
+				if (xa > Xmax) xa = Xmax;
+			}
+		}
 
-	int choice = 0; // choice implement another interface
+		if (int(c) == KEY_LEFT) { // left
+			Draw_Box(xa * 25 - 17, ya * 10 - 5, 5, 15, White);
+			xa -= 1;
+			if (ya != Ymax)
+			{
+				if (xa <= 0) xa = 3;
+			}
+			else
+			{
+				if (xa <= 0) xa = Xmax;
+			}
+		}
 
-	int Xmax = 10 + (uniqueName.size() % 3) * 20;
-	int Ymax = 5 + (uniqueName.size() / 3) * 8;
-	while (1) {
-		char c = _getch();
-		if (int(c) == 72) { // up
-			int xa = x, ya = y;
-			if (y <= 5) {
-				y += (uniqueName.size() / 3) * 8;
-				choice += 3 * (uniqueName.size() / 3);
-			}
-			else {
-				y -= 8;
-				choice -= 3;
-			}
-			if (x > Xmax && y == Ymax) {
-				y -= 8;
-				choice -= 3;
-			}
-			Draw_Box(xa, ya, 3, 12, Yellow);
-			Draw_Box(x, y, 3, 12, Cyan);
-			gotoxy(x, y);
-		}
-		if (int(c) == 77) { // right
-			int xa = x, ya = y;
-			if (x >= 50) {
-				x = 10;
-				choice -= 2;
-			}
-			else {
-				x += 20;
-				choice += 1;
-			}
-			if (x > Xmax && y == Ymax) {
-				x = 10;
-				choice -= (uniqueName.size() % 3 + 1);
-			}
-			Draw_Box(xa, ya, 3, 12, Yellow);
-			Draw_Box(x, y, 3, 12, Cyan);
-			gotoxy(x, y);
-		}
-		if (int(c) == 80) { // down
-			int xa = x, ya = y;
-			if (y >= 5 + ((uniqueName.size() / 3) * 8)) {
-				y = 5;
-				choice -= 3 * (uniqueName.size() / 3);
-			}
-			else {
-				y += 8;
-				choice += 3;
-			}
-			if (x > Xmax && y == Ymax) {
-				y = 5;
-				choice -= 3 * (uniqueName.size() / 3);
-			}
-			Draw_Box(xa, ya, 3, 12, Yellow);
-			Draw_Box(x, y, 3, 12, Cyan);
-			gotoxy(x, y);
-		}
-		if (int(c) == 75) { // left
-			int xa = x, ya = y;
-			if (x == 10) {
-				x += 2 * 20;
-				choice += 2;
-			}
-			else {
-				x -= 20;
-				choice -= 1;
-			}
-			if (x > Xmax && y == Ymax) {
-				x = Xmax;
-				choice = uniqueName.size();
-			}
-			Draw_Box(xa, ya, 3, 12, Yellow);
-			Draw_Box(x, y, 3, 12, Cyan);
-			gotoxy(x, y);
-		}
-		if (int(c) == 27) { // esc
-			choice = -1;
-			break;
-		}
-		if (int(c) == 13) { // enter 
-			if (choice != uniqueName.size()) {
-				add_Edit(uniqueName[choice]);
+		if (int(c) == KEY_ENTER) { // enter 
+			int choice = (ya - 1) * 3 + (xa - 1);
+			if(choice == uniqueName.size())
+			{
+				New();
 				system("cls");
 			}
-			else {
-				New();
+			else if (choice == uniqueName.size() + 1)
+			{
+				//costumer
+			}
+			else if (choice == uniqueName.size() + 2)
+			{
+				//report
+			}
+			else
+			{
+				add_Edit(uniqueName[choice]);
 				system("cls");
 			}
 				goto link;

@@ -215,23 +215,27 @@ Smartphone& Store::operator[](int index)
 }
 
 //**********************************************************************TRANSACTION**********************************************************************************************************
-bool Store::Input_Storage(Smartphone& smp) // Nhap vao lich su mua ban
+/*Dont touch*/
+bool Store::Input_Storage() // Nhap vao lich su mua ban
 {
 	Date today;
 	string fileName = today.ToStringDMonth() + ".txt";
-	ofstream fout(fileName,ios::app);
-	fout.open(fileName);
+	ofstream fout(fileName, ios::app);
 	if (!fout.is_open())
 	{
 		return false;
 	}
 	else
 	{
-		fout << today.ToString() << "," << smp.ToStringBill() << endl;
+		for(int i = 0; i < Bags.size();i++)
+		{
+			fout << today.Day() << "," <<  Bags[i].ToStringBill() << endl;
+		}
 	}
+	fout.close();
 	return true;
 }
-
+/*Dont touch*/
 bool Store::Output_Bill(string name, double money)
 {
 	Date today;
@@ -256,6 +260,7 @@ bool Store::Output_Bill(string name, double money)
 		fout << "Give back your change: " << money - total << endl;
 		fout << "Thank for using my service" << endl;
 	}
+	fout.close();
 	return true;
 }
 
@@ -263,7 +268,7 @@ void Store::Save_bill_by_month()
 {
 	Date a;
 }
-
+/*Dont touch*/
 bool Store::Sell_Bags()
 {
 	string name;
@@ -271,14 +276,14 @@ bool Store::Sell_Bags()
 	double total = Calc_Total_Cost(Bags);
 
 	Display_All_Calc_Cost(pos);
-	
+
 	gotoxy(1, pos + 1);
-	cout << "Are you sure you want to pay: (Y: yes, N: no):";
-	cin.ignore();
-	char c = _getch();
-	if (c == 'y' || 'Y') {
+	cout << "Are you sure you want to pay(Y: yes, N: no):";
+	char c; cin >> c;
+	if (c == 'y' || c == 'Y') {
 		cout << "Input your name: ";
-		cin >> name;
+		cin.ignore();
+		getline(cin, name, '\n');
 		cout << "Receive money from you: ";
 		cin >> money;
 		do
@@ -290,24 +295,13 @@ bool Store::Sell_Bags()
 			}
 		} while (money < total);
 
-		cout << "Do you you want print bill: (Y: yes, N: no):";
-		cin.ignore();
-		c = _getch();
-		if (c == 'y' || 'Y') {
-			if (Output_Bill(name, money))
-			{
-				cout << "Print bill successfully";
-			}
+		if (Output_Bill(name, money) == true && Input_Storage() == true)
+		{
+			cout << "Print bill successfully";
 		}
-		cout << endl;
-		return true;
 	}
+	cout << endl;
 	cout << "Thank for coming my shop, see you again" << endl;
-
-	for (auto i = 0; i < Bags.size(); i++) // ADD TO STORAGE
-	{
-		Input_Storage(Bags[i]);
-	}
 
 	if (Reset_Bags()) //Reset bags
 	{

@@ -18,7 +18,7 @@ public:
 	Smartphone & operator[](int index);
 	int getNum() { return num; }
 public: // Xuat hoa don
-	bool Input_Storage(Smartphone& smp); //Nhap vao kho
+	bool Input_Storage(); //Nhap vao kho
 	bool Output_Bill(string name, double change);
 	void Save_bill_by_month();
 public:

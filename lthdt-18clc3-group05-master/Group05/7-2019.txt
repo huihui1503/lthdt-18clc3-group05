@@ -1,0 +1,2 @@
+21,15032000,Samsung Galaxy S10+,1.9e+07,2.4e+07,2
+21,0050400,Samsung Galaxy Fold,5.5e+07,6e+07,2
