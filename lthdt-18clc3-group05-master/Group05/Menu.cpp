@@ -921,6 +921,7 @@ link: {
 
 int Menu::add_Edit(string brand){
 link: {
+	DisplayLogo(0, 0, (brand + "logo.txt").c_str(), Cyan, 1800);
 	vector<int> index; // this vector save the index of each element in store which same brand as my current brand
 	int x = 40, y = 5;
 	system("cls");
@@ -1080,9 +1081,14 @@ void Menu::New()
 	gotoxy(x, y); cout << "# Screen"; y += 3;
 	gotoxy(x, y); cout << "# Stock"; y += 3;
 	y = 6; gotoxy(x, y);
-	string data[9];
+	string data[10];
+	for (int i = 0; i < 10; i++) {
+		data[i] = "0";
+	}
 	int index = 1;
+	Draw_Box(xBox, y - 1, 1, 37, Red);
 	char c;
+	gotoxy(x, y);
 	do {
 		c = _getch();
 		if ((int)c == KEY_UP) {
