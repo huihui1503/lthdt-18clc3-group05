@@ -237,7 +237,7 @@ bool Store::Input_Storage() // Nhap vao lich su mua ban
 	return true;
 }
 /*Dont touch*/
-bool Store::Output_Bill(string name, double money)
+bool Store::Output_Bill(double money)
 {
 	Date today;
 	string fileName = today.ToString() + ".txt";
@@ -248,7 +248,7 @@ bool Store::Output_Bill(string name, double money)
 	}
 	else
 	{
-		fout << today.ToString() << "," << name << ":" << endl;
+		fout << today.ToString() << ":" << endl;
 		for (int i = 0; i < Bags.size(); i++)
 		{
 			fout << Bags[i].ToStringBill();
@@ -283,9 +283,6 @@ bool Store::Sell_Bags()
 	cout << "Are you sure you want to pay(Y: yes, N: no):";
 	char c; cin >> c;
 	if (c == 'y' || c == 'Y') {
-		cout << "Input your name: ";
-		cin.ignore();
-		getline(cin, name, '\n');
 		cout << "Receive money from you: ";
 		cin >> money;
 		do
@@ -297,7 +294,7 @@ bool Store::Sell_Bags()
 			}
 		} while (money < total);
 
-		if (Output_Bill(name, money) == true && Input_Storage() == true)
+		if (Output_Bill(money) == true && Input_Storage() == true)
 		{
 			cout << "Print bill successfully";
 		}
