@@ -14,6 +14,7 @@ public:
 	void Save_Attribute(ofstream&file);
 	bool Show_Info(string id, string name);
 	string Classify_Member();
+	bool check_id_name(string name, string id);
 public:
 	static int signal;
 	Customer(string, string, double);
