@@ -2,6 +2,11 @@
 
 int Customer::signal = 0;// check data
 
+bool Customer::check_id_name(string name, string id)
+{
+	return this->name == name || this->id == id;
+}
+
 bool Customer::Show_Info(string id, string name)
 {
 	if (this->id == id || this->name == name)
