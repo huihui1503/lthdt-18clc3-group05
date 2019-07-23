@@ -3,7 +3,8 @@
 #include<fstream>
 #include<string>
 using namespace std;
-class Costumer
+class Customer
+
 {
 private:
 	string id;
@@ -15,8 +16,8 @@ public:
 	string Classify_Member();
 public:
 	static int signal;
-	Costumer(string, string, double);
-	Costumer();
-	~Costumer();
+	Customer(string, string, double);
+	Customer();
+	~Customer();
 };
 

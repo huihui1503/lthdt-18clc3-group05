@@ -111,7 +111,7 @@ int Calc_Total_Stocklevel(const vector<Smartphone>& p)
 
 double Smartphone::Calc_Profit()
 {
-	return StockLevel*(Price_b-Price_s);
+	return StockLevel*(Price_s-Price_b);
 }
 
 vector<Smartphone>& Smartphone::operator-(vector<Smartphone>& p)
@@ -345,7 +345,7 @@ string Smartphone::ToStringBill()
 {
 	stringstream writer;
 	
-	writer << ID << "," << Name << "," << Price_b << "," << Price_s << "," << StockLevel;
+	writer << ID << "," << Name << "," << (long)Price_b << "," << (long)Price_s << "," << StockLevel;
 
 	return writer.str();
 }
@@ -354,7 +354,7 @@ string Smartphone::ToStringBestSeller()
 {
 	stringstream writer;
 
-	writer << ID << "," << Name << "," << Price_b << "," << Price_s;
+	writer << ID << "," << Name << "," << (long long)Price_b << "," << (long long)Price_s;
 
 	return writer.str();
 }
