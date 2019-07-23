@@ -479,27 +479,27 @@ void Draw_an_columm(int x, int y, int height, int data) {
 		for(int i=0;i<8;i++)
 		putchar(219);
 	}
-	gotoxy(x+3, y - i);
+	gotoxy(x, y - i);
 	textcolor(Yellow);
 	cout << data;
 	textcolor(White);
 
 }
-void Table_Draw_Chart(int m) {
-	m += 2;
+void Table_Draw_Chart(vector<double> months, int year) {
+	int m =17;
 	int k = 110;
 	int n = 11 + 2 * m;
 	int distance = (60 + k) / 12;
 	textcolor(15);
 	gotoxy(0, 0);
 	putchar(218);
-	for (int i = 1; i <= 80 + k; i++)
+	for (int i = 1; i <= 95 + k; i++)
 		putchar(196);
 	putchar(191);
 	printf("\n");
 
 	putchar(179);
-	for (int i = 1; i <= 80 + k; i++)
+	for (int i = 1; i <= 95 + k; i++)
 		putchar(219);
 	printf("%c\n", 179);
 	//
@@ -508,49 +508,55 @@ void Table_Draw_Chart(int m) {
 	{
 		putchar(179);
 		putchar(219);
-		gotoxy(80 + k, 1 + i);
+		gotoxy(95 + k, 1 + i);
 		printf("%c %c\n", 219, 179);
 	}
 	//21
 	gotoxy(2, m * 2 + 4);
 
-	for (int i = 1; i <= 79 + k; i++)
+	for (int i = 1; i <= 94 + k; i++)
 		putchar(219);
 	printf("\n");
 
 	putchar(192);
-	for (int i = 1; i <= 80 + k; i++)
+	for (int i = 1; i <= 95 + k; i++)
 		putchar(196);
 	putchar(217);
 	// phan bên trong
-	gotoxy(10, 3);
-	putchar(94);
 	// toạ độ điểm O
-	int posX = 10;
+	int posX = 20;
 	int posY = (m * 2 + 3) - 2;
 
 	gotoxy(posX, posY);
 	cout << "O";
 	//trục dọc
 	for (int i = 0; i < (m * 2 + 3) - 7; i++) {
-		gotoxy(10, 4 + i);
+		gotoxy(posX, 4 + i);
 		putchar(179);
 	}
 	//trục ngang
 	for (int i = 0; i < 68 + k; i++) {
-		gotoxy(10 + i, (m * 2 + 3) - 3);
+		gotoxy(posX + i, (m * 2 + 3) - 3);
 		putchar(196);
 	}
-	gotoxy(10, (m * 2 + 3) - 3);
+	gotoxy(posX, (m * 2 + 3) - 3);
 	putchar(192);
-
-	gotoxy(78 + k, (m * 2 + 3) - 3);
+	//đơn vị trục tung
+	gotoxy(10, 3);
+	cout << "(VND)";
+	gotoxy(20, 3);
+	putchar(94);
+	//đơn vị trục hoành
+	gotoxy(85 + k, (m * 2 + 3) - 2);
+	cout << "(Months)";
+	gotoxy(88 + k, (m * 2 + 3) - 3);
 	cout << ">";
+
 
 	//thong so truc hoanh
 	vector<string> Months = { "January","February","March", "April","May","June","July","August","September","October","November", "December" };
 	// test key
-	vector<double> Data = { 100, 90,80, 40, 67, 120, 110,70, 10, 10,30, 200 };
+	vector<double> Data = months;
 	//find max value and index of one
 	int max = Data[0];
 	int i = 1;
@@ -577,16 +583,24 @@ void Table_Draw_Chart(int m) {
 		gotoxy(posX + distance * (i)-5, posY);
 		cout << Months[i - 1];
 		// vẽ từng cột và ghi dữ liệu lên đầu cột đó
-		Draw_an_columm(posX + distance * (i)-5, posY - 3, Height[i - 1], Data[i - 1]);
+		Draw_an_columm(posX + distance * (i)-6, posY - 3, Height[i - 1], Data[i - 1]);
 		// vẽ độ chia trên trục tung
 		gotoxy(posX, posY - Height[i - 1]-1);
 		putchar(197);
-		gotoxy(3, posY - Height[i - 1]);
-		cout << Data[i - 1];
+		gotoxy(5, posY - 1 - Height[i - 1]);
+		printf("%10.f", Data[i - 1]);
 	}
 	// vẽ độ chia trên trục tung
 	
-	gotoxy(70 + k, (m * 2 + 3) +10);
+	gotoxy(k - 15, (m * 2 + 3) + 4);
+	cout << "PROFIT GROWTH CHART IN " << year << endl;
+	gotoxy(10, (m * 2 + 3) + 6);
+	double tmp = 0;
+	for (int i = 0; i < 12; i++)
+		tmp += months[i];
+	cout << "TOTAL PROFIT IN YEAR " << year << ": ";
+	printf("%10.f\n", tmp);
+
 	system("pause");
 }
 void DisplayLogo(int x, int y, const char * file_name, int color, int time_appear)

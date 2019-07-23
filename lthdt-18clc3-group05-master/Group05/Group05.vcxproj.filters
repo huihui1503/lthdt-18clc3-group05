@@ -36,10 +36,7 @@
     <ClCompile Include="Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Statistics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Report.cpp">
+    <ClCompile Include="Costumer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Customer.cpp">
@@ -68,10 +65,10 @@
     <ClInclude Include="Statistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Report.h">
+    <ClInclude Include="Statistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Customer.h">
+    <ClInclude Include="Report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

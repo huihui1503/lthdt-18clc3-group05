@@ -130,7 +130,6 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Report.h" />
     <ClInclude Include="Smartphone.h" />
-    <ClInclude Include="Statistics.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
@@ -142,7 +141,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Report.cpp" />
     <ClCompile Include="Smartphone.cpp" />
-    <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="Store.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
