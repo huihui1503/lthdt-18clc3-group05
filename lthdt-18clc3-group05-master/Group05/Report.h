@@ -17,7 +17,7 @@ public:
 	double Calc_Profit_Follow_Year(int year); //Tinh loi nhuan theo nam(chon nam de tinh)
 	double Calc_Profit_Follow_2Month_To_2Year(int month1, int year1, int month2, int year2); //Tinh loi nhuan tu thang nay qua thang khac nam khac
 	void find_Best_Seller_In(int month1, int year1, int month2, int year2);
-	vector<double>& Calc_Profit_Follow_Year_DrawChart(int year); 
+	vector<double> Calc_Profit_Follow_Year_DrawChart(int year); 
 	void Draw_Chart_forA_Year(int year);
 };
 #endif

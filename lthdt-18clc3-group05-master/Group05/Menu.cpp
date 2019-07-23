@@ -1398,7 +1398,8 @@ void Menu::Menu_Profit_Year()
 	year= Enter(42, 14);
 	if (year == "") return;
 	system("cls");
-	cout << (long long)report.Calc_Profit_Follow_Year(stoi(year));
-	cout << endl;
-	system("pause");
+	resizeConsole(1700, 900);
+	report.Draw_Chart_forA_Year(stoi(year));
+	resizeConsole(895, 518);
+	system("cls");
 }
