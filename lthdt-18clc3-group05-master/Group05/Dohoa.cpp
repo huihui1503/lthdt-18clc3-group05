@@ -485,8 +485,8 @@ void Draw_an_columm(int x, int y, int height, int data) {
 	textcolor(White);
 
 }
-void Table_Draw_Chart(int m) {
-	m += 2;
+void Table_Draw_Chart(vector<double> months, int year) {
+	int m =17;
 	int k = 110;
 	int n = 11 + 2 * m;
 	int distance = (60 + k) / 12;
@@ -550,7 +550,7 @@ void Table_Draw_Chart(int m) {
 	//thong so truc hoanh
 	vector<string> Months = { "January","February","March", "April","May","June","July","August","September","October","November", "December" };
 	// test key
-	vector<double> Data = { 100, 90,80, 40, 67, 120, 110,70, 10, 10,30, 200 };
+	vector<double> Data = months;
 	//find max value and index of one
 	int max = Data[0];
 	int i = 1;
@@ -586,6 +586,7 @@ void Table_Draw_Chart(int m) {
 	}
 	// vẽ độ chia trên trục tung
 	
-	gotoxy(70 + k, (m * 2 + 3) +10);
+	gotoxy(40 + k, (m * 2 + 3) +10);
+	cout << "PROFIT GROWTH CHART IN " << year << endl;
 	system("pause");
 }

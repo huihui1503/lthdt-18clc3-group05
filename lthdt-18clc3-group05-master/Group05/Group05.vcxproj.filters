@@ -36,9 +36,6 @@
     <ClCompile Include="Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Statistics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Costumer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Costumer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Statistics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Report.h">

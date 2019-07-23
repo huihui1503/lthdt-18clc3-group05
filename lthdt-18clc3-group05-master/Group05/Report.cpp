@@ -149,3 +149,28 @@ void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 	m_day.clear();
 	return;
 }
+
+vector<double>& Report::Calc_Profit_Follow_Year_DrawChart(int year)
+{
+	vector<double> months;
+	double profit = 0;
+	for (int i = 1; i <= 12; i++)
+	{
+		stringstream writer;writer << i << "-" << year << ".txt"; string fileName = writer.str();
+		if (Load_Data_from_Storage(fileName.c_str()))
+		{
+			months.push_back( Calc_Total_Profit());
+		}
+		m_s.clear();
+		m_day.clear();
+	}
+	return months;
+}
+
+void Report::Draw_Chart_forA_Year(int year)
+{
+	vector<double> Months = Calc_Profit_Follow_Year_DrawChart(year);
+	Table_Draw_Chart(Months, year);
+	//clrscr();
+	//resize(xxx, yyyy);
+}

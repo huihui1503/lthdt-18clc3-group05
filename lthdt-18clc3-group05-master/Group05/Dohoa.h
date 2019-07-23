@@ -51,7 +51,7 @@ void ToMau(int x, int y, char *a, int color);// x, y là tọa độ con trỏ c
 void Table_Expand(int m);// Testing Function dont use if dont know
 void Table_Basic(int m);
 void Table_Calc_Cost(int m);
-void Table_Draw_Chart(int m);
+void Table_Draw_Chart(vector<double> months, int year);
 void Draw_an_columm(int x, int y, int height, int data);
 #endif // !_Dohoa_
 
