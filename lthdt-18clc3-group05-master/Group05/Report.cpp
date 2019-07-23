@@ -36,9 +36,16 @@ bool Report::Load_Data_from_Date(int month1, int year1, int month2, int year2)
 	int count = 0;
 	if (month1 >= 1 && month2 >= 1 && month1 <= 12 && month2 <= 12)
 	{
+		int i1, i2;
+		if (month1 <= month2) { i1 = month1; i2 = month2; }
+		else if (month2 <= month1) { i1 = month2; i2 = month1; }
+
 		if (year1 != year2)
 		{
-			for (int i = month1; i <= 12; i++)
+			int j1, j2; if (year1 < year2) { j1 = year1; j2 = year2; }
+			else if (year2 < year1) { j1 = year2; j2 = year1; }
+
+			for (int i = i1; i <= 12; i++) //Year1
 			{
 				stringstream writer; writer << i << "-" << year1 << ".txt";
 				string fileName = writer.str();
@@ -47,8 +54,18 @@ bool Report::Load_Data_from_Date(int month1, int year1, int month2, int year2)
 					count++;
 				}
 			}
-	
-			for (int i = month2; i <= 12; i++)
+			for (int j = j1; j <= j2; j++) //Year2 -> Year(n-1)
+			{
+				for (int i = 1; i <= 12; i++)
+				{
+					stringstream writer; writer << i << "-" << j << ".txt"; string fileName = writer.str();
+					if (Load_Data_from_Storage(fileName.c_str()))
+					{
+						count++;
+					}
+				}
+			}
+			for (int i = 1; i <= i2; i++) //Year(n)
 			{
 				stringstream writer; writer << i << "-" << year2 << ".txt";
 				string fileName = writer.str();
@@ -60,10 +77,6 @@ bool Report::Load_Data_from_Date(int month1, int year1, int month2, int year2)
 		}
 		else if (year1 == year2)
 		{
-			int i1, i2;
-			if (month1 <= month2) { i1 = month1; i2 = month2; }
-			else if (month2 <= month1) { i1 = month2; i2 = month1; }
-
 			for (i1; i1 <= i2; i1++)
 			{
 				stringstream writer; writer << i1 << "-" << year1 << ".txt";
@@ -124,11 +137,11 @@ double Report::Calc_Profit_Follow_2Month_To_2Year(int month1, int year1, int mon
 void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 {
 
-	if (Load_Data_from_Date(month1, year1, month2, year2)== true)
+	if (Load_Data_from_Date(month1, year1, month2, year2) == true)
 	{
-		vector<int>temp(m_s.size(),0);
+		vector<int>temp(m_s.size(), 0);
 		//Duyet mang
-		for (int i = 0; i < m_s.size(); i++) 
+		for (int i = 0; i < m_s.size(); i++)
 		{
 			for (int j = i; j < m_s.size(); j++)
 			{
@@ -154,10 +167,15 @@ void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 			cout << "Best seller is: " << endl;
 			cout << m_s[pos].ToStringBestSeller() << " with " << max << " stocks" << endl;
 		}
-		else cout << "Dont have best seller" << endl;
+		else
+		{
+			system("cls");
+			cout << "Dont have best seller" << endl;
+		}
 		m_s.clear();
 		m_day.clear();
-	} else cout << "Dont have best seller" << endl;
+	}
+	else { system("cls"); cout << "Dont have best seller" << endl; }
 	system("pause");
 	return;
 }
