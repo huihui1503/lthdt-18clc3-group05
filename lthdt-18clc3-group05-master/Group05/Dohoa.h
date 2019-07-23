@@ -56,3 +56,4 @@ void Draw_an_columm(int x, int y, int height, int data);
 #endif // !_Dohoa_
 
 void Delete_On_Console(int start_x, int start_y, int end_x, int end_y);
+void DisplayLogo(int x, int y, const char * file_name, int color, int time_appear);
