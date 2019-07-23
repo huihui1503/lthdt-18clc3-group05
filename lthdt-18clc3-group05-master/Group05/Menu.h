@@ -13,7 +13,7 @@ class Menu
 {
 private:
 	Store main_data;
-	string path_costumer = "Customer.txt";
+	string path_customer = "Customer.txt";
 	vector<Customer> data;
 	Report report;
 //Customer
@@ -21,6 +21,8 @@ public:
 	void Load_Data_Customer();
 	void Save_Data_Customer();
 	void Move_in_Customer();
+	void Create_New_Customer();
+	bool Check_Existing_Costumer(string name,string id);
 //Report
 public:
 	void Report_Interface();

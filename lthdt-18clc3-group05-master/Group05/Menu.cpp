@@ -763,6 +763,8 @@ Menu::Menu()
 Menu::~Menu()
 {
 	main_data.Save_All_Data();
+	Save_Data_Customer();
+	
 }
 
 bool checkIfUnique(vector<string> unique, string input) {
@@ -1151,7 +1153,7 @@ void Menu::New()
 //costumer function
 void Menu::Load_Data_Customer()
 {
-	ifstream file(path_costumer);
+	ifstream file(path_customer);
 	if (!file.is_open()) return;
 	while (file.good())
 	{
@@ -1172,7 +1174,7 @@ void Menu::Load_Data_Customer()
 
 void Menu::Save_Data_Customer()
 {
-	ofstream file(path_costumer);
+	ofstream file(path_customer);
 	if (!file.is_open()) return;
 	for (int i = 0; i < data.size(); i++)
 	{
@@ -1202,11 +1204,15 @@ Done:
 	textcolor(Red); gotoxy(xBox+2, 18); cout << "* Notes:";
 	textcolor(White); gotoxy(xBox + 2, 20); cout << "[i]: Press Enter to continue";
 	gotoxy(xBox+2, 22); cout << "[i]: Esc to exit";
+	gotoxy(xBox + 2, 24); cout << "[i]: Shilft + N to create new";
 	gotoxy(xBox + 2, 8);
 	string place1 = Enter(xBox+2, 8);
+	if (place1 == "") return;
+	if (place1 == "N") Create_New_Customer();
 	gotoxy(xBox + 2, 13);
 	string place2 = Enter(xBox+2, 13);
-	if (place1 == "" && place2 == "") return;
+	if (place2 == "") return;
+	if (place2 == "N") Create_New_Customer();
 	bool check = false;
 	system("cls");
 	for (int i = 0; i < data.size()&&!check; i++)
@@ -1216,6 +1222,57 @@ Done:
 	if (!check) cout << "NOT FOUNDED";
 	system("pause>nul");
 	goto Done;
+}
+
+void Menu::Create_New_Customer()
+{
+Done:
+	system("cls");
+	// Draw effect
+	int xBox = 40, yBox = 5;
+	Draw_Box(37, 4, 25, 43, 25);// big box
+	for (int i = 0; i <= 1; i++)
+	{
+		Draw_Box(xBox, 7 + i * 5, 1, 37, White);
+	}
+	int x = 42;
+	textcolor(Cyan);
+	gotoxy(x, 6); cout << "ID";
+	gotoxy(x, 11); cout << "Name";
+	textcolor(Red);
+	gotoxy(49, 2); cout << "Register new memmber";
+	Draw_Box(xBox, 17, 7, 37, White);
+	textcolor(Red); gotoxy(xBox + 2, 18); cout << "* Notes:";
+	textcolor(White); gotoxy(xBox + 2, 20); cout << "[i]: Press Enter to continue";
+	gotoxy(xBox + 2, 22); cout << "[i]: Esc to exit";
+	gotoxy(xBox + 2, 8);
+	string place1 = Enter(xBox + 2, 8);
+	if (place1 == "") return;
+	gotoxy(xBox + 2, 13);
+	string place2 = Enter(xBox + 2, 13);
+	if (place2 == "") return;
+	bool check = Check_Existing_Costumer(place2, place1);
+	gotoxy(49, 3);
+	textcolor(Red);
+	if (!check) cout << "Register successfully!!!";
+	else cout << "Account has existed!!!!";
+	system("pause>nul");
+	goto Done;
+}
+
+bool Menu::Check_Existing_Costumer(string name, string id)
+{
+	bool check = false;
+	for (int i = 0; i < data.size() && !check; i++)
+	{
+		check = data[i].check_id_name(name, id);
+	}
+	if (!check)
+	{
+		Customer temp(id, name, 0);
+		data.push_back(temp);
+	}
+	return check;
 }
 
 //Report
