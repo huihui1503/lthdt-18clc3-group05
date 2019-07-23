@@ -1321,7 +1321,12 @@ void Menu::Menu_Best_Seller(int status)
 	year2 = Enter(x + 1, 8 + 5 * 3);
 	if (year2 == "") return;
 	if (status == 1)report.find_Best_Seller_In(stoi(month1), stoi(year1), stoi(month2), stoi(year2));
-	else report.Calc_Profit_Follow_2Month_To_2Year(stoi(month1), stoi(year1), stoi(month2), stoi(year2));
+	else {
+		system("cls");
+		cout << (long long)report.Calc_Profit_Follow_2Month_To_2Year(stoi(month1), stoi(year1), stoi(month2), stoi(year2));
+		cout << endl;
+		system("pause");
+	}
 }
 
 void Menu::Menu_Profit_Year()
@@ -1335,5 +1340,8 @@ void Menu::Menu_Profit_Year()
 	textcolor(White);
 	year= Enter(42, 14);
 	if (year == "") return;
-	report.Calc_Profit_Follow_Year(stoi(year));
+	system("cls");
+	cout << (long long)report.Calc_Profit_Follow_Year(stoi(year));
+	cout << endl;
+	system("pause");
 }
