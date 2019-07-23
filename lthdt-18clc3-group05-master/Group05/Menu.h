@@ -3,7 +3,8 @@
 #include<string>
 #include"Store.h"
 #include"Dohoa.h"
-#include"Costumer.h"
+#include"Customer.h"
+#include"Report.h"
 #include <io.h>
 #include <fcntl.h>
 using namespace std;
@@ -12,13 +13,19 @@ class Menu
 {
 private:
 	Store main_data;
-	string path_costumer = "Costumer.txt";
-	vector<Costumer> data;
-//Costumer
+	string path_costumer = "Customer.txt";
+	vector<Customer> data;
+	Report report;
+//Customer
 public:
-	void Load_Data_Costumer();
-	void Save_Data_Costumer();
-	void Move_in_Costumer();
+	void Load_Data_Customer();
+	void Save_Data_Customer();
+	void Move_in_Customer();
+//Report
+public:
+	void Report_Interface();
+	void Menu_Best_Seller(int status);
+	void Menu_Profit_Year();
 public:
 	void Seller_Move();
 	void Master_Move();
