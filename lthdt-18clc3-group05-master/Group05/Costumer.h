@@ -3,7 +3,7 @@
 #include<fstream>
 #include<string>
 using namespace std;
-class Costumer
+class Customer
 {
 private:
 	string id;
@@ -11,12 +11,12 @@ private:
 	double point;
 public:
 	void Save_Attribute(ofstream&file);
-	bool Show_Info(string id, string name);
+	bool Show_tmp_data(int idx, int idy, int namex, int namey);
 	string Classify_Member();
 public:
 	static int signal;
-	Costumer(string, string, double);
-	Costumer();
-	~Costumer();
+	Customer(string, string, double);
+	Customer();
+	~Customer();
 };
 

@@ -1142,6 +1142,20 @@ void Menu::New()
 	main_data.addNewSmartphone(tmp);
 }
 
+void Menu::Add_Edit_customer()
+{
+	int xbox = 10, ybox = 5;
+	for (size_t i = 0; i < data.size(); i++) {
+		Draw_Box(xbox, ybox, 3, 13, DarkCyan);
+		xbox += 17;
+		Draw_Box(xbox, ybox, 3, 13, DarkCyan);
+		data[i].Show_tmp_data(xbox + 1, ybox + 1, xbox + 18, ybox + 1);
+		ybox += 4;
+	}
+	xbox = 10;
+	ybox = 5;
+}
+
 
 //costumer function
 void Menu::Load_Data_Costumer()
@@ -1158,7 +1172,7 @@ void Menu::Load_Data_Costumer()
 		file.getline(temp, 1000, ','); name = string(temp);
 		file.getline(temp, 1000, '\n'); point = string(temp);
 		file.ignore();
-		Costumer test(id, name, stoi(point));
+		Customer test(id, name, stoi(point));
 		data.push_back(test);
 	}
 	data[0].signal = 1;
