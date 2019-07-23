@@ -15,7 +15,7 @@ bool Report::Load_Data_from_Storage(const char* path)
 		char tmp1[1000];
 		while (!fin.eof())
 		{
-			fin.getline(tmp1, 1000, ','); if (tmp1 == "") { break; }    day = int(tmp1);
+			fin.getline(tmp1, 1000, ','); if (tmp1 == "") { break; }    day = stoi(tmp1);
 			fin.getline(tmp1, 1000, ',');                               id = string(tmp1);
 			fin.getline(tmp1, 1000, ',');                               name = string(tmp1);
 			fin.getline(tmp1, 1000, ',');       	                    pb = string(tmp1);
