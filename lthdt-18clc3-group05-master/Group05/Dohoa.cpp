@@ -589,3 +589,37 @@ void Table_Draw_Chart(int m) {
 	gotoxy(70 + k, (m * 2 + 3) +10);
 	system("pause");
 }
+void DisplayLogo(int x, int y, const char * file_name, int color, int time_appear)
+{
+	system("cls");
+	ifstream fin(file_name);
+	if (!fin.is_open()) {
+		gotoxy(x, y);
+		cout << "Logo isn't available" << endl;
+		Sleep(time_appear);
+		system("cls");
+		return;
+	}
+	string logo;
+	char tmp[3000];
+	fin.get(tmp, 3000, 'eof');
+	logo = (string)tmp;
+	int i = 0;
+	textcolor(color);
+	gotoxy(x, y);
+	y++;
+	while (logo[i] != '\0') {
+		if (logo[i] == '\n') {
+			cout << logo[i];
+			gotoxy(x, y);
+			y++;
+		}
+		else {
+			cout << logo[i];
+		}
+		i++;
+	}
+	Sleep(time_appear);
+	system("cls");
+	return;
+}

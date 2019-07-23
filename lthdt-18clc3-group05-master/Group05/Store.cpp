@@ -173,6 +173,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 
 void Store::addNewSmartphone(Smartphone tmp)
 {
+	num++;
 	arrSmartphones.push_back(tmp);
 }
 

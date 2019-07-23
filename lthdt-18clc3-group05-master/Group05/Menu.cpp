@@ -394,7 +394,7 @@ Done:
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
 			if (current == move-1)
 			{
-				Move_in_Costumer();
+				Move_in_Customer();
 				system("cls");
 				main_data.Draw_Bag();
 			}
@@ -756,7 +756,7 @@ Menu::Menu()
 		//return;
 	//else 
 	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
-	Load_Data_Costumer();
+	Load_Data_Customer();
 }
 
 
@@ -801,7 +801,7 @@ link: {
 		else if (i == uniqueName.size() + 2)
 		{
 			textcolor(Pink);
-			cout << "Costumer";
+			cout << "Customer";
 		}
 		else
 		{
@@ -837,6 +837,11 @@ link: {
 	cout << "#use keyboard to move ";
 	gotoxy(x, y + 1);
 	cout << "#press esc to exit ";*/
+	int xBox = 84, yBox = 5;
+	Draw_Box(xBox, yBox, 7, 35, White);
+	textcolor(Red); gotoxy(xBox + 2, yBox+1); cout << "* Notes:";
+	textcolor(White); gotoxy(xBox + 2, yBox+3); cout << "[i]: Press Enter to continue";
+	gotoxy(xBox + 2, yBox+5); cout << "[i]: Esc to exit";
 	int Xmax = (uniqueName.size()+3) % 3;
 	int Ymax = (uniqueName.size()+3) / 3;
 	if (Ymax != 0) Ymax += 1;
@@ -904,7 +909,7 @@ link: {
 			}
 			else if (choice == uniqueName.size() + 2)
 			{
-				//report
+				Report_Interface();
 			}
 			else
 			{
@@ -921,6 +926,7 @@ link: {
 
 int Menu::add_Edit(string brand){
 link: {
+	DisplayLogo(0, 0, (brand + "logo.txt").c_str(), Cyan, 1800);
 	vector<int> index; // this vector save the index of each element in store which same brand as my current brand
 	int x = 40, y = 5;
 	system("cls");
@@ -1080,9 +1086,14 @@ void Menu::New()
 	gotoxy(x, y); cout << "# Screen"; y += 3;
 	gotoxy(x, y); cout << "# Stock"; y += 3;
 	y = 6; gotoxy(x, y);
-	string data[9];
+	string data[10];
+	for (int i = 0; i < 10; i++) {
+		data[i] = "0";
+	}
 	int index = 1;
+	Draw_Box(xBox, y - 1, 1, 37, Red);
 	char c;
+	gotoxy(x, y);
 	do {
 		c = _getch();
 		if ((int)c == KEY_UP) {
@@ -1138,7 +1149,7 @@ void Menu::New()
 
 
 //costumer function
-void Menu::Load_Data_Costumer()
+void Menu::Load_Data_Customer()
 {
 	ifstream file(path_costumer);
 	if (!file.is_open()) return;
@@ -1152,14 +1163,14 @@ void Menu::Load_Data_Costumer()
 		file.getline(temp, 1000, ','); name = string(temp);
 		file.getline(temp, 1000, '\n'); point = string(temp);
 		file.ignore();
-		Costumer test(id, name, stoi(point));
+		Customer test(id, name, stoi(point));
 		data.push_back(test);
 	}
 	data[0].signal = 1;
 	file.close();
 }
 
-void Menu::Save_Data_Costumer()
+void Menu::Save_Data_Customer()
 {
 	ofstream file(path_costumer);
 	if (!file.is_open()) return;
@@ -1170,7 +1181,7 @@ void Menu::Save_Data_Costumer()
 	file.close();
 }
 
-void Menu::Move_in_Costumer()
+void Menu::Move_in_Customer()
 {
 Done:
 	system("cls");
@@ -1186,7 +1197,7 @@ Done:
 	gotoxy(x, 6); cout << "ID";
 	gotoxy(x, 11); cout << "Name";
 	textcolor(Red);
-	gotoxy(49, 2); cout << "Costumer Management";
+	gotoxy(49, 2); cout << "Customer Management";
 	Draw_Box(xBox, 17, 7, 37, White);
 	textcolor(Red); gotoxy(xBox+2, 18); cout << "* Notes:";
 	textcolor(White); gotoxy(xBox + 2, 20); cout << "[i]: Press Enter to continue";
@@ -1205,4 +1216,124 @@ Done:
 	if (!check) cout << "NOT FOUNDED";
 	system("pause>nul");
 	goto Done;
+}
+
+//Report
+void Menu::Report_Interface()
+{
+	int choice = 0;
+Done:
+	system("cls");
+	string array[4] = { "Best seller", "Profit in year","Profit in distance","Statistic" };
+	char key = '.';
+	int line = 12, col = 55;//vi tri
+	textcolor(White);
+	for (int i = 0; i < 4; i++)
+	{
+		gotoxy(col, line + i); cout << array[i];
+	}
+	int choice_num = 3;
+	while (int(key)!=KEY_ESC)
+	{
+		textcolor(Red);
+		gotoxy(col, line + choice); cout << array[choice];
+		key = _getch();
+		if (int(key) == KEY_UP)
+		{
+			textcolor(White);
+			gotoxy(col, line + choice); cout << array[choice];
+			choice--;
+			if (choice < 0) choice = choice_num;
+		}
+		if (int(key) == KEY_DOWN)
+		{
+			textcolor(White);
+			gotoxy(col, line + choice); cout << array[choice];
+			choice++;
+			if (choice > choice_num) choice = 0;
+		}
+		if (int(key) == KEY_ENTER)
+		{
+			if (choice == 0)
+			{
+				//FUNCTION bestseller
+				system("cls");
+				textcolor(Red);
+				gotoxy(51, 2); cout << "Best Seller";
+				Menu_Best_Seller(1);
+			}
+			if (choice == 1)
+			{
+				//FUNCTION profit year
+				//Calc_Profit_Follow_Year(int year);
+				Menu_Profit_Year();
+			}
+			if (choice == 2)
+			{
+				//FUNCTION profit distance
+				//Calc_Profit_Follow_2Month_To_2Year(int month1, int year1, int month2, int year2);
+				system("cls");
+				textcolor(Red);
+				gotoxy(51, 2); cout << "Profit in distance";
+				Menu_Best_Seller(2);
+			}
+			if (choice == 3)
+			{
+				//FUNCTION statistic
+			}
+			goto Done;
+		}
+	}
+
+}
+
+void Menu::Menu_Best_Seller(int status)
+{
+	// Draw effect
+	int xBox = 40, yBox = 5;
+	Draw_Box(37, 4, 22, 43, 25);// big box
+	for (int i = 0; i <= 3; i++)
+	{
+		Draw_Box(xBox, 7 + i * 5, 1, 37, White);
+	}
+	int x = 42;
+	textcolor(Cyan);
+	gotoxy(x, 6); cout << "From month";
+	gotoxy(x, 11); cout << "From year";
+	gotoxy(x, 16); cout << "To month";
+	gotoxy(x, 21); cout << "To year";
+	textcolor(White);
+	Draw_Box(4, 12, 7, 31, White);
+	textcolor(Red); gotoxy(6, 13); cout << "* Notes:";
+	textcolor(White); gotoxy(6, 15); cout << "[i]: Press Shift + F to find";
+	gotoxy(6, 17); cout << "[i]: Esc to exit";
+	string month1, month2, year1, year2;
+	gotoxy(x + 1, 8);
+	month1 = Enter(x + 1, 8);
+	if (month1 == "") return;
+	gotoxy(x + 1, 8 + 5 * 1);
+	year1 = Enter(x + 1, 8 + 5 * 1);
+	if (year1 == "") return;
+	gotoxy(x + 1, 8 + 5 * 2);
+	month2 = Enter(x + 1, 8 + 5 * 2);
+	if (month2 == "") return;
+	gotoxy(x + 1, 8 + 5 * 3);
+	year2 = Enter(x + 1, 8 + 5 * 3);
+	if (year2 == "") return;
+	if (status == 1)report.find_Best_Seller_In(stoi(month1), stoi(year1), stoi(month2), stoi(year2));
+	else report.Calc_Profit_Follow_2Month_To_2Year(stoi(month1), stoi(year1), stoi(month2), stoi(year2));
+}
+
+void Menu::Menu_Profit_Year()
+{
+	system("cls");
+	textcolor(Red);
+	gotoxy(51, 2); cout << "Profit in year";
+	Draw_Box(40, 13, 1, 40, Cyan);
+	string year;
+	gotoxy(42, 14);
+	textcolor(White);
+	year= Enter(42, 14);
+	if (year == "") return;
+	report.Calc_Profit_Follow_Year(stoi(year));
 }
