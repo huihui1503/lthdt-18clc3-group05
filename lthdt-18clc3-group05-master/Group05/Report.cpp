@@ -197,6 +197,26 @@ vector<double> Report::Calc_Profit_Follow_Year_DrawChart(int year)
 	return months;
 }
 
+vector<double> Report::Calc_Stock_Follow_Year_DrawChart(int year)
+{
+	vector<double> months(12, 0);
+	double stock = 0;
+	for (int i = 1; i <= 12; i++)
+	{
+		stringstream writer;writer << i << "-" << year << ".txt"; string fileName = writer.str();
+		if (Load_Data_from_Storage(fileName.c_str()))
+		{
+			for(int j = 0; j < m_s.size(); j++)
+			{
+				stock += m_s[j].Get_StockLevel();
+			}
+		}
+		m_s.clear();
+		m_day.clear();
+	}
+	return months;
+}
+
 void Report::Draw_Chart_forA_Year(int year)
 {
 	if (year <= 0)
