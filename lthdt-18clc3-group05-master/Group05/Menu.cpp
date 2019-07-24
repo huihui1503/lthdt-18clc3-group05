@@ -1190,11 +1190,13 @@ link: {
 
 void Menu::Add_Edit_customer()
 {
+	int index = 0;
+	int xbox = 45, ybox = 5;
 link: {
 	system("cls");
-	int xbox = 10, ybox = 5;
 	for (size_t i = 0; i < data.size(); i++) {
-		Draw_Box(xbox, ybox, 1, 30, DarkCyan);
+		Draw_Box(xbox, ybox, 1, 30, White);
+		textcolor(Cyan);
 		data[i].Show_tmp_data(xbox + 2, ybox + 1);
 		ybox += 4;
 	}
@@ -1202,36 +1204,26 @@ link: {
 	gotoxy(xbox + 2, ybox + 1);
 	textcolor(Yellow);
 	cout << "  New customer";
-	xbox = 10; ybox = 5;
 	char c;
-	int index = 0;
-	Draw_Box(xbox, ybox, 1, 30, Red);
+	xbox = 84, ybox = 5;
+	Draw_Box(xbox, ybox, 7, 35, White);
+	textcolor(Red); gotoxy(xbox + 2, ybox + 1); cout << "* Notes:";
+	textcolor(White); gotoxy(xbox + 2, ybox + 3); cout << "[i]: Press Enter to continue";
+	gotoxy(xbox + 2, ybox + 5); cout << "[i]: Esc to exit";
+	xbox = 45, ybox = 5;
 	do {
+		Draw_Box(xbox, ybox + index * 4, 1, 30,Red);
 		c = _getch();
 		if ((int)c == KEY_UP) //up
 		{
-			Draw_Box(xbox, ybox, 1, 30, DarkCyan);
-			if (ybox == 5) {
-				ybox += 4 * data.size();
-				index = data.size();
-			}
-			else {
-				ybox -= 4;
-				index--;
-			}
-			Draw_Box(xbox, ybox, 1, 30, Red);
+			Draw_Box(xbox, ybox+index*4, 1, 30, White);
+			index -= 1;
+			if (index < 0) index = data.size();
 		}
 		if ((int)c == KEY_DOWN) {
-			Draw_Box(xbox, ybox, 1, 30, DarkCyan);
-			if (ybox >= data.size() * 4 + 5) {
-				ybox = 5;
-				index = 0;
-			}
-			else {
-				ybox += 4;
-				index++;
-			}
-			Draw_Box(xbox, ybox, 1, 30, Red);
+			Draw_Box(xbox, ybox + index * 4, 1, 30, White);
+			index += 1;
+			if (index > data.size()) index = 0;
 		}
 		if ((int)c == KEY_ENTER) {
 			cout << index;
@@ -1241,6 +1233,7 @@ link: {
 			}
 			if (index == data.size()) {
 				//new customer
+				Create_New_Customer();
 				goto link;
 			}
 		}
@@ -1572,6 +1565,7 @@ void Menu::Menu_Profit_Year()
 	system("cls");
 	textcolor(Red);
 	gotoxy(51, 2); cout << "Profit in year";
+	gotoxy(41, 12); cout << "Year";
 	Draw_Box(40, 13, 1, 40, Cyan);
 	string year;
 	gotoxy(42, 14);
