@@ -797,17 +797,17 @@ link: {
 		if (i <= uniqueName.size()) cout << uniqueName[i - 1];
 		else if (i == uniqueName.size() + 1)
 		{
-			textcolor(Pink);
+			textcolor(Yellow);
 			cout << "New";
 		}
 		else if (i == uniqueName.size() + 2)
 		{
-			textcolor(Pink);
+			textcolor(Yellow);
 			cout << "Customer";
 		}
 		else
 		{
-			textcolor(Pink);
+			textcolor(Yellow);
 			cout << "Report";
 		}
 		if (i % 3 == 0)
@@ -907,7 +907,7 @@ link: {
 			}
 			else if (choice == uniqueName.size() + 1)
 			{
-				//costumer
+				Add_Edit_customer();
 			}
 			else if (choice == uniqueName.size() + 2)
 			{
@@ -1047,13 +1047,19 @@ void Menu::edit(int Index)
 			gotoxy(x, y);
 		}
 		if ((int)c == KEY_ENTER) {
-			cout << "                                  ";
-			gotoxy(x, y);
-			textcolor(Yellow);
-			char tmp[100];
-			gets_s(tmp);
-			data[index] = (string)tmp;
-			gotoxy(x, y);
+			do {
+				cout << "                                  ";
+				gotoxy(x, y);
+				textcolor(Yellow);
+				char tmp[100];
+				gets_s(tmp);
+				data[index] = (string)tmp;
+				if (data[index] == "") {
+					gotoxy(57, y);
+					cout << "This value can't emty";
+				}
+				gotoxy(x, y);
+			} while (data[index] == "");
 		}
 		if ((int)c == KEY_ESC) break;
 	} while (1);
@@ -1063,11 +1069,17 @@ void Menu::edit(int Index)
 
 void Menu::New()
 {
+	bool empty = false;
+link: {
 	system("cls");
+	if (empty == true) {
+		gotoxy(15, 2);
+		cout << "Value cannot empty";
+	}
 	gotoxy(20, 1);
 	textcolor(Gray); cout << "to edit press enter, exit press ESC" << endl;
 	int xBox = 13, yBox = 5;
-	Draw_Box(10, 4, 27, 43, 27);// big box
+	Draw_Box(10, 4, 31, 43, 27);// big box
 	Draw_Box(xBox, 5, 1, 37, 11); // name
 	Draw_Box(xBox, 8, 1, 37, 11); // origin
 	Draw_Box(xBox, 11, 1, 37, 11);// price B
@@ -1077,6 +1089,7 @@ void Menu::New()
 	Draw_Box(xBox, 23, 1, 37, 11);// battery
 	Draw_Box(xBox, 26, 1, 37, 11);// screen
 	Draw_Box(xBox, 29, 1, 37, 11);//stock
+	Draw_Box(xBox + 10, 32, 1, 10, 11); // edit add button
 	int x = 15, y = 6;
 	gotoxy(x, y); cout << "# Name"; y += 3;
 	gotoxy(x, y); cout << "# Origin"; y += 3;
@@ -1087,10 +1100,12 @@ void Menu::New()
 	gotoxy(x, y); cout << "# Battery"; y += 3;
 	gotoxy(x, y); cout << "# Screen"; y += 3;
 	gotoxy(x, y); cout << "# Stock"; y += 3;
+	gotoxy(x + 10, y); cout << "add +"; y += 3;
 	y = 6; gotoxy(x, y);
+	int lbox = 37;
 	string data[10];
 	for (int i = 0; i < 10; i++) {
-		data[i] = "0";
+		data[i] = "";
 	}
 	int index = 1;
 	Draw_Box(xBox, y - 1, 1, 37, Red);
@@ -1099,32 +1114,46 @@ void Menu::New()
 	do {
 		c = _getch();
 		if ((int)c == KEY_UP) {
-			Draw_Box(xBox, y - 1, 1, 37, Cyan);
+			Draw_Box(xBox, y - 1, 1, lbox, Cyan);
 			if (y == 6) {
-				y = 30;
-				index = 9;
+				xBox = 23;
+				y = 33;
+				lbox = 10;
+				index = 10;
 			}
 			else {
+				lbox = 37;
+				xBox = 13;
 				y -= 3;
 				index--;
 			}
-			Draw_Box(xBox, y - 1, 1, 37, Red);
+			Draw_Box(xBox, y - 1, 1, lbox, Red);
 			gotoxy(x, y);
 		}
 		if ((int)c == KEY_DOWN) {
-			Draw_Box(xBox, y - 1, 1, 37, Cyan);
-			if (y >= 30) {
+			Draw_Box(xBox, y - 1, 1, lbox, Cyan);
+			if (y >= 33) {
+				xBox = 13;
 				y = 6;
+				lbox = 37;
 				index = 1;
 			}
 			else {
 				y += 3;
 				index++;
+				if (index == 10) {
+					xBox = 23;
+					lbox = 10;
+				}
+				else {
+					xBox = 13;
+					lbox = 37;
+				}
 			}
-			Draw_Box(xBox, y - 1, 1, 37, Red);
+			Draw_Box(xBox, y - 1, 1, lbox, Red);
 			gotoxy(x, y);
 		}
-		if ((int)c == KEY_ENTER) {
+		if ((int)c == KEY_ENTER && index != 10) {
 			cout << "                                  ";
 			gotoxy(x, y);
 			textcolor(Yellow);
@@ -1133,20 +1162,172 @@ void Menu::New()
 			data[index] = (string)tmp;
 			gotoxy(x, y);
 		}
+		if ((int)c == KEY_ENTER && index == 10) {
+			if (data[0] == "" || data[1] == "" || data[2] == "" || data[3] == "" || data[4] == "" || data[5] == "" || data[6] == "" || data[7] == "" || data[8] == "" || data[9] == "") {
+				empty = true;
+				goto link;
+			}
+			else {
+				int r = rand() % 99999 + 100000;
+				char ran[10];
+				_itoa_s(r, ran, 10);
+				for (size_t i = 0; i < main_data.getNum(); i++) {
+					while (main_data[i].compare_with_id((string)ran)) {
+						int r = rand() % 99999 + 100000;
+						_itoa_s(r, ran, 10);
+					}
+				}
+				data[0] = (string)ran;
+				Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
+				main_data.addNewSmartphone(tmp);
+				return;
+			}
+		}
 		if ((int)c == KEY_ESC) break;
 	} while (1);
-	int r = rand() % 99999 + 100000;
-	char ran[10];
-	_itoa_s(r, ran, 10);
-	for (size_t i = 0; i < main_data.getNum(); i++) {
-		while(main_data[i].compare_with_id((string)ran)) {
-			int r = rand() % 99999 + 100000;
-			_itoa_s(r, ran, 10);
+	}
+}
+
+void Menu::Add_Edit_customer()
+{
+link: {
+	system("cls");
+	int xbox = 10, ybox = 5;
+	for (size_t i = 0; i < data.size(); i++) {
+		Draw_Box(xbox, ybox, 1, 30, DarkCyan);
+		data[i].Show_tmp_data(xbox + 2, ybox + 1);
+		ybox += 4;
+	}
+	Draw_Box(xbox, ybox, 1, 30, DarkCyan);
+	gotoxy(xbox + 2, ybox + 1);
+	textcolor(Yellow);
+	cout << "  New customer";
+	xbox = 10; ybox = 5;
+	char c;
+	int index = 0;
+	Draw_Box(xbox, ybox, 1, 30, Red);
+	do {
+		c = _getch();
+		if ((int)c == KEY_UP) //up
+		{
+			Draw_Box(xbox, ybox, 1, 30, DarkCyan);
+			if (ybox == 5) {
+				ybox += 4 * data.size();
+				index = data.size();
+			}
+			else {
+				ybox -= 4;
+				index--;
+			}
+			Draw_Box(xbox, ybox, 1, 30, Red);
+		}
+		if ((int)c == KEY_DOWN) {
+			Draw_Box(xbox, ybox, 1, 30, DarkCyan);
+			if (ybox >= data.size() * 4 + 5) {
+				ybox = 5;
+				index = 0;
+			}
+			else {
+				ybox += 4;
+				index++;
+			}
+			Draw_Box(xbox, ybox, 1, 30, Red);
+		}
+		if ((int)c == KEY_ENTER) {
+			cout << index;
+			if (index != data.size()) {
+				Edit_customer(index);
+				goto link;
+			}
+			if (index == data.size()) {
+				//new customer
+				goto link;
+			}
+		}
+	} while ((int)c != KEY_ESC );
+	}
+	return;
+}
+
+void Menu::Edit_customer(int index)
+{
+	int xbox = 10, ybox = 5;
+	system("cls");
+	Draw_Box(xbox, ybox, 18, 50, 25); // bigbox
+	gotoxy(xbox + 2, ybox + 1);
+	textcolor(Yellow);
+	cout << "ID";
+	ybox += 1;
+	Draw_Box(xbox + 1, ybox + 1, 1, 48, White); // id box
+	ybox += 4;
+	gotoxy(xbox + 2, ybox);
+	textcolor(Yellow);
+	cout << "Name";
+	Draw_Box(xbox + 1, ybox + 1, 1, 48, White); // name box
+	ybox += 4;
+	gotoxy(xbox + 2, ybox);
+	textcolor(Yellow);
+	cout << "Point";
+	Draw_Box(xbox + 1, ybox + 1, 1, 48, White); // name box
+	ybox += 4;
+	ybox = 5;
+	data[index].Display_Data_index(xbox + 2, 8, xbox + 2, 12, xbox + 2, 16, (data[index].Classify_Member() + ".txt").c_str(), xbox + 1, 19);
+	char c;
+	int x = xbox + 1;
+	int y = 7;
+	vector<string> cdata = Tokenizer::Parse(data[index].ToString(), ",");
+	int i = 0;
+	Draw_Box(x, y, 1, 48, Red);
+	gotoxy(x+1, y+1);
+	while (1) {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			Draw_Box(x, y, 1, 48, White);
+			if (y <= 7) {
+				y = 15;
+				i = 2;
+			}
+			else {
+				y -= 4;
+				i--;
+			}
+			Draw_Box(x, y, 1, 48, Red);
+			gotoxy(x + 1, y + 1);
+		}
+		if ((int)c == KEY_DOWN) {
+			Draw_Box(x, y, 1, 48, White);
+			if (y >= 12) {
+				y = 7;
+				i = 0;
+			}
+			else {
+				y += 4;
+				i++;
+			}
+			Draw_Box(x, y, 1, 48, Red);
+			gotoxy(x + 1, y + 1);
+		}
+		if ((int)c == KEY_ENTER) {
+			do {
+				gotoxy(x + 1, y + 1);
+				cout << "                  ";
+				gotoxy(x + 1, y + 1);
+				char tmp[1000];
+				gets_s(tmp);
+				cdata[i] = (string)tmp;
+				if (cdata[i] == "") {
+					gotoxy(x + 52, y);
+					cout << "value can't ne null";
+				}
+			} while (cdata[i] == "");
+			gotoxy(x + 1, y + 1);
+		}
+		if ((int)c == KEY_ESC) {
+			Customer tmp(cdata[0], cdata[1], stoi(cdata[2]));
+			data[index] = tmp;
+			return;
 		}
 	}
-	data[0] = (string)ran;
-	Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
-	main_data.addNewSmartphone(tmp);
 }
 
 
@@ -1403,3 +1584,4 @@ void Menu::Menu_Profit_Year()
 	resizeConsole(895, 518);
 	system("cls");
 }
+

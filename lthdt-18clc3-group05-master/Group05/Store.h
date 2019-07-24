@@ -19,7 +19,7 @@ public:
 	int getNum() { return num; }
 public: // Xuat hoa don
 	bool Input_Storage(); //Nhap vao kho
-	bool Output_Bill(string name, double change);
+	bool Output_Bill(double change);
 	void Save_bill_by_month();
 public:
 	//MASTER

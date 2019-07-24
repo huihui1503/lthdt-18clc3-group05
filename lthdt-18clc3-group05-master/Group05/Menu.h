@@ -16,7 +16,6 @@ private:
 	string path_customer = "Customer.txt";
 	vector<Customer> data;
 	Report report;
-//Customer
 public:
 	void Load_Data_Customer();
 	void Save_Data_Customer();
@@ -37,7 +36,6 @@ public:
 	string Show_Option_In_Filter( int y,int current, int& value);
 	int Move_in_Filter( int current,int y, vector<string>content);
 	void Show_Result_Filter(int array[]);
-
 	int add_Edit(string brand);
 	void About_Us();
 	void Exit();
@@ -48,6 +46,8 @@ public:
 	void Start_System();
 	void edit(int Index);
 	void New();
+	void Add_Edit_customer(); 
+	void Edit_customer(int index);
 	Menu();
 	~Menu();
 };
