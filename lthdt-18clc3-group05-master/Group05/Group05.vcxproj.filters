@@ -62,9 +62,6 @@
     <ClInclude Include="Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Statistics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
