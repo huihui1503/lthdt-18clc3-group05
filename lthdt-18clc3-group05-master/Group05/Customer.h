@@ -16,6 +16,9 @@ public:
 	string Classify_Member();
 	bool check_id_name(string name, string id);
 	bool Show_Info(string id, string name);
+	void Display_Data_index(int idx, int idy, int namex, int namey, int pointx, int pointy, const char *memberlogo, int memx, int memy);
+	// don't want to display anything set index = -1
+	string ToString();
 public:
 	static int signal;
 	Customer(string, string, double);

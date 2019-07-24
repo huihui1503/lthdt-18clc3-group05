@@ -46,7 +46,8 @@ public:
 	void Start_System();
 	void edit(int Index);
 	void New();
-	void Add_Edit_customer(); // on going
+	void Add_Edit_customer(); 
+	void Edit_customer(int index);
 	Menu();
 	~Menu();
 };

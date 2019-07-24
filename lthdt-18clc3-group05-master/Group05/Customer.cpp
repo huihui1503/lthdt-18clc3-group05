@@ -22,6 +22,46 @@ bool Customer::Show_Info(string id, string name)
 	return false;
 }
 
+void Customer::Display_Data_index(int idx, int idy, int namex, int namey, int pointx, int pointy, const char *memberlogo, int memx, int memy)
+{
+	if (idx > -1 && idy > -1) {
+		gotoxy(idx, idy);
+		cout << id;
+	}
+	if (namex > -1 && namey > -1) {
+		gotoxy(namex, namey);
+		cout << name;
+	}
+	if (pointx > -1 && pointy > -1) {
+		gotoxy(pointx, pointy);
+		cout << point;
+	}
+	if (memx > -1 && memy > -1) {
+		ifstream fin(memberlogo);
+		if (!fin.is_open()) return;
+		char tmp[1000];
+		fin.getline(tmp, 1000, 'eof');
+		int i = 0;
+		gotoxy(memx, memy);
+		while (tmp[i] != '\0') {
+			if (tmp[i] == '\n') {
+				cout << tmp[i];
+				gotoxy(memx, memy);
+				memy++;
+			}
+			else cout << tmp[i];
+			i++;
+		}
+	}
+}
+
+string Customer::ToString()
+{
+	stringstream name;
+	name << this->id << "," << this->name << "," << this->point;
+	return name.str();
+}
+
 string Customer::Classify_Member()
 {
 	if (this->point < 300) return "Normal";
