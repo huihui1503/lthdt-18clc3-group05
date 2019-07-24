@@ -7,7 +7,7 @@ Date::Date()
 	localtime_s(&local, &now);
 
 	m_day = local.tm_mday;
-	m_month = local.tm_mon+1;
+	m_month = local.tm_mon + 1;
 	m_year = local.tm_year + 1900;
 }
 
@@ -18,7 +18,7 @@ Date::Date(int day, int month, int year)
 	m_year = year;
 }
 
-Date::Date(const Date&d)
+Date::Date(const Date& d)
 {
 	m_day = d.m_day;
 	m_month = d.m_month;
@@ -36,10 +36,10 @@ bool Date::Is_Date_in_Duaration(string date, string begin, string end)
 }
 
 bool Date::Compare_Two_Date(string date1, string date2)
-{ 
+{
 	int d1, m1, y1, d2, m2, y2;
 
-	vector<string> Date1=Tokenizer::Parse(date1,"/");
+	vector<string> Date1 = Tokenizer::Parse(date1, "/");
 	d1 = stoi(Date1[0]); m1 = stoi(Date1[1]); y1 = stoi(Date1[2]);
 
 	vector<string> Date2 = Tokenizer::Parse(date2, "/");
