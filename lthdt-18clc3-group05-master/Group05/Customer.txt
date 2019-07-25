@@ -1,13 +1,13 @@
 0829994335,Thai Hoang Huy,450
-83648465,Thai Nhat Tue,500
-69993336,Tran Thanh Tuan,1000
-89715925,Tran Dinh Huy,50
-76248973,Tran Xuan Loc,123
-28679956,Ngo Nguyen Truong Huy,1200
-64393998,Ma Tin Cuong,361
-03166518,Phan Duc Long,999
-79103747,Nguyen Trung Tin,600
-02512635,Nguyen Hoang Phuc,423
-07081602,Quach Phu Thanh,12
-23456789,Nguyen Thanh Tung,9999
-08766689933,Nguyen Thi Cam Nhung,0
+8465,Thai Nhat Tue,500
+3336,Tran Thanh Tuan,1000
+5925,Tran Dinh Huy,50
+8973,Tran Xuan Loc,123
+9956,Ngo Nguyen Truong Huy,1200
+3998,Ma Tin Cuong,361
+6518,Phan Duc Long,999
+3747,Nguyen Trung Tin,600
+2635,Nguyen Hoang Phuc,423
+1602,Quach Phu Thanh,12
+6789,Nguyen Thanh Tung,9999
+6689933,Nguyen Thi Cam Nhung,0
