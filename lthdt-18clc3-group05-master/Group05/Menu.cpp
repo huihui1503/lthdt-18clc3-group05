@@ -1076,6 +1076,7 @@ link: {
 		gotoxy(15, 2);
 		cout << "Value cannot empty";
 	}
+	empty = false;
 	gotoxy(20, 1);
 	textcolor(Gray); cout << "to edit press enter, exit press ESC" << endl;
 	int xBox = 13, yBox = 5;
@@ -1105,7 +1106,7 @@ link: {
 	int lbox = 37;
 	string data[10];
 	for (int i = 0; i < 10; i++) {
-		data[i] = "";
+		data[i] = "0";
 	}
 	int index = 1;
 	Draw_Box(xBox, y - 1, 1, 37, Red);
@@ -1153,7 +1154,7 @@ link: {
 			Draw_Box(xBox, y - 1, 1, lbox, Red);
 			gotoxy(x, y);
 		}
-		if ((int)c == KEY_ENTER && index != 10) {
+		if ((int)c == KEY_ENTER && index < 10) {
 			cout << "                                  ";
 			gotoxy(x, y);
 			textcolor(Yellow);
@@ -1163,7 +1164,7 @@ link: {
 			gotoxy(x, y);
 		}
 		if ((int)c == KEY_ENTER && index == 10) {
-			if (data[0] == "" || data[1] == "" || data[2] == "" || data[3] == "" || data[4] == "" || data[5] == "" || data[6] == "" || data[7] == "" || data[8] == "" || data[9] == "") {
+			if (data[1] == "0" || data[2] == "0" || data[3] == "0" || data[4] == "0" || data[5] == "0" || data[6] == "0" || data[7] == "0" || data[8] == "0" || data[9] == "0") {
 				empty = true;
 				goto link;
 			}
