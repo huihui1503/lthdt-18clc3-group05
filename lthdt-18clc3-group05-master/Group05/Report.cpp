@@ -223,5 +223,4 @@ void Report::Draw_Chart_forA_Year(int year)
 		return;
 	vector<double> Months = Calc_Profit_Follow_Year_DrawChart(year);
 	Table_Draw_Chart(Months, year);
-	//resize(xxx, yyyy);
 }

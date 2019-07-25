@@ -35,15 +35,15 @@ double Store::Sum = 0;
 		arrSmartphones[i / 2].Display_Expand(i);
 	}
 }
-void Store::Display_All_Calc_Cost(int &pos)
+void Store::Display_All_Calc_Cost(int& pos)
 {
-	pos = 11 + 2* Bags.size();
+	pos = 11 + 2 * Bags.size();
 	Table_Calc_Cost(Bags.size());
 	for (int i = 0; i < 2 * Bags.size(); i += 2) {
 		Bags[i / 2].Display_Calc_Cost(i);
 	}
 	gotoxy(157, pos - 5);
-	printf("%10.f",Calc_Total_Cost(Bags));
+	printf("%10.f", Calc_Total_Cost(Bags));
 	gotoxy(140, pos - 5);
 	printf("%5d", Calc_Total_Stocklevel(Bags));
 }
@@ -228,9 +228,9 @@ bool Store::Input_Storage() // Nhap vao lich su mua ban
 	}
 	else
 	{
-		for(int i = 0; i < Bags.size();i++)
+		for (int i = 0; i < Bags.size(); i++)
 		{
-			fout << today.Day() << "," <<  Bags[i].ToStringBill() << endl;
+			fout << today.Day() << "," << Bags[i].ToStringBill() << endl;
 		}
 	}
 	fout.close();
@@ -282,10 +282,10 @@ bool Store::Sell_Bags()
 	cout << "Are you sure you want to pay(Y: yes, N: no):";
 	char c; cin >> c;
 	if (c == 'y' || c == 'Y') {
-		cout << "Receive money from you: ";
-		cin >> money;
 		do
 		{
+			cout << "Receive money from you: ";
+			cin >> money;
 			cout << "Your change is: " << money - total << endl;
 			if ((money - total) < 0)
 			{
@@ -378,7 +378,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin2.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
 		fin2.getline(tmp1, 1000, '\n');       	 screen = string(tmp1);
 		fin2.ignore();
-		arrSmartphones[i].Add_Advanced_Attributes( rom,ram, battery, screen);
+		arrSmartphones[i].Add_Advanced_Attributes(rom, ram, battery, screen);
 	}
 	fin2.close();
 	return true;
@@ -414,7 +414,7 @@ bool Store::Load_Data_from_file()
 		return false;
 	int count = 0;
 	string tmp;
-	while(!fin1.eof())
+	while (!fin1.eof())
 	{
 		tmp = fin1.get();
 		if (tmp == "\n")
@@ -466,7 +466,7 @@ bool Store::Load_Data_from_file()
 		//////////////////////////////////////////////////////////
 
 		a.Add_Basic_Attributes(id, name, brand, pb, ps, ori, sl);
-		a.Add_Advanced_Attributes(rom, ram, battery, screen);	
+		a.Add_Advanced_Attributes(rom, ram, battery, screen);
 		arrSmartphones.push_back(a);
 	}
 
@@ -493,7 +493,7 @@ int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
 	int y = 5;
-	for (int i = 1; i <= Count_Brand.size()+2; i++)
+	for (int i = 1; i <= Count_Brand.size() + 2; i++)
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
@@ -566,7 +566,7 @@ bool Store::Find_Smartphone_Filter(vector<Smartphone>& temp, int condition[])
 {
 	for (int i = 0; i < arrSmartphones.size(); i++)
 	{
-		if (arrSmartphones[i].Check_Condition_Filter(condition)&&(condition[0]==0||arrSmartphones[i].getbrand()==Count_Brand[condition[0]-1]))
+		if (arrSmartphones[i].Check_Condition_Filter(condition) && (condition[0] == 0 || arrSmartphones[i].getbrand() == Count_Brand[condition[0] - 1]))
 		{
 			temp.push_back(arrSmartphones[i]);
 		}

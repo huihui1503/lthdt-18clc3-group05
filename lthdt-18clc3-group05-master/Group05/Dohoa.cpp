@@ -530,7 +530,7 @@ void Table_Draw_Chart(vector<double> months, int year) {
 	gotoxy(posX, posY);
 	cout << "O";
 	//trục dọc
-	for (int i = 0; i < (m * 2 + 3) - 7; i++) {
+	for (int i = 0; i < (m * 2 + 3) -7; i++) {
 		gotoxy(posX, 4 + i);
 		putchar(179);
 	}
@@ -539,7 +539,7 @@ void Table_Draw_Chart(vector<double> months, int year) {
 		gotoxy(posX + i, (m * 2 + 3) - 3);
 		putchar(196);
 	}
-	gotoxy(posX, (m * 2 + 3) - 3);
+	gotoxy(posX, (m * 2 + 3) - 3);	
 	putchar(192);
 	//đơn vị trục tung
 	gotoxy(10, 3);
@@ -593,7 +593,7 @@ void Table_Draw_Chart(vector<double> months, int year) {
 	// vẽ độ chia trên trục tung
 	
 	gotoxy(k - 15, (m * 2 + 3) + 4);
-	cout << "PROFIT GROWTH CHART IN " << year << endl;
+	cout << "ACCELERATING GROWTH IN " << year << endl;
 	gotoxy(10, (m * 2 + 3) + 6);
 	double tmp = 0;
 	for (int i = 0; i < 12; i++)
