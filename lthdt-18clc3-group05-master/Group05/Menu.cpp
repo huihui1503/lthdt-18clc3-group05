@@ -1263,7 +1263,6 @@ void Menu::Edit_customer(int index)
 	textcolor(Yellow);
 	cout << "Point";
 	Draw_Box(xbox + 1, ybox + 1, 1, 48, White); // name box
-	ybox += 4;
 	ybox = 5;
 	data[index].Display_Data_index(xbox + 2, 8, xbox + 2, 12, xbox + 2, 16, (data[index].Classify_Member() + ".txt").c_str(), xbox + 1, 19);
 	char c;
