@@ -237,10 +237,10 @@ bool Store::Input_Storage() // Nhap vao lich su mua ban
 	return true;
 }
 /*Dont touch*/
-bool Store::Output_Bill(double money)
+bool Store::Output_Bill(string ID,double money)
 {
 	Date today;
-	string fileName = today.ToString() + ".txt";
+	string fileName = ID + ".txt";
 	ofstream fout(fileName, ios::app);
 	if (!fout.is_open())
 	{
@@ -256,10 +256,10 @@ bool Store::Output_Bill(double money)
 		}
 
 		double total = Calc_Total_Cost(Bags);
-		fout << "Have to pay: " << total << endl;
-		fout << "Receive your money: " << money << endl;
-		fout << "Give back your change: " << money - total << endl;
-		fout << "Thank for using my service" << endl;
+		fout << "Have to pay: " << (long long)total << endl;
+		fout << "Receive your money: " << (long long)money << endl;
+		fout << "Give back your change: " << (long long)money - total << endl;
+		fout << "Thank for using my service." << endl;
 	}
 	fout.close();
 	return true;
@@ -351,7 +351,7 @@ bool Store::Sell_Bags(Customer&temp)
 		key = _getch();
 		if (int(key) == KEY_ENTER)
 		{
-			if (Output_Bill(double(stof(money))) == true && Input_Storage() == true)
+			if (Output_Bill(temp.Get_ID(),double(stof(money))) == true && Input_Storage() == true)
 			{
 				system("cls");
 				cout << "print bill successfully";
