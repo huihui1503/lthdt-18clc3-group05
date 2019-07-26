@@ -435,7 +435,7 @@ void Menu::Show_Result_Filter(int array[])
 	}
 	main_data.Draw_Bag();
 	textcolor(Red);
-	gotoxy(33, 2); cout << "FONDED PRODUCTS";
+	gotoxy(33, 2); cout << "FOUNDED PRODUCTS";
 	for(int i=0;i<temp.size();i++) temp[i].COUT_NAME(i * 5 + 5, 1, 80, White);
 	char key = '.';
 	int current = 0;
@@ -1146,7 +1146,7 @@ link: {
 	int lbox = 37;
 	string data[10];
 	for (int i = 0; i < 10; i++) {
-		data[i] = "0";
+		data[i] = "";
 	}
 	int index = 1;
 	Draw_Box(xBox, y - 1, 1, 37, Red);
@@ -1204,7 +1204,7 @@ link: {
 			gotoxy(x, y);
 		}
 		if ((int)c == KEY_ENTER && index == 10) {
-			if (data[1] == "0" || data[2] == "0" || data[3] == "0" || data[4] == "0" || data[5] == "0" || data[6] == "0" || data[7] == "0" || data[8] == "0" || data[9] == "0") {
+			if (data[1] == "" || data[2] == "" || data[3] == "" || data[4] == "" || data[5] == "" || data[6] == "" || data[7] == "" || data[8] == "" || data[9] == "") {
 				empty = true;
 				goto link;
 			}
@@ -1303,6 +1303,7 @@ void Menu::Edit_customer(int index)
 	textcolor(Yellow);
 	cout << "Point";
 	Draw_Box(xbox + 1, ybox + 1, 1, 48, White); // name box
+	ybox += 4;
 	ybox = 5;
 	data[index].Display_Data_index(xbox + 2, 8, xbox + 2, 12, xbox + 2, 16, (data[index].Classify_Member() + ".txt").c_str(), xbox + 1, 19);
 	char c;
@@ -1369,9 +1370,8 @@ void Menu::Load_Data_Customer()
 {
 	ifstream file(path_customer);
 	if (!file.is_open()) return;
-	while (!file.good())
+	while (file.good())
 	{
-		if (file.eof()) break;
 		char temp[1000];
 		string name;
 		string id;
@@ -1379,7 +1379,6 @@ void Menu::Load_Data_Customer()
 		file.getline(temp, 1000, ','); id = string(temp);
 		file.getline(temp, 1000, ','); name = string(temp);
 		file.getline(temp, 1000, '\n'); point = string(temp);
-		file.ignore();
 		Customer test(id, name, stoi(point));
 		data.push_back(test);
 	}
@@ -1391,10 +1390,12 @@ void Menu::Save_Data_Customer()
 {
 	ofstream file(path_customer);
 	if (!file.is_open()) return;
-	for (int i = 0; i < data.size(); i++)
+	for (int i = 0; i < data.size() - 1; i++)
 	{
 		data[i].Save_Attribute(file);
+		file << "\n";
 	}
+	data[data.size()].Save_Attribute(file);
 	file.close();
 }
 
@@ -1502,7 +1503,7 @@ int Menu::Enter_Customer()
 	if (id == "") return -1;// return 
 	for (int i = 0; i < data.size(); i++)
 	{
-		if (data[i].check_id_name("temp", id) == true) return i; // position of customer in array
+		if (data[i].check_id_name("temp", id)) return i; // position of customer in array
 	}
 	return data.size();// not exist
 }

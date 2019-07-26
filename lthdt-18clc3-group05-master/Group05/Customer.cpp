@@ -5,9 +5,7 @@ int Customer::signal = 0;// check data
 
 bool Customer::check_id_name(string name, string id)
 {
-	if (this->name == name) return true;
-	else if (this->id == id) return true;
-	else return false;
+	return this->name == name || this->id == id;
 }
 
 bool Customer::Show_Info(string id, string name)
@@ -73,7 +71,7 @@ string Customer::Classify_Member()
 
 void Customer::Save_Attribute(ofstream&file)
 {
-	file << this->id << "," << this->name << "," << this->point << "\n";
+	file << this->id << "," << this->name << "," << this->point;
 }
 
 

@@ -1,14 +1,9 @@
-﻿  Menu.cpp
+﻿  Store.cpp
 c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(19): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\tokenizer.h(22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\store.h(59): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(451): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(554): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(569): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(614): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(888): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(1216): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(1262): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\menu.cpp(1507): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\store.cpp(40): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\store.cpp(41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\lenovo\desktop\projectgit\lthdt-18clc3-group05-master\group05\store.cpp(584): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
   Group05.vcxproj -> C:\Users\LENOVO\Desktop\projectgit\lthdt-18clc3-group05-master\x64\Debug\Group05.exe

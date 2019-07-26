@@ -318,7 +318,7 @@ bool Store::Sell_Bags(Customer&temp)
 	Draw_Box(5, 4, 16+i, 60, 25);// big box
 
 	textcolor(Red);
-	gotoxy(77, 6); cout << "Recieve";
+	gotoxy(77, 6); cout << "Receive";
 	Draw_Box(76, 7, 1, 32, White);
 	textcolor(Red);
 	gotoxy(77, 10); cout << "Charge";
@@ -569,7 +569,7 @@ int Store::Draw_Brand_For_Choice()
 		else
 		{
 			textcolor(Pink);
-			cout << "Costumer";
+			cout << "Customer";
 		}
 		if (i % 3 == 0)
 		{
