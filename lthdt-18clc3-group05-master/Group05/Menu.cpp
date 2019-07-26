@@ -1395,7 +1395,7 @@ void Menu::Save_Data_Customer()
 		data[i].Save_Attribute(file);
 		file << "\n";
 	}
-	data[data.size()].Save_Attribute(file);
+	data[data.size() -1].Save_Attribute(file);
 	file.close();
 }
 
