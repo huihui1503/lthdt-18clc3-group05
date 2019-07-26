@@ -1,0 +1,12 @@
+26-7-2019:
+0050400,Samsung Galaxy Fold,55000000,60000000,2
+Have to pay: 1.2e+08
+Receive your money: 2.14748e+09
+Give back your change: 2.02748e+09
+Thank for using my service
+26-7-2019:
+RMN4X,Xiaomi Redmi Note 4X,3400000,3700000,2
+Have to pay: 7.4e+06
+Receive your money: 5.6e+07
+Give back your change: 4.86e+07
+Thank for using my service

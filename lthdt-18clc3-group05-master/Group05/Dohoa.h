@@ -8,6 +8,7 @@
 #include<string>
 #include <io.h>
 #include <fcntl.h>
+#include<string>
 using namespace std;
 #define Black			0
 #define DarkBlue		1
@@ -54,7 +55,7 @@ void Table_Calc_Cost(int m);
 void Table_Draw_Chart(vector<double> months, int year, int z);
 void Draw_an_columm(int x, int y, int height, int data);
 #endif // !_Dohoa_
-
+string Enter(int x, int y);
 void Delete_On_Console(int start_x, int start_y, int end_x, int end_y);
 void DisplayLogo(int x, int y, const char * file_name, int color, int time_appear);
 void Profit_and_total(int k, int m, int tmp, int year);

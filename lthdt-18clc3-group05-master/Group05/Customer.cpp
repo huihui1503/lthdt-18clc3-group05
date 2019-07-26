@@ -5,7 +5,9 @@ int Customer::signal = 0;// check data
 
 bool Customer::check_id_name(string name, string id)
 {
-	return this->name == name || this->id == id;
+	if (this->name == name) return true;
+	else if (this->id == id) return true;
+	else return false;
 }
 
 bool Customer::Show_Info(string id, string name)

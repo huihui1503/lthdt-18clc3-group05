@@ -492,3 +492,16 @@ bool Smartphone::Check_Condition_Filter(int condition[])
 	}
 	return true;
 }
+
+void Smartphone::Discount_Price_Follow_Point(double point)
+{
+	if (point<double(300)) return;
+	if (point<double(500))
+	{
+		this->Price_s -= this->Price_s / 100 * 1;
+	}
+	else
+	{
+		this->Price_s -= this->Price_s / 100 * 2;
+	}
+}

@@ -2,68 +2,6 @@
 #define POSX 35
 #define POSY 3
 // LOGIN Function
-string Menu::Enter(int x, int y)
-{
-	char place[40];// for old password
-	char key;
-	int i = 0;
-	key = _getch();
-	if (key == char(27))
-	{
-		return "";
-	}
-	if (key != NULL && key != char(13) && key != char(32))
-	{
-		gotoxy(x, y);
-		cout << "                      ";
-		place[i] = key;
-		gotoxy(x, y);
-		cout << key;
-	}
-	while (true)
-	{
-		key = _getch();
-		if (key != NULL)
-		{
-			if (key == char(27))
-			{
-				return "";
-			}
-			/////////////////////////////// Delete ///////////////////////////////
-			else if (key == char(8))
-			{
-				int check = i - 1;
-				if (check >= -1)
-				{
-					place[i] = '\0';
-					gotoxy(x + i, y);
-					cout << " ";
-					gotoxy(x + i, y);
-					i--;
-				}
-			}
-			else if (key == char(13))
-			{
-				place[i + 1] = '\0';
-				break;
-			}
-			else 
-			{
-				int check = i + 1;
-				if (check <= 30)
-				{
-					if (check <= 30)
-					{
-						cout << key;
-						i += 1;
-						place[i] = key;
-					}
-				}
-			}
-		}
-	}
-	return place;
-}
 
 void Menu::Draw_Login(int state)
 {
@@ -505,39 +443,65 @@ void Menu::Show_Result_Filter(int array[])
 	{
 		main_data.Effect_of_Move(current, temp);
 		key = _getch();
-		switch (int(key))
+		if (int(key) == KEY_UP)
 		{
-		case KEY_UP:
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current -= 1;
 			if (current < 0) current = temp.size() - 1;
-			break;
-		case KEY_DOWN:
+		}
+		if (int(key) == KEY_DOWN)
+		{
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current += 1;
 			if (current >= temp.size()) current = 0;
-			break;
-		case 83:
+		}
+		if (int(key) == 83)
+		{
 			//// Press Shift + S to print bill
-			break;
-		case KEY_ADD:
+			// Test function  print bill
+			system("cls");
+
+			//resizeConsole(1780, 1000);
+			int move = Enter_Customer();
+			system("cls");
+			if (move != -1)
+			{
+				if (move != data.size()) main_data.Sell_Bags(data[move]);
+				else
+				{
+					Customer temp("0", "0", 0);
+					main_data.Sell_Bags(temp);
+				}
+				system("cls");
+			}
+			//resizeConsole(895, 518);
+			//resizeConsole(980, 535);
+			return;
+		}
+		if (int(key) == KEY_ADD)
+		{
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
 			{
 				temp[current].Decrease_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
-		case KEY_MINUS:
+		}
+		if (int(key) == KEY_MINUS)
+		{
 			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
 			{
 				temp[current].Increase_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
+		}
+		if (int(key) == int('R'))
+		{
+			main_data.Reset_Bags();
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 		}
 	}
 }
@@ -642,48 +606,60 @@ void Menu::Choice_For_Sell(string chosen_brand)
 	{
 		main_data.Effect_of_Move(current, temp);
 		key = _getch();
-		switch (int(key))
+		if (int(key) == KEY_UP)
 		{
-		case KEY_UP:
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current -= 1;
 			if (current < 0) current = temp.size() - 1;
-			break;
-		case KEY_DOWN:
+		}
+		if (int(key) == KEY_DOWN)
+		{
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current += 1;
 			if (current >= temp.size()) current = 0;
-			break;
-		case 83:
+		}
+		if (int(key) == 83)
+		{
 			//// Press Shift + S to print bill
 			// Test function  print bill
 			system("cls");
-			resizeConsole(1780, 1000);
-			main_data.Sell_Bags();
-			system("pause");
 
+			//resizeConsole(1780, 1000);
+			int move=Enter_Customer();
 			system("cls");
-			resizeConsole(895, 518);
-			Seller_Move();
-			break;
-		case KEY_ADD:
+			if (move != -1)
+			{
+				if(move!=data.size()) main_data.Sell_Bags(data[move]);
+				else
+				{
+					Customer temp("0", "0", 0);
+					main_data.Sell_Bags(temp);
+				}
+				system("cls");
+			}
+			//resizeConsole(895, 518);
+			//resizeConsole(980, 535);
+			return;
+		}
+		if (int(key) == KEY_ADD)
+		{
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
 			{
 				temp[current].Decrease_StockLevel(1);
 			}
-			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
-		case KEY_MINUS:
+		}
+		if (int(key) == KEY_MINUS)
+		{
 			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
 			{
 				temp[current].Increase_StockLevel(1);
 			}
-			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
 		}
 	}
 }
@@ -774,7 +750,8 @@ void Menu::About_Us()
 
 	}
 	system("pause>nul");
-	resizeConsole(895, 518);
+	//resizeConsole(895, 518);
+	resizeConsole(980, 535);
 }
  
 void Menu::Exit()
@@ -1392,8 +1369,9 @@ void Menu::Load_Data_Customer()
 {
 	ifstream file(path_customer);
 	if (!file.is_open()) return;
-	while (file.good())
+	while (!file.good())
 	{
+		if (file.eof()) break;
 		char temp[1000];
 		string name;
 		string id;
@@ -1510,6 +1488,23 @@ bool Menu::Check_Existing_Costumer(string name, string id)
 		data.push_back(temp);
 	}
 	return check;
+}
+
+int Menu::Enter_Customer()
+{
+	string id;
+	textcolor(Red);
+	gotoxy(41, 12); cout << "Customer 's ID";
+	Draw_Box(40, 13, 1, 40, Cyan);
+	gotoxy(42, 14);
+	textcolor(White);
+	id = Enter(42, 14);
+	if (id == "") return -1;// return 
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].check_id_name("temp", id) == true) return i; // position of customer in array
+	}
+	return data.size();// not exist
 }
 
 //Report
@@ -1638,7 +1633,7 @@ void Menu::Menu_Profit_Year()
 	system("cls");
 	resizeConsole(1700, 900);
 	report.Draw_Chart_forA_Year(stoi(year));
-	resizeConsole(895, 518);
+	resizeConsole(980, 535);
 	system("cls");
 }
 

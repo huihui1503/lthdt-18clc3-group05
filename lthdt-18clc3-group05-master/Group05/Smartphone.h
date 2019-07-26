@@ -25,6 +25,8 @@ private:
 public:
 	string getbrand() { return Brand; }
 	double PriceBuy() {return Price_b;}
+	double PriceSell() { return Price_s; }
+	string Get_Name() { return Name; }
 public:
 	//OPERATOR 
 	Smartphone& operator = (const Smartphone& p);
@@ -95,6 +97,8 @@ public:
 //advanced filter
 public:
 	bool Check_Condition_Filter(int condition[]);
+//Customer
+	void Discount_Price_Follow_Point(double point);
 public:
 	Smartphone();
 	Smartphone(string id, string name, string origin, double price_b, double price_s, string ram, string rom, string battery, string screen, int stock);
