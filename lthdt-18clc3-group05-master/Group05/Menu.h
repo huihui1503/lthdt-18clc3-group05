@@ -27,6 +27,7 @@ public:
 	void Report_Interface();
 	void Menu_Best_Seller(int status);
 	void Menu_Profit_Year();
+	void Menu_Stock_Year();
 public:
 	void Seller_Move();
 	void Master_Move();

@@ -485,7 +485,7 @@ void Draw_an_columm(int x, int y, int height, int data) {
 	textcolor(White);
 
 }
-void Table_Draw_Chart(vector<double> months, int year) {
+void Table_Draw_Chart(vector<double> months, int year, int z) {
 	int m =17;
 	int k = 110;
 	int n = 11 + 2 * m;
@@ -591,15 +591,12 @@ void Table_Draw_Chart(vector<double> months, int year) {
 		printf("%10.f", Data[i - 1]);
 	}
 	// vẽ độ chia trên trục tung
-	
-	gotoxy(k - 15, (m * 2 + 3) + 4);
-	cout << "ACCELERATING GROWTH IN " << year << endl;
-	gotoxy(10, (m * 2 + 3) + 6);
 	double tmp = 0;
 	for (int i = 0; i < 12; i++)
 		tmp += months[i];
-	cout << "TOTAL PROFIT IN YEAR " << year << ": ";
-	printf("%10.f\n", tmp);
+	if (z == 1)
+		Profit_and_total(k, m, tmp, year);
+	else Stock_and_total(k, m, tmp, year);
 
 	system("pause");
 }
@@ -637,3 +634,23 @@ void DisplayLogo(int x, int y, const char * file_name, int color, int time_appea
 	system("cls");
 	return;
 }
+
+void Profit_and_total(int k, int m, int tmp, int year)
+{
+	gotoxy(k - 15, (m * 2 + 3) + 4);
+	cout << "ACCELERATING GROWTH IN " << year << endl;
+	gotoxy(10, (m * 2 + 3) + 6);
+	cout << "TOTAL PROFIT IN YEAR " << year << ": ";
+	printf("%10.f\n", double(tmp));
+
+}
+
+void Stock_and_total(int k, int m, int tmp, int year)
+{
+	gotoxy(k - 15, (m * 2 + 3) + 4);
+	cout << "ACCELERATING GROWTH IN " << year << endl;
+	gotoxy(10, (m * 2 + 3) + 6);
+	cout << "TOTAL STOCK IN YEAR " << year << ": ";
+	printf("%10d\n", tmp);
+}
+

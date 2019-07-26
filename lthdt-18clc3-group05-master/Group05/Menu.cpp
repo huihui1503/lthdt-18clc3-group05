@@ -732,22 +732,85 @@ void Menu::Start_System()
 void Menu::About_Us()
 {
 	system("cls");
-	cout << "Group 5:" << endl;
-	cout << "Thai Hoang Huy"<<endl;
-	cout << "Tran Dinh Huy" << endl;
-	cout << "Tran Xuan Loc" << endl;
-	cout << "Tran Thanh Tuan" << endl;
+	resizeConsole(1600, 800);
+	ifstream fin("BACKGROUND.txt");
+	string tmp;
+	if (!fin.is_open()) {
+		cout << "Group 5:" << endl;
+		cout << "Thai Hoang Huy" << endl;
+		cout << "Tran Dinh Huy" << endl;
+		cout << "Tran Xuan Loc" << endl;
+		cout << "Tran Thanh Tuan" << endl;
+	}
+	else {
+		while (!fin.eof())
+		{
+			
+			tmp = fin.get();
+			cout << tmp;
+		}
+		fin.close();
+		int posX = 65, posY = 8;
+		gotoxy(posX, posY-3);
+		cout << "*****************************************";
+		gotoxy(posX, posY - 2);
+		cout << "* +++++++++++++++++++++++++++++++++++++ *";
+		gotoxy(posX, posY - 1);
+		cout << "* + ********************************* + *";
+		gotoxy(posX, posY);
+		cout << "* + *  THAI HOANG HUY  -  18127109  * + *";
+		gotoxy(posX, posY + 1);
+		cout << "* + *  TRAN DINH HUY   -  18127110  * + *";
+		gotoxy(posX, posY + 2);
+		cout << "* + *  TRAN XUAN LOC   -  18127131  * + *";
+		gotoxy(posX, posY + 3);
+		cout << "* + * TRAN THANH TUAN  -  18127247  * + *";
+		gotoxy(posX, posY + 4);
+		cout << "* + ********************************* + *";
+		gotoxy(posX, posY + 5);
+		cout << "* +++++++++++++++++++++++++++++++++++++ *";
+		gotoxy(posX, posY + 6 );
+		cout << "*****************************************";
+
+	}
 	system("pause>nul");
+	resizeConsole(895, 518);
 }
  
 void Menu::Exit()
 {
 	system("cls");
-	gotoxy(55, 15);
-	cout << "GOODBYE!!!";
-	Sleep(500);
-	gotoxy(50, 15);
-	cout << "See you later!!!";
+	ifstream fin("thanksyou.txt");
+	ifstream fin1("bye bye.txt");
+	if (fin.is_open()&& fin1.is_open())
+	{
+		resizeConsole(1600, 800);
+		string tmp;
+		while (!fin.eof())
+		{
+			tmp = fin.get();
+			cout << tmp;
+		}
+		fin.close();
+		Sleep(800);
+		system("cls");
+		while(!fin1.eof())
+		{
+			tmp = fin1.get();
+			cout << tmp;
+		}
+		fin1.close();
+		system("pause");
+		resizeConsole(895, 518);
+
+	}
+	else {
+		gotoxy(55, 15);
+		cout << "GOODBYE!!!";
+		Sleep(500);
+		gotoxy(50, 15);
+		cout << "See you later!!!";
+	}
 }
 
 Menu::Menu()
@@ -1455,7 +1518,7 @@ void Menu::Report_Interface()
 	int choice = 0;
 Done:
 	system("cls");
-	string array[4] = { "Best seller", "Profit in year","Profit in distance","Statistic" };
+	string array[4] = { "Best seller", "Profit in year","Profit in distance","Statistic Stocks in year" };
 	char key = '.';
 	int line = 12, col = 55;//vi tri
 	textcolor(White);
@@ -1510,7 +1573,7 @@ Done:
 			}
 			if (choice == 3)
 			{
-				//FUNCTION statistic
+				Menu_Stock_Year();
 			}
 			goto Done;
 		}
@@ -1575,6 +1638,24 @@ void Menu::Menu_Profit_Year()
 	system("cls");
 	resizeConsole(1700, 900);
 	report.Draw_Chart_forA_Year(stoi(year));
+	resizeConsole(895, 518);
+	system("cls");
+}
+
+void Menu::Menu_Stock_Year()
+{
+	system("cls");
+	textcolor(Red);
+	gotoxy(51, 2); cout << "Statistic Stocks in year";
+	Draw_Box(40, 13, 1, 40, Cyan);
+	string year;
+	gotoxy(42, 14);
+	textcolor(White);
+	year = Enter(42, 14);
+	if (year == "") return;
+	system("cls");
+	resizeConsole(1700, 900);
+	report.Draw_Chart_forA_Year_Stocklevel(stoi(year));
 	resizeConsole(895, 518);
 	system("cls");
 }

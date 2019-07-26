@@ -105,6 +105,15 @@ double Report::Calc_Total_Profit()
 	}
 	return sum;
 }
+double Report::Calc_Total_Stock()
+{
+	double sum = 0;
+	for (int i = 0; i < m_s.size(); i++)
+	{
+		sum += m_s[i].Get_StockLevel();
+	}
+	return sum;
+}
 
 double Report::Calc_Profit_Follow_Year(int year)
 {
@@ -208,7 +217,7 @@ vector<double> Report::Calc_Stock_Follow_Year_DrawChart(int year)
 		{
 			for(int j = 0; j < m_s.size(); j++)
 			{
-				stock += m_s[j].Get_StockLevel();
+				months[i - 1] = Calc_Total_Stock();
 			}
 		}
 		m_s.clear();
@@ -222,5 +231,16 @@ void Report::Draw_Chart_forA_Year(int year)
 	if (year <= 0)
 		return;
 	vector<double> Months = Calc_Profit_Follow_Year_DrawChart(year);
-	Table_Draw_Chart(Months, year);
+	Table_Draw_Chart(Months, year,1);
+}
+
+void Report::Draw_Chart_forA_Year_Stocklevel(int year)
+{
+	if (year <= 0)
+		return;
+	vector<double> Months = Calc_Stock_Follow_Year_DrawChart(year);
+	Table_Draw_Chart(Months, year,0);
+	gotoxy(10, 3);
+	cout << "(Stocks)" << endl;
+
 }
