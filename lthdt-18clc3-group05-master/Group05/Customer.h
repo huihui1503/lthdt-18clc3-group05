@@ -11,6 +11,18 @@ private:
 	string name;
 	double point;
 public:
+	string Get_ID()
+	{
+		return id;
+	}
+	string Get_Name()
+	{
+		return name;
+	}
+	double Get_Point()
+	{
+		return point;
+	}
 	void Save_Attribute(ofstream&file);
 	bool Show_tmp_data(int namex, int namey);
 	string Classify_Member();

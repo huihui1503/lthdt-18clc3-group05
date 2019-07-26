@@ -5,6 +5,7 @@
 #include<vector>
 #include<iostream>
 #include<string>
+#include"Customer.h"
 using namespace std;
 class Store
 {
@@ -40,7 +41,7 @@ public:
 public: // Xu li nghiep vu
 	int  findSmartphone(vector<Smartphone>& temp, string ID);
 	bool Sell_A_Smartphone(string ID);
-	bool Sell_Bags(); // tham so gio hang se duoc khai bao trong methods
+	bool Sell_Bags(Customer&temp); // tham so gio hang se duoc khai bao trong methods
 	void Add_To_Bags(Smartphone&temp);
 	bool Decrease_Quantity(string ID);
 	bool Reset_Bags();

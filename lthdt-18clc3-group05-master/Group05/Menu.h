@@ -16,12 +16,14 @@ private:
 	string path_customer = "Customer.txt";
 	vector<Customer> data;
 	Report report;
+//Customer
 public:
 	void Load_Data_Customer();
 	void Save_Data_Customer();
 	void Move_in_Customer();
 	void Create_New_Customer();
 	bool Check_Existing_Costumer(string name,string id);
+	int Enter_Customer();
 //Report
 public:
 	void Report_Interface();
@@ -40,7 +42,6 @@ public:
 	int add_Edit(string brand);
 	void About_Us();
 	void Exit();
-	string Enter(int x, int y);// dung de cin o mot toa do nao do
 	void Draw_Login(int state);// ve table
 	int Login();
 	void Print_FlashScreen();
