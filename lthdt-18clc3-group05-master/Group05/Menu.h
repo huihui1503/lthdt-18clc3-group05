@@ -24,6 +24,7 @@ public:
 	void Create_New_Customer();
 	bool Check_Existing_Costumer(string name,string id);
 	int Enter_Customer();
+	bool Create_Hitory(int index);
 //Report
 public:
 	void Report_Interface();

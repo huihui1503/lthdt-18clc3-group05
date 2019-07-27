@@ -965,7 +965,6 @@ link: {
 	}
 }
 
-
 int Menu::add_Edit(string brand){
 link: {
 	DisplayLogo(0, 0, (brand + "logo.txt").c_str(), Cyan, 1800);
@@ -1285,8 +1284,16 @@ link: {
 
 void Menu::Edit_customer(int index)
 {
-	int xbox = 10, ybox = 5;
+Done:
 	system("cls");
+	int xbox = 10, ybox = 5;
+	xbox = 84, ybox = 5;
+	Draw_Box(xbox, ybox, 7, 35, White);
+	textcolor(Red); gotoxy(xbox + 2, ybox + 1); cout << "* Notes:";
+	textcolor(White); gotoxy(xbox + 2, ybox + 3); cout << "[i]: Press Enter to continue";
+	gotoxy(xbox + 2, ybox + 5); cout << "[i]: Press Shift + H to history";
+	gotoxy(xbox + 2, ybox + 7); cout << "[i]: Esc to exit";
+	xbox = 10, ybox = 5;
 	Draw_Box(xbox, ybox, 18, 50, 25); // bigbox
 	gotoxy(xbox + 2, ybox + 1);
 	textcolor(Yellow);
@@ -1356,6 +1363,14 @@ void Menu::Edit_customer(int index)
 			} while (cdata[i] == "");
 			gotoxy(x + 1, y + 1);
 		}
+		if ((int)c == 72)
+		{
+			Create_Hitory(index);
+			system("cls");
+			goto Done;
+
+		}
+
 		if ((int)c == KEY_ESC) {
 			Customer tmp(cdata[0], cdata[1], stoi(cdata[2]));
 			data[index] = tmp;
@@ -1364,6 +1379,22 @@ void Menu::Edit_customer(int index)
 	}
 }
 
+bool Menu::Create_Hitory(int index)
+{
+	system("cls");
+	ifstream file(data[index].Get_ID()+".txt");
+	if (!file.is_open()) return false;
+	while (file.good())
+	{
+		char temp[1000];
+		file.getline(temp, 1000, '\n');
+		string out = string(temp);
+		cout << temp << endl;
+	}
+	file.close();
+	system("pause>nul");
+	return true;
+}
 
 //costumer function
 void Menu::Load_Data_Customer()

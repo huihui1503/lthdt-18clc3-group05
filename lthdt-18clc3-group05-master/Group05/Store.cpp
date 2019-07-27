@@ -239,6 +239,7 @@ bool Store::Input_Storage() // Nhap vao lich su mua ban
 /*Dont touch*/
 bool Store::Output_Bill(string ID,double money)
 {
+	if (ID == "0") return false;
 	Date today;
 	string fileName = ID + ".txt";
 	ofstream fout(fileName, ios::app);
@@ -254,12 +255,6 @@ bool Store::Output_Bill(string ID,double money)
 			fout << Bags[i].ToStringBill();
 			fout << endl;
 		}
-
-		double total = Calc_Total_Cost(Bags);
-		fout << "Have to pay: " << (long long)total << endl;
-		fout << "Receive your money: " << (long long)money << endl;
-		fout << "Give back your change: " << (long long)money - total << endl;
-		fout << "Thank for using my service." << endl;
 	}
 	fout.close();
 	return true;
@@ -297,9 +292,12 @@ bool Store::Sell_Bags(Customer&temp)
 	double total = Calc_Total_Cost(Bags);
 	for (; i < Bags.size(); i++)
 	{
-		gotoxy(x, y + 8+i); cout << Bags[i].Get_Name();
-		gotoxy(x + 35, y + 8 + i); printf("%.f", Bags[i].PriceSell()); cout << " VND x " << Bags[i].Get_StockLevel();
-		Bags[i].Discount_Price_Follow_Point(temp.Get_Point());
+		if (Bags[i].Get_StockLevel() > 0)
+		{
+			gotoxy(x, y + 8 + i); cout << Bags[i].Get_Name();
+			gotoxy(x + 35, y + 8 + i); printf("%.f", Bags[i].PriceSell()); cout << " VND x " << Bags[i].Get_StockLevel();
+			Bags[i].Discount_Price_Follow_Point(temp.Get_Point());
+		}
 	}
 	double total2 = Calc_Total_Cost(Bags);
 	if (total != total2)
@@ -351,19 +349,10 @@ bool Store::Sell_Bags(Customer&temp)
 		key = _getch();
 		if (int(key) == KEY_ENTER)
 		{
-			if (Output_Bill(temp.Get_ID(),double(stof(money))) == true && Input_Storage() == true)
-			{
-				system("cls");
-				cout << "print bill successfully";
-			}
-			cout << endl;
-			cout << "thank for coming to my shop, see you again" << endl;
-
-			if (Reset_Bags()) //reset bags
-			{
-				return true;
-			}
-			system("pause>nul");
+			Output_Bill(temp.Get_ID(), double(stof(money)));
+			Input_Storage();
+			Reset_Bags();
+			break;
 		}
 	}
 	return true;
