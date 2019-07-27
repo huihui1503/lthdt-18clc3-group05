@@ -544,7 +544,7 @@ int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
 	int y = 5;
-	for (int i = 1; i <= Count_Brand.size() + 2; i++)
+	for (int i = 1; i <= Count_Brand.size() + 3; i++)
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
@@ -555,10 +555,14 @@ int Store::Draw_Brand_For_Choice()
 			textcolor(Pink);
 			cout << "Filter";
 		}
-		else
+		else if (i == Count_Brand.size() + 2)
 		{
 			textcolor(Pink);
 			cout << "Customer";
+		}
+		else {
+			textcolor(Pink);
+			cout << "Find";
 		}
 		if (i % 3 == 0)
 		{

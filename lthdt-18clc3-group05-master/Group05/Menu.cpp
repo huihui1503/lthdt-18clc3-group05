@@ -264,7 +264,7 @@ void Menu::Seller_Move()
 	int y = 1;
 Done:
 	int move = main_data.Draw_Brand_For_Choice();
-	move += 2;// for advance filter and costumer
+	move += 3;// for advance filter and customer
 	int max_col = move % 3;
 	int max_row = move / 3;
 	if (max_col != 0) max_row += 1;
@@ -330,17 +330,21 @@ Done:
 		case KEY_ENTER:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			if (current == move-1)
+			if (current == move-2)
 			{
 				Move_in_Customer();
 				system("cls");
 				main_data.Draw_Bag();
 			}
-			else if(current==move-2)
+			else if(current==move-3)
 			{
 				Advanced_Filter();
 				system("cls");
 				main_data.Draw_Bag();
+			}
+			else if (current == move - 1) {
+				system("cls");
+				find_BaseOn_ID_or_Name();
 			}
 			else Choice_For_Sell(main_data.Count_Brand[current]);
 			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
@@ -1358,7 +1362,7 @@ Done:
 				cdata[i] = (string)tmp;
 				if (cdata[i] == "") {
 					gotoxy(x + 52, y);
-					cout << "value can't ne null";
+					cout << "value can't be null";
 				}
 			} while (cdata[i] == "");
 			gotoxy(x + 1, y + 1);
@@ -1377,6 +1381,170 @@ Done:
 			return;
 		}
 	}
+}
+
+void Menu::find_BaseOn_ID_or_Name()
+{
+	int posx = 20;
+	int posy = 5;
+	Draw_Box(posx, posy, 8, 40, 25); // bigbox
+	gotoxy(posx + 45, posy);
+	textcolor(Gray);
+	cout << "Press Shift F to find";
+	textcolor(Cyan);
+	gotoxy(posx + 1, posy + 1);
+	cout << "Base on: ";
+	Draw_Box(posx + 1, posy + 2, 1, 38, Cyan); // base box
+	Draw_Box(posx + 1, posy + 5, 1, 38, Cyan); // value input box
+	gotoxy(posx + 2, posy + 3);
+	cout << "None";
+	char c = '\0';
+	string arrow = "=>";
+	string value = "";
+	string ValueCompare = "";
+	int index = 1;
+	gotoxy(posx + 35, posy + 3);
+	cout << arrow;
+	int y = posy + 3;
+	while ((int)c != KEY_ESC) {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(posx + 35, y);
+			cout << "  ";
+			if (index == 1) {
+				index = 2;
+				y = posy + 6;
+			}
+			else {
+				index = 1;
+				y = posy + 3;
+			}
+			gotoxy(posx + 35, y);
+			cout << arrow;
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(posx + 35, y);
+			cout << "  ";
+			if (index == 2) {
+				index = 1;
+				y = posy + 3;
+			}
+			else {
+				index ++;
+				y = posy + 6;
+			}
+			gotoxy(posx + 35, y);
+			cout << arrow;
+		}
+		if ((int)c == KEY_ENTER) {
+			if (index == 1) {
+				goto right;
+			}
+			else if (index == 2) {
+				gotoxy(posx + 2, posy + 6);
+				cout << "                                   ";
+				gotoxy(posx + 2, posy + 6);
+				char tmp[1000];
+				gets_s(tmp);
+				ValueCompare = (string)tmp;
+				gotoxy(posx + 2, posy + 6);
+			}
+		}
+		if ((int)c == 70) {
+			system("cls");
+			if (value == "ID") {
+				for (int i = 0; i < main_data.getNum(); i++) {
+					if (main_data[i].compare_with_id(ValueCompare) == true) {
+						cout << main_data[i] << endl;
+						system("pause");
+						system("cls");
+						return;
+					}
+				}
+			}
+			if (value == "Name") {
+				for (int i = 0; i < main_data.getNum(); i++) {
+					if (main_data[i].compare_with_name(ValueCompare) == true) {
+						cout << main_data[i] << endl;
+						system("pause");
+						system("cls");
+						return;
+					}
+				}
+			}
+			else {
+				cout << "NOT FOUND" << endl;
+				system("pause");
+				system("cls");
+				return;
+			}
+		}
+	right: {
+		if ((int)c == KEY_RIGHT) {
+			if (index == 1) {
+				value = ChoiceToFind(posx + 41, posy + 3);
+				gotoxy(posx + 2, posy + 3);
+				cout << "        ";
+				textcolor(Cyan);
+				gotoxy(posx + 2, posy + 3);
+				cout << value;
+			}
+		}
+		}
+	}
+}
+
+string Menu::ChoiceToFind(int x, int y)
+{
+	string v[] = { "ID", "Name" };
+	textcolor(Red);
+	gotoxy(x, y);
+	cout << "+ ID";
+	textcolor(White);
+	gotoxy(x, y + 1);
+	cout << "+ Name";
+	char c = '\0';
+	int index = 1;
+	while ((int)c != KEY_LEFT && (int)c != KEY_ESC) {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(x, y);
+			textcolor(White);
+			cout <<"+ "  << v[index - 1];
+			if (index <= 1) {
+				index = 2;
+				y ++;
+			}
+			else {
+				index--;
+				y --;
+			}
+			gotoxy(x, y);
+			textcolor(Red);
+			cout <<"+ "<< v[index - 1];
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(x, y);
+			textcolor(White);
+			cout <<"+ "<< v[index - 1];
+			if (index == 1) {
+				index++;
+				y ++;
+			
+			}
+			else {
+				index = 1;
+				y --;
+			}
+			gotoxy(x, y);
+			textcolor(Red);
+			cout << "+ "<<v[index - 1];
+		}
+		if ((int)c == KEY_ENTER) {
+			return v[index - 1];
+		}
+	}
+	return "None";
 }
 
 bool Menu::Create_Hitory(int index)

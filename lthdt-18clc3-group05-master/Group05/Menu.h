@@ -51,6 +51,8 @@ public:
 	void New();
 	void Add_Edit_customer(); 
 	void Edit_customer(int index);
+	void find_BaseOn_ID_or_Name();
+	string ChoiceToFind(int x, int y);
 	Menu();
 	~Menu();
 };
