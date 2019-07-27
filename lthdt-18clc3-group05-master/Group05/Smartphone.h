@@ -44,7 +44,7 @@ public:
 public:	
 	// METHOD
 	string ToStringBill(); //Fix
-	string ToStringBestSeller(); //New
+	void Print_BestSeller(); //New
 	string ToString();
 	string ToStringFile();
 	string ToStringFile_Expand();

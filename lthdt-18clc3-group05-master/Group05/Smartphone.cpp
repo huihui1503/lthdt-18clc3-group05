@@ -350,13 +350,24 @@ string Smartphone::ToStringBill()
 	return writer.str();
 }
 
-string Smartphone::ToStringBestSeller()
+void Smartphone::Print_BestSeller()
 {
-	stringstream writer;
-
-	writer << ID << "," << Name << "," << (long long)Price_b << "," << (long long)Price_s;
-
-	return writer.str();
+	gotoxy(50, 1);
+	cout << "Best Seller: ";
+	Draw_Box(20, 3, 9, 80, White);
+	
+	gotoxy(21, 4);
+	cout << "ID: " << ID;
+	gotoxy(21, 5);
+	cout << "Name: " << Name;
+	gotoxy(21, 6);
+	cout << "Brand: " << Brand;
+	gotoxy(21, 7);
+	cout << "Origin: " << Origin;
+	gotoxy(21, 8);
+	cout << "Price buy: " << (long long)Price_b;
+	gotoxy(21, 9);
+	cout << "Price sell: " << (long long)Price_s;
 }
 
 string Smartphone::ToString()
