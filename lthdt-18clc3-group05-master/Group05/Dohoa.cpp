@@ -1,4 +1,68 @@
 ﻿#include"Dohoa.h"
+
+string Enter(int x, int y)
+{
+	char place[40];// for old password
+	char key;
+	int i = 0;
+	key = _getch();
+	if (key == char(27))
+	{
+		return "";
+	}
+	if (key != NULL && key != char(13) && key != char(32))
+	{
+		gotoxy(x, y);
+		cout << "                      ";
+		place[i] = key;
+		gotoxy(x, y);
+		cout << key;
+	}
+	while (true)
+	{
+		key = _getch();
+		if (key != NULL)
+		{
+			if (key == char(27))
+			{
+				return "";
+			}
+			/////////////////////////////// Delete ///////////////////////////////
+			else if (key == char(8))
+			{
+				int check = i - 1;
+				if (check >= -1)
+				{
+					place[i] = '\0';
+					gotoxy(x + i, y);
+					cout << " ";
+					gotoxy(x + i, y);
+					i--;
+				}
+			}
+			else if (key == char(13))
+			{
+				place[i + 1] = '\0';
+				break;
+			}
+			else
+			{
+				int check = i + 1;
+				if (check <= 30)
+				{
+					if (check <= 30)
+					{
+						cout << key;
+						i += 1;
+						place[i] = key;
+					}
+				}
+			}
+		}
+	}
+	return place;
+}
+
 void Delete_On_Console(int start_x, int start_y, int end_x, int end_y)
 {
 	int height = end_y - start_y;

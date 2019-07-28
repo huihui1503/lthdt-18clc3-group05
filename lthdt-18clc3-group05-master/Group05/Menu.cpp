@@ -2,68 +2,6 @@
 #define POSX 35
 #define POSY 3
 // LOGIN Function
-string Menu::Enter(int x, int y)
-{
-	char place[40];// for old password
-	char key;
-	int i = 0;
-	key = _getch();
-	if (key == char(27))
-	{
-		return "";
-	}
-	if (key != NULL && key != char(13) && key != char(32))
-	{
-		gotoxy(x, y);
-		cout << "                      ";
-		place[i] = key;
-		gotoxy(x, y);
-		cout << key;
-	}
-	while (true)
-	{
-		key = _getch();
-		if (key != NULL)
-		{
-			if (key == char(27))
-			{
-				return "";
-			}
-			/////////////////////////////// Delete ///////////////////////////////
-			else if (key == char(8))
-			{
-				int check = i - 1;
-				if (check >= -1)
-				{
-					place[i] = '\0';
-					gotoxy(x + i, y);
-					cout << " ";
-					gotoxy(x + i, y);
-					i--;
-				}
-			}
-			else if (key == char(13))
-			{
-				place[i + 1] = '\0';
-				break;
-			}
-			else 
-			{
-				int check = i + 1;
-				if (check <= 30)
-				{
-					if (check <= 30)
-					{
-						cout << key;
-						i += 1;
-						place[i] = key;
-					}
-				}
-			}
-		}
-	}
-	return place;
-}
 
 void Menu::Draw_Login(int state)
 {
@@ -326,7 +264,7 @@ void Menu::Seller_Move()
 	int y = 1;
 Done:
 	int move = main_data.Draw_Brand_For_Choice();
-	move += 2;// for advance filter and costumer
+	move += 3;// for advance filter and customer
 	int max_col = move % 3;
 	int max_row = move / 3;
 	if (max_col != 0) max_row += 1;
@@ -392,17 +330,21 @@ Done:
 		case KEY_ENTER:
 			int current = (y - 1) * 3 + (x-1);
 			Delete_On_Console(8, 5, 75, 5 + max_row * 10);
-			if (current == move-1)
+			if (current == move-2)
 			{
 				Move_in_Customer();
 				system("cls");
 				main_data.Draw_Bag();
 			}
-			else if(current==move-2)
+			else if(current==move-3)
 			{
 				Advanced_Filter();
 				system("cls");
 				main_data.Draw_Bag();
+			}
+			else if (current == move - 1) {
+				system("cls");
+				find_BaseOn_ID_or_Name();
 			}
 			else Choice_For_Sell(main_data.Count_Brand[current]);
 			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
@@ -497,7 +439,7 @@ void Menu::Show_Result_Filter(int array[])
 	}
 	main_data.Draw_Bag();
 	textcolor(Red);
-	gotoxy(33, 2); cout << "FONDED PRODUCTS";
+	gotoxy(33, 2); cout << "FOUNDED PRODUCTS";
 	for(int i=0;i<temp.size();i++) temp[i].COUT_NAME(i * 5 + 5, 1, 80, White);
 	char key = '.';
 	int current = 0;
@@ -505,39 +447,65 @@ void Menu::Show_Result_Filter(int array[])
 	{
 		main_data.Effect_of_Move(current, temp);
 		key = _getch();
-		switch (int(key))
+		if (int(key) == KEY_UP)
 		{
-		case KEY_UP:
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current -= 1;
 			if (current < 0) current = temp.size() - 1;
-			break;
-		case KEY_DOWN:
+		}
+		if (int(key) == KEY_DOWN)
+		{
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current += 1;
 			if (current >= temp.size()) current = 0;
-			break;
-		case 83:
+		}
+		if (int(key) == 83)
+		{
 			//// Press Shift + S to print bill
-			break;
-		case KEY_ADD:
+			// Test function  print bill
+			system("cls");
+
+			//resizeConsole(1780, 1000);
+			int move = Enter_Customer();
+			system("cls");
+			if (move != -1)
+			{
+				if (move != data.size()) main_data.Sell_Bags(data[move]);
+				else
+				{
+					Customer temp("0", "0", 0);
+					main_data.Sell_Bags(temp);
+				}
+				system("cls");
+			}
+			//resizeConsole(895, 518);
+			//resizeConsole(980, 535);
+			return;
+		}
+		if (int(key) == KEY_ADD)
+		{
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
 			{
 				temp[current].Decrease_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
-		case KEY_MINUS:
+		}
+		if (int(key) == KEY_MINUS)
+		{
 			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
 			{
 				temp[current].Increase_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
+		}
+		if (int(key) == int('R'))
+		{
+			main_data.Reset_Bags();
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 		}
 	}
 }
@@ -642,48 +610,60 @@ void Menu::Choice_For_Sell(string chosen_brand)
 	{
 		main_data.Effect_of_Move(current, temp);
 		key = _getch();
-		switch (int(key))
+		if (int(key) == KEY_UP)
 		{
-		case KEY_UP:
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current -= 1;
 			if (current < 0) current = temp.size() - 1;
-			break;
-		case KEY_DOWN:
+		}
+		if (int(key) == KEY_DOWN)
+		{
 			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current += 1;
 			if (current >= temp.size()) current = 0;
-			break;
-		case 83:
+		}
+		if (int(key) == 83)
+		{
 			//// Press Shift + S to print bill
 			// Test function  print bill
 			system("cls");
-			resizeConsole(1780, 1000);
-			main_data.Sell_Bags();
-			system("pause");
 
+			//resizeConsole(1780, 1000);
+			int move=Enter_Customer();
 			system("cls");
-			resizeConsole(895, 518);
-			Seller_Move();
-			break;
-		case KEY_ADD:
+			if (move != -1)
+			{
+				if(move!=data.size()) main_data.Sell_Bags(data[move]);
+				else
+				{
+					Customer temp("0", "0", 0);
+					main_data.Sell_Bags(temp);
+				}
+				system("cls");
+			}
+			//resizeConsole(895, 518);
+			//resizeConsole(980, 535);
+			return;
+		}
+		if (int(key) == KEY_ADD)
+		{
 			if (main_data.Sell_A_Smartphone(temp[current].Get_ID()))
 			{
 				temp[current].Decrease_StockLevel(1);
 			}
-			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
-		case KEY_MINUS:
+		}
+		if (int(key) == KEY_MINUS)
+		{
 			if (main_data.Decrease_Quantity(temp[current].Get_ID()))
 			{
 				temp[current].Increase_StockLevel(1);
 			}
-			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags()+8);
+			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
 			main_data.Print_Bill_On_Console();
-			break;
 		}
 	}
 }
@@ -774,7 +754,8 @@ void Menu::About_Us()
 
 	}
 	system("pause>nul");
-	resizeConsole(895, 518);
+	//resizeConsole(895, 518);
+	resizeConsole(980, 535);
 }
  
 void Menu::Exit()
@@ -988,7 +969,6 @@ link: {
 	}
 }
 
-
 int Menu::add_Edit(string brand){
 link: {
 	DisplayLogo(0, 0, (brand + "logo.txt").c_str(), Cyan, 1800);
@@ -1169,7 +1149,7 @@ link: {
 	int lbox = 37;
 	string data[10];
 	for (int i = 0; i < 10; i++) {
-		data[i] = "0";
+		data[i] = "";
 	}
 	int index = 1;
 	Draw_Box(xBox, y - 1, 1, 37, Red);
@@ -1227,7 +1207,7 @@ link: {
 			gotoxy(x, y);
 		}
 		if ((int)c == KEY_ENTER && index == 10) {
-			if (data[1] == "0" || data[2] == "0" || data[3] == "0" || data[4] == "0" || data[5] == "0" || data[6] == "0" || data[7] == "0" || data[8] == "0" || data[9] == "0") {
+			if (data[1] == "" || data[2] == "" || data[3] == "" || data[4] == "" || data[5] == "" || data[6] == "" || data[7] == "" || data[8] == "" || data[9] == "") {
 				empty = true;
 				goto link;
 			}
@@ -1308,8 +1288,16 @@ link: {
 
 void Menu::Edit_customer(int index)
 {
-	int xbox = 10, ybox = 5;
+Done:
 	system("cls");
+	int xbox = 10, ybox = 5;
+	xbox = 84, ybox = 5;
+	Draw_Box(xbox, ybox, 7, 35, White);
+	textcolor(Red); gotoxy(xbox + 2, ybox + 1); cout << "* Notes:";
+	textcolor(White); gotoxy(xbox + 2, ybox + 3); cout << "[i]: Press Enter to continue";
+	gotoxy(xbox + 2, ybox + 5); cout << "[i]: Press Shift + H to history";
+	gotoxy(xbox + 2, ybox + 7); cout << "[i]: Esc to exit";
+	xbox = 10, ybox = 5;
 	Draw_Box(xbox, ybox, 18, 50, 25); // bigbox
 	gotoxy(xbox + 2, ybox + 1);
 	textcolor(Yellow);
@@ -1374,11 +1362,19 @@ void Menu::Edit_customer(int index)
 				cdata[i] = (string)tmp;
 				if (cdata[i] == "") {
 					gotoxy(x + 52, y);
-					cout << "value can't ne null";
+					cout << "value can't be null";
 				}
 			} while (cdata[i] == "");
 			gotoxy(x + 1, y + 1);
 		}
+		if ((int)c == 72)
+		{
+			Create_Hitory(index);
+			system("cls");
+			goto Done;
+
+		}
+
 		if ((int)c == KEY_ESC) {
 			Customer tmp(cdata[0], cdata[1], stoi(cdata[2]));
 			data[index] = tmp;
@@ -1387,6 +1383,186 @@ void Menu::Edit_customer(int index)
 	}
 }
 
+void Menu::find_BaseOn_ID_or_Name()
+{
+	int posx = 20;
+	int posy = 5;
+	Draw_Box(posx, posy, 8, 40, 25); // bigbox
+	gotoxy(posx + 45, posy);
+	textcolor(Gray);
+	cout << "Press Shift F to find";
+	textcolor(Cyan);
+	gotoxy(posx + 1, posy + 1);
+	cout << "Base on: ";
+	Draw_Box(posx + 1, posy + 2, 1, 38, Cyan); // base box
+	Draw_Box(posx + 1, posy + 5, 1, 38, Cyan); // value input box
+	gotoxy(posx + 2, posy + 3);
+	cout << "None";
+	char c = '\0';
+	string arrow = "=>";
+	string value = "";
+	string ValueCompare = "";
+	int index = 1;
+	gotoxy(posx + 35, posy + 3);
+	cout << arrow;
+	int y = posy + 3;
+	while ((int)c != KEY_ESC) {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(posx + 35, y);
+			cout << "  ";
+			if (index == 1) {
+				index = 2;
+				y = posy + 6;
+			}
+			else {
+				index = 1;
+				y = posy + 3;
+			}
+			gotoxy(posx + 35, y);
+			cout << arrow;
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(posx + 35, y);
+			cout << "  ";
+			if (index == 2) {
+				index = 1;
+				y = posy + 3;
+			}
+			else {
+				index ++;
+				y = posy + 6;
+			}
+			gotoxy(posx + 35, y);
+			cout << arrow;
+		}
+		if ((int)c == KEY_ENTER) {
+			if (index == 1) {
+				goto right;
+			}
+			else if (index == 2) {
+				gotoxy(posx + 2, posy + 6);
+				cout << "                                   ";
+				gotoxy(posx + 2, posy + 6);
+				char tmp[1000];
+				gets_s(tmp);
+				ValueCompare = (string)tmp;
+				gotoxy(posx + 2, posy + 6);
+			}
+		}
+		if ((int)c == 70) {
+			system("cls");
+			if (value == "ID") {
+				for (int i = 0; i < main_data.getNum(); i++) {
+					if (main_data[i].compare_with_id(ValueCompare) == true) {
+						cout << main_data[i] << endl;
+						system("pause");
+						system("cls");
+						return;
+					}
+				}
+			}
+			if (value == "Name") {
+				for (int i = 0; i < main_data.getNum(); i++) {
+					if (main_data[i].compare_with_name(ValueCompare) == true) {
+						cout << main_data[i] << endl;
+						system("pause");
+						system("cls");
+						return;
+					}
+				}
+			}
+			else {
+				cout << "NOT FOUND" << endl;
+				system("pause");
+				system("cls");
+				return;
+			}
+		}
+	right: {
+		if ((int)c == KEY_RIGHT) {
+			if (index == 1) {
+				value = ChoiceToFind(posx + 41, posy + 3);
+				gotoxy(posx + 2, posy + 3);
+				cout << "        ";
+				textcolor(Cyan);
+				gotoxy(posx + 2, posy + 3);
+				cout << value;
+			}
+		}
+		}
+	}
+}
+
+string Menu::ChoiceToFind(int x, int y)
+{
+	string v[] = { "ID", "Name" };
+	textcolor(Red);
+	gotoxy(x, y);
+	cout << "+ ID";
+	textcolor(White);
+	gotoxy(x, y + 1);
+	cout << "+ Name";
+	char c = '\0';
+	int index = 1;
+	while ((int)c != KEY_LEFT && (int)c != KEY_ESC) {
+		c = _getch();
+		if ((int)c == KEY_UP) {
+			gotoxy(x, y);
+			textcolor(White);
+			cout <<"+ "  << v[index - 1];
+			if (index <= 1) {
+				index = 2;
+				y ++;
+			}
+			else {
+				index--;
+				y --;
+			}
+			gotoxy(x, y);
+			textcolor(Red);
+			cout <<"+ "<< v[index - 1];
+		}
+		if ((int)c == KEY_DOWN) {
+			gotoxy(x, y);
+			textcolor(White);
+			cout <<"+ "<< v[index - 1];
+			if (index == 1) {
+				index++;
+				y ++;
+			
+			}
+			else {
+				index = 1;
+				y --;
+			}
+			gotoxy(x, y);
+			textcolor(Red);
+			cout << "+ "<<v[index - 1];
+		}
+		if ((int)c == KEY_ENTER) {
+			return v[index - 1];
+		}
+	}
+	return "None";
+}
+
+bool Menu::Create_Hitory(int index)
+{
+	system("cls");
+	ifstream file(data[index].Get_ID()+".txt");
+	if (!file.is_open()) return false;
+	while (file.good())
+	{
+		char temp[1000];
+		file.getline(temp, 1000, '\n');
+		string out = string(temp);
+		cout << temp << endl;
+	}
+	file.close();
+	system("pause>nul");
+	return true;
+}
 
 //costumer function
 void Menu::Load_Data_Customer()
@@ -1402,7 +1578,6 @@ void Menu::Load_Data_Customer()
 		file.getline(temp, 1000, ','); id = string(temp);
 		file.getline(temp, 1000, ','); name = string(temp);
 		file.getline(temp, 1000, '\n'); point = string(temp);
-		file.ignore();
 		Customer test(id, name, stoi(point));
 		data.push_back(test);
 	}
@@ -1414,10 +1589,12 @@ void Menu::Save_Data_Customer()
 {
 	ofstream file(path_customer);
 	if (!file.is_open()) return;
-	for (int i = 0; i < data.size(); i++)
+	for (int i = 0; i < data.size() - 1; i++)
 	{
 		data[i].Save_Attribute(file);
+		file << "\n";
 	}
+	data[data.size() -1].Save_Attribute(file);
 	file.close();
 }
 
@@ -1511,6 +1688,23 @@ bool Menu::Check_Existing_Costumer(string name, string id)
 		data.push_back(temp);
 	}
 	return check;
+}
+
+int Menu::Enter_Customer()
+{
+	string id;
+	textcolor(Red);
+	gotoxy(41, 12); cout << "Customer 's ID";
+	Draw_Box(40, 13, 1, 40, Cyan);
+	gotoxy(42, 14);
+	textcolor(White);
+	id = Enter(42, 14);
+	if (id == "") return -1;// return 
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].check_id_name("temp", id)) return i; // position of customer in array
+	}
+	return data.size();// not exist
 }
 
 //Report
@@ -1639,7 +1833,7 @@ void Menu::Menu_Profit_Year()
 	system("cls");
 	resizeConsole(1700, 900);
 	report.Draw_Chart_forA_Year(stoi(year));
-	resizeConsole(895, 518);
+	resizeConsole(980, 535);
 	system("cls");
 }
 

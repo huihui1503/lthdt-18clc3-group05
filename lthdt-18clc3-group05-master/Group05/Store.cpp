@@ -237,10 +237,11 @@ bool Store::Input_Storage() // Nhap vao lich su mua ban
 	return true;
 }
 /*Dont touch*/
-bool Store::Output_Bill(double money)
+bool Store::Output_Bill(string ID,double money)
 {
+	if (ID == "0") return false;
 	Date today;
-	string fileName = today.ToString() + ".txt";
+	string fileName = ID + ".txt";
 	ofstream fout(fileName, ios::app);
 	if (!fout.is_open())
 	{
@@ -254,12 +255,6 @@ bool Store::Output_Bill(double money)
 			fout << Bags[i].ToStringBill();
 			fout << endl;
 		}
-
-		double total = Calc_Total_Cost(Bags);
-		fout << "Have to pay: " << total << endl;
-		fout << "Receive your money: " << money << endl;
-		fout << "Give back your change: " << money - total << endl;
-		fout << "Thank for using my service" << endl;
 	}
 	fout.close();
 	return true;
@@ -270,41 +265,97 @@ void Store::Save_bill_by_month()
 	Date a;
 }
 /*Dont touch*/
-bool Store::Sell_Bags()
+bool Store::Sell_Bags(Customer&temp)
 {
-	string name;
-	long money; int pos;
+	int x = 9;
+	int y = 8;
+	textcolor(Red);
+	gotoxy(25, 6); cout << "Customer Information";
+	Draw_Box(72, 4, 16, 40, 48);
+	textcolor(White);
+	if (!temp.check_id_name("temp", "0"))
+	{
+		gotoxy(x, y); cout << "+ Name: "<<temp.Get_Name();
+		gotoxy(x, y + 1); cout << "+ Phone number: "<<temp.Get_ID();
+		gotoxy(x, y + 2); cout << "+ Point: "<<temp.Get_Point()<<" - "<<temp.Classify_Member();
+	}
+	else
+	{
+		gotoxy(x, y); cout << "+ Name: Unknown";
+		gotoxy(x, y + 1); cout << "+ Phone number: Unknown";
+		gotoxy(x, y + 2); cout << "+ Point: Unknown";
+	}
+	gotoxy(x - 3, y + 4); cout << "----------------------------------------------------------";
+	textcolor(Red); gotoxy(33, y + 6); cout << "BILL";
+	textcolor(White);
+	int i = 0;
 	double total = Calc_Total_Cost(Bags);
-
-	Display_All_Calc_Cost(pos);
-
-	gotoxy(1, pos + 1);
-	cout << "Are you sure you want to pay(Y: yes, N: no):";
-	char c; cin >> c;
-	if (c == 'y' || c == 'Y') {
-		do
+	for (; i < Bags.size(); i++)
+	{
+		if (Bags[i].Get_StockLevel() > 0)
 		{
-			cout << "Receive money from you: ";
-			cin >> money;
-			cout << "Your change is: " << money - total << endl;
-			if ((money - total) < 0)
-			{
-				cout << "Not enough, please pay more" << endl;
-			}
-		} while (money < total);
-
-		if (Output_Bill(money) == true && Input_Storage() == true)
-		{
-			cout << "Print bill successfully";
+			gotoxy(x, y + 8 + i); cout << Bags[i].Get_Name();
+			gotoxy(x + 35, y + 8 + i); printf("%.f", Bags[i].PriceSell()); cout << " VND x " << Bags[i].Get_StockLevel();
+			Bags[i].Discount_Price_Follow_Point(temp.Get_Point());
 		}
 	}
-	cout << endl;
-	cout << "Thank for coming my shop, see you again" << endl;
-
-	if (Reset_Bags()) //Reset bags
+	double total2 = Calc_Total_Cost(Bags);
+	if (total != total2)
 	{
-		return true;
+		gotoxy(x, y + 8 + i); cout << "Discount";
+		gotoxy(x + 35, y + 8 + i); cout << "- "; printf("%.f", total - total2); cout << " VND";
+		i++;
 	}
+	i += 1;
+	gotoxy(x + 28, y + 8 + i); cout << "-------------------------";
+	i += 1;
+	textcolor(Red);
+	gotoxy(x + 28, y + 8 + i); cout << "Total: ";
+	textcolor(White);
+	gotoxy(x + 35, y + 8 + i); printf("%.f", total2); cout << " VND";
+	Draw_Box(5, 4, 16+i, 60, 25);// big box
+
+	textcolor(Red);
+	gotoxy(77, 6); cout << "Receive";
+	Draw_Box(76, 7, 1, 32, White);
+	textcolor(Red);
+	gotoxy(77, 10); cout << "Charge";
+	Draw_Box(76, 11, 1, 32, White);
+	string money = "0";
+	while (double(stof(money))<total2)
+	{
+		gotoxy(78, 8);
+		textcolor(White);
+		money = Enter(78, 8);
+		if (money == "") return true;
+		if (double(stof(money)) < total2)
+		{
+			textcolor(Red);
+			gotoxy(51, 2); cout << "Money is not sufficient!!!!";
+			gotoxy(78, 8); cout << "                      ";
+		}
+	}
+	gotoxy(78, 12); printf("%.f", double(stof(money)) - total2);
+	Draw_Box(82, 15, 3, 20, Red);
+	textcolor(White);
+	gotoxy(90, 17); cout << "SELL";
+	char key = '.';
+	//string name;
+	//long money; int pos=2;
+
+	//display_all_calc_cost(pos);
+	while (int(key) != KEY_ESC)
+	{
+		key = _getch();
+		if (int(key) == KEY_ENTER)
+		{
+			Output_Bill(temp.Get_ID(), double(stof(money)));
+			Input_Storage();
+			Reset_Bags();
+			break;
+		}
+	}
+	return true;
 }
 
 bool Store::Input_New_Data_from_file(string Filename, string info)
@@ -493,7 +544,7 @@ int Store::Draw_Brand_For_Choice()
 {
 	int x = 8;
 	int y = 5;
-	for (int i = 1; i <= Count_Brand.size() + 2; i++)
+	for (int i = 1; i <= Count_Brand.size() + 3; i++)
 	{
 		Draw_Box(x, y, 5, 15, White);
 		textcolor(DarkCyan);
@@ -504,10 +555,14 @@ int Store::Draw_Brand_For_Choice()
 			textcolor(Pink);
 			cout << "Filter";
 		}
-		else
+		else if (i == Count_Brand.size() + 2)
 		{
 			textcolor(Pink);
-			cout << "Costumer";
+			cout << "Customer";
+		}
+		else {
+			textcolor(Pink);
+			cout << "Find";
 		}
 		if (i % 3 == 0)
 		{

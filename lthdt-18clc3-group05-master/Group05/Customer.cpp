@@ -71,7 +71,7 @@ string Customer::Classify_Member()
 
 void Customer::Save_Attribute(ofstream&file)
 {
-	file << this->id << "," << this->name << "," << this->point << "\n";
+	file << this->id << "," << this->name << "," << this->point;
 }
 
 

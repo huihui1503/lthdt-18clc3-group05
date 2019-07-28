@@ -54,7 +54,7 @@ bool Report::Load_Data_from_Date(int month1, int year1, int month2, int year2)
 					count++;
 				}
 			}
-			for (int j = j1; j <= j2; j++) //Year2 -> Year(n-1)
+			for (int j = j1 + 1; j < j2; j++) //Year2 -> Year(n-1)
 			{
 				for (int i = 1; i <= 12; i++)
 				{
@@ -145,7 +145,6 @@ double Report::Calc_Profit_Follow_2Month_To_2Year(int month1, int year1, int mon
 
 void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 {
-
 	if (Load_Data_from_Date(month1, year1, month2, year2) == true)
 	{
 		vector<int>temp(m_s.size(), 0);
@@ -173,19 +172,20 @@ void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 		system("cls");
 		if (pos != -1)
 		{
-			cout << "Best seller is: " << endl;
-			cout << m_s[pos].ToStringBestSeller() << " with " << max << " stocks" << endl;
+			m_s[pos].Print_BestSeller();
+			gotoxy(21, 10);
+			cout << "Stock buy: " << max;
 		}
-		else
+		else if(pos == -1)
 		{
-			system("cls");
 			cout << "Dont have best seller" << endl;
 		}
 		m_s.clear();
 		m_day.clear();
+		temp.clear();
 	}
 	else { system("cls"); cout << "Dont have best seller" << endl; }
-	system("pause");
+	_getch();
 	return;
 }
 
