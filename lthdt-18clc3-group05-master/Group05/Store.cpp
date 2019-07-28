@@ -155,6 +155,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 
 /*++*/bool Store::Print_Bill_On_Console()
 {
+	if (Bags.empty()) return false;
 	textcolor(White);
 	int x = 84;
 	int y = 5;
@@ -174,6 +175,8 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 void Store::addNewSmartphone(Smartphone tmp)
 {
 	num++;
+	vector<string> temp = Tokenizer::Parse(tmp.Get_Name(), " ");
+	Count_Brand.push_back(temp[0]);
 	arrSmartphones.push_back(tmp);
 }
 
