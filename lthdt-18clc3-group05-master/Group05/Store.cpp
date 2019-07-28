@@ -155,6 +155,7 @@ void Calc_StockAnd_TotalPrice(int& stock, int& total, const vector<Smartphone>& 
 
 /*++*/bool Store::Print_Bill_On_Console()
 {
+	if (Bags.empty()) return false;
 	textcolor(White);
 	int x = 84;
 	int y = 5;

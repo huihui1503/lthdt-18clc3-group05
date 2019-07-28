@@ -345,6 +345,8 @@ Done:
 			else if (current == move - 1) {
 				system("cls");
 				find_BaseOn_ID_or_Name();
+				system("cls");
+				main_data.Draw_Bag();
 			}
 			else Choice_For_Sell(main_data.Count_Brand[current]);
 			Delete_On_Console(1, 5, 80, 5 + max_row * 10);
@@ -605,6 +607,7 @@ void Menu::Choice_For_Sell(string chosen_brand)
 	int y = 5;
 	vector<Smartphone>temp;
 	main_data.Draw_Phone_of_Brand(chosen_brand,temp);
+	main_data.Print_Bill_On_Console();
 	char key = '.';
 	int current = 0;
 	while (key != char(KEY_ESC))
@@ -613,7 +616,7 @@ void Menu::Choice_For_Sell(string chosen_brand)
 		key = _getch();
 		if (int(key) == KEY_UP)
 		{
-			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 7);
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 8);
 			temp[current].COUT_NAME(current * 5 + 5, 1, 80, White);
 			current -= 1;
 			if (current < 0) current = temp.size() - 1;
@@ -655,6 +658,7 @@ void Menu::Choice_For_Sell(string chosen_brand)
 				temp[current].Decrease_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 8);
 			main_data.Print_Bill_On_Console();
 		}
 		if (int(key) == KEY_MINUS)
@@ -664,6 +668,7 @@ void Menu::Choice_For_Sell(string chosen_brand)
 				temp[current].Increase_StockLevel(1);
 			}
 			Delete_On_Console(84, 5, 120, main_data.Get_Size_Of_Bags() + 8);
+			Delete_On_Console(1, current * 5 + 5, 80, current * 5 + 8);
 			main_data.Print_Bill_On_Console();
 		}
 	}
