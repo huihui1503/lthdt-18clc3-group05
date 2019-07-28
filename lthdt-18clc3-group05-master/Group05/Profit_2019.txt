@@ -1,0 +1,13 @@
+January: 157800000
+February: 54500000
+March: 114000000
+April: 43500000
+May: 70000000
+June: 62000000
+July: 425444000
+August: 203300000
+September: 126300000
+October: 101900000
+November: 139000000
+December: 112000000
+Total Profit: 1609744000

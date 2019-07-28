@@ -802,9 +802,7 @@ void Menu::Exit()
 
 Menu::Menu()
 {
-	//if (main_data.Load_Data_from_file())
-		//return;
-	//else 
+	if (!main_data.Load_Data_from_file())
 	main_data.Input_New_Data_from_file("Data.txt", "INFO.txt");
 	Load_Data_Customer();
 }
