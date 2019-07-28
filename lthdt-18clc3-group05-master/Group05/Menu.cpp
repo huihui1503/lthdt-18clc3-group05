@@ -726,13 +726,14 @@ void Menu::About_Us()
 	else {
 		while (!fin.eof())
 		{
-			
 			tmp = fin.get();
+			textcolor(White);
 			cout << tmp;
 		}
 		fin.close();
 		int posX = 65, posY = 8;
 		gotoxy(posX, posY-3);
+		textcolor(Cyan);
 		cout << "*****************************************";
 		gotoxy(posX, posY - 2);
 		cout << "* +++++++++++++++++++++++++++++++++++++ *";
@@ -875,7 +876,7 @@ link: {
 	//menu list
 
 	/*x = 75;
-	y = 6;
+	y = 6;x`
 
 	textcolor(gray);
 	gotoxy(x, y);
@@ -1223,6 +1224,7 @@ link: {
 				data[0] = (string)ran;
 				Smartphone tmp(data[0], data[1], data[2], stoi(data[3]), stoi(data[4]), data[5], data[6], data[7], data[8], stoi(data[9]));
 				main_data.addNewSmartphone(tmp);
+				main_data.Save_All_Data();
 				return;
 			}
 		}

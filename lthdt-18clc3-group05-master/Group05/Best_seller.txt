@@ -1,0 +1,7 @@
+Best seller from date 4/2019 -> 5/2019 is: 
+ID: 3092000
+Name: iPhone Xs Max 64GB
+Price buy: 29000000
+Price sell: 33000000
+Origin: Korean
+Stock buy: 16

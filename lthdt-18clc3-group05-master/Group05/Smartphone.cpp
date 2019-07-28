@@ -7,7 +7,10 @@ int Smartphone::InstanceCount = 0;
 /*++*/string Smartphone::ToStringFile()
 {
 	stringstream writer;
-	writer << ID << "," << Name << "," << Price_b << "," << Price_s << "," << Origin <<","<<StockLevel;
+	char priceb[100], prices[100];
+	_itoa_s(Price_b, priceb, 10);
+	_itoa_s(Price_s, prices, 10);
+	writer <<"ID: "<< ID << "\nName: " << Name << "\nPrice buy: " << priceb << "\nPrice sell: " << prices << "\nOrigin: " << Origin;
 	return writer.str();
 }   
 
