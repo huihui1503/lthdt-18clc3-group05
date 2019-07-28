@@ -393,7 +393,7 @@ bool Store::Input_New_Data_from_file(string Filename, string info)
 		fin.getline(tmp1, 1000, ',');       	 ps = string(tmp1);
 		fin.getline(tmp1, 1000, ',');		     ori = string(tmp1);
 		fin.getline(tmp1, 1000, '\n');			 sl = string(tmp1);
-		fin.ignore();
+		//fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
 		/////  Restricted area ////////
 		if (Count_Brand.size() == 0) Count_Brand.push_back(v[0]);
@@ -502,7 +502,7 @@ bool Store::Load_Data_from_file()
 		fin.getline(tmp1, 1000, ',');            rom = string(tmp1);
 		fin.getline(tmp1, 1000, ',');       	 battery = string(tmp1);
 		fin.getline(tmp1, 1000, '\n');       	 screen = string(tmp1);
-		fin.ignore();
+	//	fin.ignore();
 		vector<string> v = Tokenizer::Parse(name, " ");
 		/////  Restricted area ////////
 		if (Count_Brand.size() == 0) Count_Brand.push_back(v[0]);
