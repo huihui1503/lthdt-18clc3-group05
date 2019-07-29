@@ -172,6 +172,10 @@ void Report::find_Best_Seller_In(int month1, int year1, int month2, int year2)
 		system("cls");
 		if (pos != -1)
 		{
+			ofstream fout("Best_seller.txt");
+			fout << "Best seller from date " << month1 << "/" << year1 << " -> " << month2 << "/" << year2 << " is: " << endl;
+			fout << m_s[pos].ToStringFile() <<"\nStock buy: "<<max<< endl;
+			fout.close();
 			m_s[pos].Print_BestSeller();
 			gotoxy(21, 10);
 			cout << "Stock buy: " << max;
