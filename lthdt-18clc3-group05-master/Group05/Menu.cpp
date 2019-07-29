@@ -1,6 +1,8 @@
 ﻿#include "Menu.h"
 #define POSX 35
 #define POSY 3
+#include <cstdlib>
+#include <ctime>
 // LOGIN Function
 
 void Menu::Draw_Login(int state)
@@ -1216,6 +1218,7 @@ link: {
 				goto link;
 			}
 			else {
+				srand(time(NULL));
 				int r = rand() % 99999 + 100000;
 				char ran[10];
 				_itoa_s(r, ran, 10);
@@ -1389,6 +1392,7 @@ Done:
 
 void Menu::find_BaseOn_ID_or_Name()
 {
+link: {
 	int posx = 20;
 	int posy = 5;
 	Draw_Box(posx, posy, 8, 40, 25); // bigbox
@@ -1434,7 +1438,7 @@ void Menu::find_BaseOn_ID_or_Name()
 				y = posy + 3;
 			}
 			else {
-				index ++;
+				index++;
 				y = posy + 6;
 			}
 			gotoxy(posx + 35, y);
@@ -1476,12 +1480,12 @@ void Menu::find_BaseOn_ID_or_Name()
 					}
 				}
 			}
-			else {
-				cout << "NOT FOUND" << endl;
-				system("pause");
-				system("cls");
-				return;
-			}
+			
+			cout << "NOT FOUND" << endl;
+			system("pause");
+			system("cls");
+			return;
+	
 		}
 	right: {
 		if ((int)c == KEY_RIGHT) {
@@ -1495,6 +1499,7 @@ void Menu::find_BaseOn_ID_or_Name()
 			}
 		}
 		}
+	}
 	}
 }
 
